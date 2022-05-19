@@ -7,10 +7,7 @@ public class Calor : LovenseToy
 {
     protected override LovenseCommandEnum Function1 => LovenseCommandEnum.Vibrate;
     protected override LovenseCommandEnum Function2 => LovenseCommandEnum.None;
-    public override LovenseCommandEnum[] SpecialFunctions => new[]
-    {
-        LovenseCommandEnum.AVibrate
-    };
+    public override LovenseCommandEnum[] SpecialFunctions => Array.Empty<LovenseCommandEnum>();
 
     public Calor() : base()
     {

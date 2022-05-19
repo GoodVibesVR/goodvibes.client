@@ -5,15 +5,9 @@ namespace GoodVibes.Client.Lovense.Models;
 
 public class Hyphy : LovenseToy
 {
-    protected override LovenseCommandEnum Function1 => LovenseCommandEnum.Vibrate1;
-    protected override LovenseCommandEnum Function2 => LovenseCommandEnum.Vibrate2;
-    public override LovenseCommandEnum[] SpecialFunctions => new[]
-    {
-        LovenseCommandEnum.Vibrate,
-        LovenseCommandEnum.AVibrate,
-        LovenseCommandEnum.AVibrate1,
-        LovenseCommandEnum.AVibrate2
-    };
+    protected override LovenseCommandEnum Function1 => LovenseCommandEnum.Vibrate;
+    protected override LovenseCommandEnum Function2 => LovenseCommandEnum.None;
+    public override LovenseCommandEnum[] SpecialFunctions => Array.Empty<LovenseCommandEnum>();
 
     public Hyphy() : base()
     {
