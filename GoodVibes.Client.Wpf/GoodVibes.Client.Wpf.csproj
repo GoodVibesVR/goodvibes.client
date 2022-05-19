@@ -1,10 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
-
+	<PropertyGroup>
+		<OutputType Condition="'$(Configuration)'=='DEBUG'">Exe</OutputType>
+		<OutputType Condition="'$(Configuration)'=='RELEASE'">WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<DisableWinExeOutputInference Condition="'$(Configuration)'=='DEBUG'">true</DisableWinExeOutputInference>
+		<DisableWinExeOutputInference Condition="'$(Configuration)'=='RELEASE'">false</DisableWinExeOutputInference>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
+		<PackageReference Include="Prism.DryIoc" Version="8.1.97" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\GoodVibes.Client.Core\GoodVibes.Client.Core.csproj" />
+		<ProjectReference Include="..\GoodVibes.Client.Lovense\GoodVibes.Client.Lovense.csproj" />
+		<ProjectReference Include="..\GoodVibes.Client.Osc\GoodVibes.Client.Osc.csproj" />
+		<ProjectReference Include="..\GoodVibes.Client.SignalR\GoodVibes.Client.SignalR.csproj" />
+	</ItemGroup>
 </Project>
