@@ -1,5 +1,6 @@
 ﻿using GoodVibes.Client.Lovense.EventDispatchers;
 using GoodVibes.Client.Lovense.Events;
+using GoodVibes.Client.Settings.Models;
 using GoodVibes.Client.SignalR.Abstractions;
 using Microsoft.AspNetCore.SignalR.Client;
 using Newtonsoft.Json;
@@ -8,28 +9,23 @@ namespace GoodVibes.Client.Lovense
 {
     public class LovenseClient : SignalRClient
     {
+        private readonly ApplicationSettings _applicationSettings;
         private readonly LovenseEventDispatcher _lovenseEventDispatcher;
 
-        public LovenseClient(LovenseEventDispatcher lovenseEventDispatcher) : base()
+        public LovenseClient(ApplicationSettings applicationSettings, LovenseEventDispatcher lovenseEventDispatcher) : base()
         {
+            _applicationSettings = applicationSettings;
             _lovenseEventDispatcher = lovenseEventDispatcher;
         }
 
         public async Task ConnectAsync()
         {
-            // http://localhost:5161/commandHub
-
-            //await ConnectAsync("http://localhost:5161/commandHub", () =>
-            //{
-            //    Connection!.On<string>("ReceiveCallback", ReceiveCallbackHandler);
-            //    Connection!.On<string>("ReceiveQrCode", ReceiveQrCodeHandler);
-            //});
-
-            await ConnectAsync("https://goodvibes.miwca.se/commandHub", () =>
-            {
-                Connection!.On<string>("ReceiveCallback", ReceiveCallbackHandler);
-                Connection!.On<string>("ReceiveQrCode", ReceiveQrCodeHandler);
-            });
+            await ConnectAsync(
+                $"{_applicationSettings.GoodVibesRoot}{_applicationSettings.SignalRSettings!.CommandHubPath}", () =>
+                {
+                    Connection!.On<string>("ReceiveCallback", ReceiveCallbackHandler);
+                    Connection!.On<string>("ReceiveQrCode", ReceiveQrCodeHandler);
+                });
         }
 
         public async Task SendLovenseCommand(string command, int value1, int value2, int seconds, string toy)

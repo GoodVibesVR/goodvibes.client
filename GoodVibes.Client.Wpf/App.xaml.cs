@@ -3,6 +3,9 @@ using Prism.Ioc;
 using System.Windows;
 using GoodVibes.Client.Lovense;
 using GoodVibes.Client.Osc;
+using GoodVibes.Client.Settings;
+using GoodVibes.Client.Settings.Enums;
+using GoodVibes.Client.Settings.Models;
 using GoodVibes.Client.SignalR;
 using GoodVibes.Client.SignalR.Abstractions;
 using GoodVibes.Client.Wpf.Modules.Menu;
@@ -26,6 +29,14 @@ namespace GoodVibes.Client.Wpf
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            // Settings
+            var applicationSettingsManager = new SettingsManager<ApplicationSettings>("applicationSettings.json",
+                SettingsLocationEnum.ApplicationDirectory);
+            containerRegistry.RegisterSingleton<ApplicationSettings>(_ => applicationSettingsManager.LoadSettings());
+
+            // TODO: Add AvatarSettings, ToySettings, MappingProfile etc
+
+            // Services
             containerRegistry.RegisterSingleton<IMessageService, MessageService>();
             containerRegistry.RegisterSingleton<LovenseClient>();
             containerRegistry.RegisterSingleton<OscServer>();
