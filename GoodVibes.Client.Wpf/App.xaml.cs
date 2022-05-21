@@ -6,11 +6,11 @@ using GoodVibes.Client.Osc;
 using GoodVibes.Client.Settings;
 using GoodVibes.Client.Settings.Enums;
 using GoodVibes.Client.Settings.Models;
-using GoodVibes.Client.SignalR;
-using GoodVibes.Client.SignalR.Abstractions;
-using GoodVibes.Client.Wpf.Modules.Menu;
-using GoodVibes.Client.Wpf.Modules.SignalR;
-using GoodVibes.Client.Wpf.Modules.Top;
+using GoodVibes.Client.Wpf.Modules.ContentHeaderModule;
+using GoodVibes.Client.Wpf.Modules.ContentModule;
+using GoodVibes.Client.Wpf.Modules.MenuFooterModule;
+using GoodVibes.Client.Wpf.Modules.MenuHeaderModule;
+using GoodVibes.Client.Wpf.Modules.MenuModule;
 using GoodVibes.Client.Wpf.Services;
 using GoodVibes.Client.Wpf.Services.Abstractions;
 using Prism.Modularity;
@@ -44,9 +44,13 @@ namespace GoodVibes.Client.Wpf
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            moduleCatalog.AddModule<SignalRModule>();
+            moduleCatalog.AddModule<ContentHeaderModule>();
+            moduleCatalog.AddModule<MenuHeaderModule>();
+            moduleCatalog.AddModule<MenuFooterModule>();
+
+            // Main modules need to be declared last
+            moduleCatalog.AddModule<ContentModule>();
             moduleCatalog.AddModule<MenuModule>();
-            moduleCatalog.AddModule<TopModule>();
         }
     }
 }

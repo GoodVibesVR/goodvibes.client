@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="GoodVibes.Client.Wpf.Modules.MenuModule.Views.MenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:core1="clr-namespace:GoodVibes.Client.Core;assembly=GoodVibes.Client.Core"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+        <ContentControl x:Name="HeaderContent" prism:RegionManager.RegionName="{x:Static core1:RegionNames.MenuHeaderRegion}" Opacity="1" VerticalAlignment="Top" Height="25" Margin="0,0,0,0" Grid.RowSpan="2" />
+        <Rectangle>
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="1">
+                    <GradientStop Color="#3C5C8C" Offset="0" />
+                    <GradientStop Color="#3C5C8C" Offset="1" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+
+            <Rectangle.OpacityMask>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="0.8">
+                    <GradientStop Color="Transparent" Offset="-1.2" />
+                    <GradientStop Color="#3C5C8C" Offset="1" />
+                </LinearGradientBrush>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+        <StackPanel HorizontalAlignment="Left" Margin="0,50,0,0" Width="200">
+            <TextBlock x:Name="textBlock" Height="50" Foreground="White" TextWrapping="Wrap" Text="Home" FontSize="20" Padding="50,0,0,0" TextOptions.TextFormattingMode="Display" LineHeight="6"/>
+            <TextBlock x:Name="textBlock_Copy" Height="50" Foreground="White" TextWrapping="Wrap" Text="Sessions" FontSize="20" Padding="50,0,0,0" TextOptions.TextFormattingMode="Display" LineHeight="6"/>
+            <TextBlock x:Name="textBlock_Copy1" Height="50" Foreground="White" TextWrapping="Wrap" Text="Avatars" FontSize="20" Padding="50,0,0,0" TextOptions.TextFormattingMode="Display" LineHeight="6"/>
+        </StackPanel>
+        <ContentControl x:Name="FooterContent" prism:RegionManager.RegionName="{x:Static core1:RegionNames.MenuFooterRegion}" Opacity="1" VerticalAlignment="Bottom" Height="50" Margin="0,0,0,0" Grid.RowSpan="2" />
+    </Grid>
+</UserControl>

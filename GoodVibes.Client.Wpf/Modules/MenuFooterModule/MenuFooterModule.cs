@@ -1,27 +1,25 @@
-﻿using GoodVibes.Client.Core;
-using Prism.Ioc;
+﻿using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 
-namespace GoodVibes.Client.Wpf.Modules.Top
+namespace GoodVibes.Client.Wpf.Modules.MenuFooterModule
 {
-    internal class TopModule : IModule
+    public class MenuFooterModule : IModule
     {
         private readonly IRegionManager _regionManager;
 
-        public TopModule(IRegionManager regionManager)
+        public MenuFooterModule(IRegionManager regionManager)
         {
             _regionManager = regionManager;
         }
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            _regionManager.RequestNavigate(RegionNames.TopRegion, "Top");
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<Views.Top>();
+            containerRegistry.RegisterForNavigation<Views.MenuFooterView>();
         }
     }
 }

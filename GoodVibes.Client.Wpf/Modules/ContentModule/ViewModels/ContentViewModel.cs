@@ -9,9 +9,9 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
 
-namespace GoodVibes.Client.Wpf.Modules.SignalR.ViewModels
+namespace GoodVibes.Client.Wpf.Modules.ContentModule.ViewModels
 {
-    public class SignalRViewModel : RegionViewModelBase
+    public class ContentViewModel : RegionViewModelBase
     {
         private readonly LovenseClient _lovenseClient;
         private readonly OscServer _oscServer;
@@ -31,7 +31,7 @@ namespace GoodVibes.Client.Wpf.Modules.SignalR.ViewModels
         public DelegateCommand ConnectToOscCommand =>
             _connectToOscCommand ??= new DelegateCommand(ConnectToOsc);
 
-        public SignalRViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, LovenseClient lovenseClient, OscServer oscServer) :
+        public ContentViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, LovenseClient lovenseClient, OscServer oscServer) :
             base(regionManager)
         {
             _lovenseClient = lovenseClient;
