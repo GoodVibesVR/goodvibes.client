@@ -9,7 +9,7 @@
         <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" CanExecute="CommandBinding_CanExecute_1" Executed="CommandBinding_Executed_3" />
     </UserControl.CommandBindings>
     <Grid>
-        <Button Height="24" Margin="0,0,76,0" HorizontalAlignment="Right" Width="24" VerticalAlignment="Top" Background="Transparent" BorderThickness="0" Opacity="1" >
+        <Button Panel.ZIndex="100" Height="24" Margin="0,0,76,0" HorizontalAlignment="Right" Width="24" VerticalAlignment="Top" Background="Transparent" BorderThickness="0" Opacity="1" >
             <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" Height="24" Margin="0,0,0,0" Width="24" >
                 <Canvas Name="svg231" Width="24" Height="24">
                     <Canvas.RenderTransform>

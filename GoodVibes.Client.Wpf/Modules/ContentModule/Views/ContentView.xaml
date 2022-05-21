@@ -5,7 +5,7 @@
              xmlns:core1="clr-namespace:GoodVibes.Client.Core;assembly=GoodVibes.Client.Core"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
-        <ContentControl x:Name="HeaderContent" prism:RegionManager.RegionName="{x:Static core1:RegionNames.ContentHeaderRegion}" Opacity="1" VerticalAlignment="Top" Height="25" Margin="0,0,0,0" Grid.RowSpan="2" />
+        <ContentControl Panel.ZIndex="100" x:Name="HeaderContent" prism:RegionManager.RegionName="{x:Static core1:RegionNames.ContentHeaderRegion}" Opacity="1" VerticalAlignment="Top" Height="25" Margin="0,0,0,0" Grid.RowSpan="2" />
         <Rectangle>
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,0" StartPoint="0.5,1" Opacity="1">
