@@ -8,6 +8,9 @@
         <!--Good Vibes-->
         <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" Height="16" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Canvas Name="svg331" Width="74" Height="12">
+                <Canvas.RenderTransform>
+                    <TranslateTransform X="0" Y="0"/>
+                </Canvas.RenderTransform>
                 <Canvas.Resources/>
                 <!--Unknown tag: sodipodi:namedview-->
                 <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path329" Fill="#FFFFFFFF">
