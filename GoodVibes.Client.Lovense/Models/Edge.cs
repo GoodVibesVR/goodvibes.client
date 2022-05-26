@@ -5,11 +5,18 @@ namespace GoodVibes.Client.Lovense.Models;
 
 public class Edge : LovenseToy
 {
-    protected override LovenseCommandEnum Function1 => LovenseCommandEnum.Vibrate1;
-    protected override LovenseCommandEnum Function2 => LovenseCommandEnum.Vibrate2;
-    public override LovenseCommandEnum[] SpecialFunctions => new[]
+    public override string? Id { get; set; }
+    public override string? Nickname { get; set; }
+    public override string? Name { get; set; }
+    public override bool Status { get; set; }
+    public override int? Battery { get; set; }
+    public override LovenseCommandEnum Function1 { get; set; }
+    public override LovenseCommandEnum Function2 { get; set; }
+    public override LovenseCommandEnum[] ToyFunctions => new[]
     {
-        LovenseCommandEnum.Vibrate
+        LovenseCommandEnum.Vibrate,
+        LovenseCommandEnum.Vibrate1,
+        LovenseCommandEnum.Vibrate2
     };
 
     public Edge() : base()

@@ -1,52 +1,70 @@
-﻿using Rug.Osc.Core;
+﻿using GoodVibes.Client.Lovense.Enums;
+using GoodVibes.Client.Lovense.EventCarriers;
+using GoodVibes.Client.Lovense.Events;
+using Prism.Events;
+using Rug.Osc.Core;
 
 namespace GoodVibes.Client.Osc
 {
     public class OscServer
     {
-        private OscReceiver receiver;
-        private Thread thread;
+        private readonly IEventAggregator _eventAggregator;
 
-        public OscServer()
+        private OscReceiver _receiver = null!;
+        private Thread _thread = null!;
+
+        public OscServer(IEventAggregator eventAggregator)
         {
-
+            _eventAggregator = eventAggregator;
         }
 
-        public async Task ConnectAsync()
+        public Task ConnectAsync()
         {
-            int port = 9001;
-            receiver = new OscReceiver(port);
+            var port = 9001;
+            _receiver = new OscReceiver(port);
 
-            thread = new Thread(ListenLoop);
+            _thread = new Thread(ListenLoop);
 
-            receiver.Connect();
-            thread.Start();
+            _receiver.Connect();
+            _thread.Start();
+            return Task.CompletedTask;
         }
 
-        public async Task DisconnectAsync()
+        public Task DisconnectAsync()
         {
-            receiver.Close();
-            thread.Join();
+            _receiver.Close();
+            _thread.Join();
+            return Task.CompletedTask;
         }
 
         private void ListenLoop()
         {
             try
             {
-                var messageReceived = false;
-                while (receiver.State != OscSocketState.Closed)
+                while (_receiver.State != OscSocketState.Closed)
                 {
-                    if (receiver.State != OscSocketState.Connected) continue;
-                    messageReceived = receiver.TryReceive(out var packet);
+                    if (_receiver.State != OscSocketState.Connected) continue;
+                    var messageReceived = _receiver.TryReceive(out var packet);
                     if (!messageReceived) continue;
 
                     var message = packet as OscMessage;
-                    switch (message.Address)
+                    switch (message!.Address)
                     {
                         case "/avatar/parameters/GoodVibes/ToyA/Function1":
                         case "/avatar/parameters/GoodVibes/ToyA/Function2":
                         case "/avatar/parameters/GoodVibes/ToyB/Function1":
                         case "/avatar/parameters/GoodVibes/ToyB/Function2":
+                            //Console.WriteLine(packet.ToString());
+                            Console.WriteLine(message.ToString());
+                            var test = (message.FirstOrDefault() as float? ?? 0.0f); // TODO: Dump double messages
+                            var percentComplete = (int)Math.Round((double)(test / 5) * 100);
+                            _eventAggregator.GetEvent<LovenseCommandEventCarrier>().Publish(new LovenseCommandEvent()
+                            {
+                                Command = LovenseCommandEnum.Vibrate,
+                                Toy = "12345",
+                                Value = percentComplete
+                            });
+                            break;
                         case "/avatar/change":
                             Console.WriteLine(packet.ToString());
                             break;
@@ -59,7 +77,7 @@ namespace GoodVibes.Client.Osc
             {
                 // if the socket was connected when this happens
                 // then tell the user
-                if (receiver.State == OscSocketState.Connected)
+                if (_receiver.State == OscSocketState.Connected)
                 {
                     Console.WriteLine("Exception in listen loop");
                     Console.WriteLine(ex.Message);
