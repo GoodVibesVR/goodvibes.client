@@ -56,6 +56,7 @@ namespace GoodVibes.Client.Lovense
 
 #pragma warning disable CS4014
             Task.Run(ApiCallerTask);
+            // TODO: Make a connection checker task
 #pragma warning restore CS4014
         }
 
