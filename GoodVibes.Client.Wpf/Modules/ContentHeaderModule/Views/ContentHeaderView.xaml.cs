@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -19,8 +20,15 @@ namespace GoodVibes.Client.Wpf.Modules.ContentHeaderModule.Views
             e.CanExecute = true;
         }
 
-        private void CommandBinding_Executed_1(object sender, ExecutedRoutedEventArgs e)
+        private void CanExecuteCloseWindow(object sender, CanExecuteRoutedEventArgs e)
         {
+            Console.WriteLine("ContentHeaderView CanExecuteCloseWindow()");
+            e.CanExecute = true;
+        }
+
+        private void onCloseWindowCommand(object sender, ExecutedRoutedEventArgs e)
+        {
+            Console.WriteLine("ContentHeaderView CloseWindowCommand()");
             SystemCommands.CloseWindow(Window.GetWindow(this));
         }
 

@@ -13,6 +13,7 @@
         <WindowChrome CornerRadius="0" GlassFrameThickness="0"/>
     </WindowChrome.WindowChrome>
     <Grid Margin="0,0,0,0">
+        <ContentControl x:Name="HeaderContent" prism:RegionManager.RegionName="{x:Static core1:RegionNames.ContentHeaderRegion}" Opacity="1" VerticalAlignment="Top" Height="25" Margin="0,0,0,0" Grid.RowSpan="2" />
         <ContentControl prism:RegionManager.RegionName="{x:Static core1:RegionNames.MenuRegion}" Opacity="1" HorizontalAlignment="Left" Width="200" Margin="0,0,0,0" Grid.RowSpan="2" />
         <ContentControl prism:RegionManager.RegionName="{x:Static core1:RegionNames.ContentRegion}" Opacity="1" Margin="200,0,0,0" Grid.RowSpan="2" />
     </Grid>
