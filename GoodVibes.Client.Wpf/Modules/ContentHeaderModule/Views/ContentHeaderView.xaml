@@ -4,12 +4,12 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True" Opacity="1">
     <UserControl.CommandBindings>
-        <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" CanExecute="CommandBinding_CanExecute_1" Executed="CommandBinding_Executed_1" />
+        <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" CanExecute="CanExecuteCloseWindow" Executed="onCloseWindowCommand" />
         <CommandBinding Command="{x:Static SystemCommands.MaximizeWindowCommand}" CanExecute="CommandBinding_CanExecute_1" Executed="CommandBinding_Executed_2" />
         <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" CanExecute="CommandBinding_CanExecute_1" Executed="CommandBinding_Executed_3" />
     </UserControl.CommandBindings>
     <Grid>
-        <Button Panel.ZIndex="100" Height="24" Margin="0,0,76,0" HorizontalAlignment="Right" Width="24" VerticalAlignment="Top" Background="Transparent" BorderThickness="0" Opacity="1" >
+        <Button WindowChrome.IsHitTestVisibleInChrome="True" Panel.ZIndex="100" Height="24" Margin="0,0,76,0" HorizontalAlignment="Right" Width="24" VerticalAlignment="Top" Background="Transparent" BorderThickness="0" Opacity="1" >
             <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" Height="24" Margin="0,0,0,0" Width="24" >
                 <Canvas Name="svg231" Width="24" Height="24">
                     <Canvas.RenderTransform>
@@ -26,9 +26,8 @@
             </Viewbox>
         </Button>
 
-
         <!--Square-->
-        <Button Height="24" Margin="0,0,42,0" HorizontalAlignment="Right" Width="24" VerticalAlignment="Top" Background="Transparent" BorderThickness="0" >
+        <Button WindowChrome.IsHitTestVisibleInChrome="True" Height="24" Margin="0,0,42,0" HorizontalAlignment="Right" Width="24" VerticalAlignment="Top" Background="Transparent" BorderThickness="0" >
             <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" Height="24" Margin="0,0,0,0" Width="24" >
                 <Canvas Name="svg251" Width="24" Height="24">
                     <Canvas.RenderTransform>
@@ -46,7 +45,7 @@
         </Button>
 
         <!--Cross-->
-        <Button Height="24" Margin="0,0,8,0" HorizontalAlignment="Right" Width="24" VerticalAlignment="Top" Background="Transparent" BorderThickness="0" Command="{x:Static SystemCommands.CloseWindowCommand}" >
+        <Button WindowChrome.IsHitTestVisibleInChrome="True" Height="24" Margin="0,0,8,0" HorizontalAlignment="Right" Width="24" VerticalAlignment="Top" Background="Transparent" BorderThickness="0" Command="{x:Static SystemCommands.CloseWindowCommand}">
             <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" Height="24" Margin="0,0,0,0" Width="24">
                 <Canvas Name="svg123" Width="24" Height="24">
                     <Canvas.RenderTransform>
