@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
 using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.Lovense;
+using GoodVibes.Client.Lovense.Dtos;
 using GoodVibes.Client.Lovense.EventCarriers;
 using GoodVibes.Client.Lovense.Events;
 using GoodVibes.Client.Osc;
@@ -37,7 +39,7 @@ namespace GoodVibes.Client.Wpf.Modules.ContentModule.ViewModels
             _lovenseClient = lovenseClient;
             _oscServer = oscServer;
             
-            eventAggregator.GetEvent<LovenseCallbackReceivedEventCarrier>().Subscribe(LovenseCallbackReceived);
+            //eventAggregator.GetEvent<LovenseCallbackReceivedEventCarrier>().Subscribe(LovenseCallbackReceived);
 
             // TODO: ObservableCollection for toys
             //this.AllMedicines = new ObservableCollection<Medicine>();
@@ -50,7 +52,7 @@ namespace GoodVibes.Client.Wpf.Modules.ContentModule.ViewModels
 
         private void ConnectToLovense()
         {
-            _lovenseClient.ConnectAsync();
+            Task.Run(() => _lovenseClient.ConnectAsync());
         }
 
         private void ConnectToOsc()
@@ -58,11 +60,11 @@ namespace GoodVibes.Client.Wpf.Modules.ContentModule.ViewModels
             _oscServer.ConnectAsync();
         }
 
-        private void LovenseCallbackReceived(LovenseCallbackReceivedEvent callback)
+        private void LovenseCallbackReceived(LovenseCallbackReceivedDto callback)
         {
             // TODO: Update toys list
             var callbackJson = JsonConvert.SerializeObject(callback);
-            Console.WriteLine($"SignalRViewModel: {callbackJson}");
+            //Console.WriteLine($"SignalRViewModel: {callbackJson}");
             Message = callbackJson;
         }
     }

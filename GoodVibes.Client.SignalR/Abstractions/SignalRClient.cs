@@ -7,14 +7,14 @@ namespace GoodVibes.Client.SignalR.Abstractions
     {
         public HubConnection? Connection;
 
-        public SignalRClient()
+        protected SignalRClient()
         {
         }
 
-        public async Task ConnectAsync(string url, Delegate addDelegate)
+        public async Task ConnectAsync(string url, Delegate eventDelegate)
         {
             Connection = new HubConnectionBuilder().WithUrl(url).Build();
-            addDelegate.DynamicInvoke();
+            eventDelegate.DynamicInvoke();
 
             try
             {

@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace GoodVibes.Client.Lovense.Events
+namespace GoodVibes.Client.Lovense.Dtos
 {
-    public class ToysDto
+    public class ToyDto
     {
         [JsonProperty("id")]
         public string? Id { get; set; }
@@ -15,5 +15,11 @@ namespace GoodVibes.Client.Lovense.Events
 
         [JsonProperty("status")]
         public int Status { get; set; }
+    }
+
+    public class CommandDto
+    {
+        public string? Command { get; set; }
+        public int Value { get; set; }
     }
 }

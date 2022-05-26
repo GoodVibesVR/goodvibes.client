@@ -10,4 +10,6 @@ public class LovenseQrCodeReceivedEvent : IEvent
 
     [JsonProperty("result")]
     public bool Result { get; set; }
+
+    public string? UniqueCode { get; set; }
 }

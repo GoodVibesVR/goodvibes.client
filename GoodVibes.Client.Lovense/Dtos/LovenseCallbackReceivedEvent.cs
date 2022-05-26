@@ -1,9 +1,8 @@
-﻿using GoodVibes.Client.Events;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace GoodVibes.Client.Lovense.Events
+namespace GoodVibes.Client.Lovense.Dtos
 {
-    public class LovenseCallbackReceivedEvent : IEvent
+    public class LovenseCallbackReceivedDto
     {
         [JsonProperty("uid")]
         public string? Uid { get; set; }
@@ -12,7 +11,7 @@ namespace GoodVibes.Client.Lovense.Events
         public string? AppVersion { get; set; }
 
         [JsonProperty("toys")]
-        public List<ToysDto>? Toys { get; set; }
+        public List<ToyDto>? Toys { get; set; }
 
         [JsonProperty("wssPort")]
         public string? WssPort { get; set; }

@@ -1,7 +1,10 @@
 ﻿using GoodVibes.Client.Wpf.Views;
 using Prism.Ioc;
 using System.Windows;
+using GoodVibes.Client.ApiCaller;
+using GoodVibes.Client.ApiCaller.Abstractions;
 using GoodVibes.Client.Lovense;
+using GoodVibes.Client.Lovense.EventHandler;
 using GoodVibes.Client.Osc;
 using GoodVibes.Client.Settings;
 using GoodVibes.Client.Settings.Enums;
@@ -40,6 +43,8 @@ namespace GoodVibes.Client.Wpf
             containerRegistry.RegisterSingleton<IMessageService, MessageService>();
             containerRegistry.RegisterSingleton<LovenseClient>();
             containerRegistry.RegisterSingleton<OscServer>();
+            containerRegistry.RegisterSingleton<ILovenseApiClient>(() => new ApiClient(""));
+            containerRegistry.RegisterSingleton<LovenseEventHandler>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
