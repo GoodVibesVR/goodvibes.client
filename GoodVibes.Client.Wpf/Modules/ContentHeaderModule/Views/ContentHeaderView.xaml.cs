@@ -22,13 +22,11 @@ namespace GoodVibes.Client.Wpf.Modules.ContentHeaderModule.Views
 
         private void CanExecuteCloseWindow(object sender, CanExecuteRoutedEventArgs e)
         {
-            Console.WriteLine("ContentHeaderView CanExecuteCloseWindow()");
             e.CanExecute = true;
         }
 
         private void onCloseWindowCommand(object sender, ExecutedRoutedEventArgs e)
         {
-            Console.WriteLine("ContentHeaderView CloseWindowCommand()");
             SystemCommands.CloseWindow(Window.GetWindow(this));
         }
 
