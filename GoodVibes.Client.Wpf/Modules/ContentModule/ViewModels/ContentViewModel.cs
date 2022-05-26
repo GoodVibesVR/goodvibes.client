@@ -1,10 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.Lovense;
 using GoodVibes.Client.Lovense.Dtos;
-using GoodVibes.Client.Lovense.EventCarriers;
-using GoodVibes.Client.Lovense.Events;
 using GoodVibes.Client.Osc;
 using Newtonsoft.Json;
 using Prism.Commands;

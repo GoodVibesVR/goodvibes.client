@@ -4,22 +4,49 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True" Opacity="1">
     <UserControl.CommandBindings>
-        <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" CanExecute="CanExecuteCloseWindow" Executed="onCloseWindowCommand" />
-        <CommandBinding Command="{x:Static SystemCommands.MaximizeWindowCommand}" CanExecute="CommandBinding_CanExecute_1" Executed="CommandBinding_Executed_2" />
-        <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" CanExecute="CommandBinding_CanExecute_1" Executed="CommandBinding_Executed_3" />
+        <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" 
+                        CanExecute="CanExecuteCloseWindow" Executed="onCloseWindowCommand" />
+        <CommandBinding Command="{x:Static SystemCommands.MaximizeWindowCommand}" 
+                        CanExecute="CommandBinding_CanExecute_1" Executed="CommandBinding_Executed_2" />
+        <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" 
+                        CanExecute="CommandBinding_CanExecute_1" Executed="CommandBinding_Executed_3" />
     </UserControl.CommandBindings>
     <Grid>
-        <Button WindowChrome.IsHitTestVisibleInChrome="True" Panel.ZIndex="90" Height="24" Margin="0,0,76,0" HorizontalAlignment="Right" Width="24" VerticalAlignment="Top" Background="Transparent" BorderThickness="0" Opacity="1" Command="{x:Static SystemCommands.MinimizeWindowCommand}">
-            <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" Height="24" Margin="0,0,0,0" Width="24" >
-                <Canvas Name="svg231" Width="24" Height="24">
+        <!--Minus-->
+        <Button WindowChrome.IsHitTestVisibleInChrome="True" 
+                Panel.ZIndex="90" 
+                Height="24" 
+                Width="24" 
+                Margin="0,0,76,0"
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Top" 
+                Background="Transparent" 
+                BorderThickness="0" 
+                Opacity="1" 
+                Command="{x:Static SystemCommands.MinimizeWindowCommand}">
+            <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                     Stretch="Uniform" 
+                     Height="24" 
+                     Margin="0,0,0,0" 
+                     Width="24" >
+                <Canvas Name="svg231"
+                        Width="24" 
+                        Height="24">
                     <Canvas.RenderTransform>
                         <TranslateTransform X="0" Y="0"/>
                     </Canvas.RenderTransform>
                     <Canvas.Resources/>
-                    <!--Unknown tag: sodipodi:namedview-->
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path229" StrokeThickness="2" Stroke="White" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                          Name="path229" 
+                          StrokeThickness="2" 
+                          Stroke="White" 
+                          StrokeLineJoin="Round" 
+                          StrokeStartLineCap="Round" 
+                          StrokeEndLineCap="Round">
                         <Path.Data>
-                            <PathGeometry Figures="M20 12H4" FillRule="NonZero"/>
+                            <PathGeometry 
+                                Figures="M20 12H4" 
+                                FillRule="NonZero"/>
                         </Path.Data>
                     </Path>
                 </Canvas>
@@ -27,17 +54,38 @@
         </Button>
 
         <!--Square-->
-        <Button WindowChrome.IsHitTestVisibleInChrome="True" Panel.ZIndex="90" Height="24" Margin="0,0,42,0" HorizontalAlignment="Right" Width="24" VerticalAlignment="Top" Background="Transparent" BorderThickness="0" Command="{x:Static SystemCommands.MaximizeWindowCommand}">
-            <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" Height="24" Margin="0,0,0,0" Width="24" >
-                <Canvas Name="svg251" Width="24" Height="24">
+        <Button WindowChrome.IsHitTestVisibleInChrome="True" 
+                Panel.ZIndex="90" 
+                Height="24" 
+                Margin="0,0,42,0" 
+                HorizontalAlignment="Right" 
+                Width="24" 
+                VerticalAlignment="Top" 
+                Background="Transparent" 
+                BorderThickness="0" 
+                Command="{x:Static SystemCommands.MaximizeWindowCommand}">
+            <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                     Stretch="Uniform" 
+                     Height="24"  
+                     Width="24"
+                     Margin="0,0,0,0" >
+                <Canvas Name="svg251" 
+                        Width="24" 
+                        Height="24">
                     <Canvas.RenderTransform>
                         <TranslateTransform X="0" Y="0"/>
                     </Canvas.RenderTransform>
                     <Canvas.Resources/>
-                    <!--Unknown tag: sodipodi:namedview-->
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path249" StrokeThickness="2" Stroke="White" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                          Name="path249" 
+                          StrokeThickness="2" 
+                          Stroke="White" 
+                          StrokeLineJoin="Round" 
+                          StrokeStartLineCap="Round" 
+                          StrokeEndLineCap="Round">
                         <Path.Data>
-                            <PathGeometry Figures="M20 4v16H4V4h16Z" FillRule="NonZero"/>
+                            <PathGeometry Figures="M20 4v16H4V4h16Z" 
+                                          FillRule="NonZero"/>
                         </Path.Data>
                     </Path>
                 </Canvas>
@@ -45,17 +93,38 @@
         </Button>
 
         <!--Cross-->
-        <Button WindowChrome.IsHitTestVisibleInChrome="True" Panel.ZIndex="90" Height="24" Margin="0,0,8,0" HorizontalAlignment="Right" Width="24" VerticalAlignment="Top" Background="Transparent" BorderThickness="0" Command="{x:Static SystemCommands.CloseWindowCommand}">
-            <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" Height="24" Margin="0,0,0,0" Width="24">
-                <Canvas Name="svg123" Width="24" Height="24">
+        <Button WindowChrome.IsHitTestVisibleInChrome="True" 
+                Panel.ZIndex="90" 
+                Height="24" 
+                Margin="0,0,8,0" 
+                HorizontalAlignment="Right" 
+                Width="24" 
+                VerticalAlignment="Top" 
+                Background="Transparent" 
+                BorderThickness="0" 
+                Command="{x:Static SystemCommands.CloseWindowCommand}">
+            <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                     Stretch="Uniform" 
+                     Height="24" 
+                     Margin="0,0,0,0" 
+                     Width="24">
+                <Canvas Name="svg123" 
+                        Width="24" 
+                        Height="24">
                     <Canvas.RenderTransform>
                         <TranslateTransform X="0" Y="0"/>
                     </Canvas.RenderTransform>
                     <Canvas.Resources/>
-                    <!--Unknown tag: sodipodi:namedview-->
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path121" StrokeThickness="2" Stroke="White" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                          Name="path121" 
+                          StrokeThickness="2" 
+                          Stroke="White" 
+                          StrokeLineJoin="Round" 
+                          StrokeStartLineCap="Round" 
+                          StrokeEndLineCap="Round">
                         <Path.Data>
-                            <PathGeometry Figures="M6 18L18 6M6 6l12 12" FillRule="NonZero"/>
+                            <PathGeometry Figures="M6 18L18 6M6 6l12 12" 
+                                          FillRule="NonZero"/>
                         </Path.Data>
                     </Path>
                 </Canvas>

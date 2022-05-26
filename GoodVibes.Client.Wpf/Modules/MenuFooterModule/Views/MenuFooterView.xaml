@@ -5,35 +5,89 @@
              prism:ViewModelLocator.AutoWireViewModel="True" Opacity="1">
     <Grid>
         <!--Discord Icon-->
-        <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" Margin="70,0,0,20" HorizontalAlignment="Left" Width="25" VerticalAlignment="Bottom">
-            <Canvas Name="svg271" Width="24" Height="24">
-                <Canvas.RenderTransform>
-                    <TranslateTransform X="0" Y="0"/>
-                </Canvas.RenderTransform>
-                <Canvas.Resources/>
-                <!--Unknown tag: sodipodi:namedview-->
-                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path269" Fill="#FFFFFFFF">
-                    <Path.Data>
-                        <PathGeometry Figures="M20.33 4.228a19.547 19.547 0 0 0-4.951-1.556c-.213.385-.463.904-.634 1.317a18.18 18.18 0 0 0-5.488 0 14.077 14.077 0 0 0-.642-1.317c-1.738.3-3.401.83-4.955 1.56C.527 8.967-.323 13.584.102 18.137a19.798 19.798 0 0 0 6.073 3.111c.488-.673.925-1.388 1.3-2.142a12.79 12.79 0 0 1-2.048-.997c.172-.127.34-.26.502-.397 3.95 1.847 8.24 1.847 12.142 0 .164.137.332.27.502.398-.65.39-1.337.726-2.052.998.376.752.81 1.47 1.3 2.142a19.755 19.755 0 0 0 6.077-3.113c.498-5.277-.851-9.853-3.568-13.91ZM8.013 15.337c-1.185 0-2.157-1.107-2.157-2.454 0-1.348.951-2.457 2.157-2.457s2.179 1.107 2.158 2.457c.002 1.347-.952 2.454-2.158 2.454Zm7.974 0c-1.186 0-2.158-1.107-2.158-2.454 0-1.348.951-2.457 2.158-2.457 1.206 0 2.178 1.107 2.157 2.457 0 1.347-.951 2.454-2.157 2.454Z" FillRule="NonZero"/>
-                    </Path.Data>
-                </Path>
-            </Canvas>
-        </Viewbox>
+        <Button WindowChrome.IsHitTestVisibleInChrome="True" 
+                Panel.ZIndex="90" 
+                Height="25" 
+                Width="25" 
+                Margin="70,0,0,20" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Bottom" 
+                Background="Transparent" 
+                BorderThickness="0" 
+                Opacity="1" 
+                Command="{Binding OpenDiscordCommand}">
+            <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                 Stretch="Uniform" 
+                 HorizontalAlignment="Left" 
+                 Width="24" 
+                 VerticalAlignment="Bottom">
+                <Canvas Name="svg271" 
+                    Width="24" 
+                    Height="24">
+                    <Canvas.RenderTransform>
+                        <TranslateTransform X="0" Y="0"/>
+                    </Canvas.RenderTransform>
+                    <Canvas.Resources/>
+                    <!--Unknown tag: sodipodi:namedview-->
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                      Name="path269" 
+                      Fill="#FFFFFFFF">
+                        <Path.Data>
+                            <PathGeometry Figures="M20.33 4.228a19.547 19.547 0 0 0-4.951-1.556c-.213.385-.463.904-.634 1.317a18.18 18.18 0 0 0-5.488 0 14.077 14.077 0 0 0-.642-1.317c-1.738.3-3.401.83-4.955 1.56C.527 8.967-.323 13.584.102 18.137a19.798 19.798 0 0 0 6.073 3.111c.488-.673.925-1.388 1.3-2.142a12.79 12.79 0 0 1-2.048-.997c.172-.127.34-.26.502-.397 3.95 1.847 8.24 1.847 12.142 0 .164.137.332.27.502.398-.65.39-1.337.726-2.052.998.376.752.81 1.47 1.3 2.142a19.755 19.755 0 0 0 6.077-3.113c.498-5.277-.851-9.853-3.568-13.91ZM8.013 15.337c-1.185 0-2.157-1.107-2.157-2.454 0-1.348.951-2.457 2.157-2.457s2.179 1.107 2.158 2.457c.002 1.347-.952 2.454-2.158 2.454Zm7.974 0c-1.186 0-2.158-1.107-2.158-2.454 0-1.348.951-2.457 2.158-2.457 1.206 0 2.178 1.107 2.157 2.457 0 1.347-.951 2.454-2.157 2.454Z" 
+                                      FillRule="NonZero"/>
+                        </Path.Data>
+                    </Path>
+                </Canvas>
+            </Viewbox>
+        </Button>
 
         <!--Github Icon-->
-        <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" Margin="110,0,0,20" HorizontalAlignment="Left" Width="25" VerticalAlignment="Bottom">
-            <Canvas Name="svg291" Width="24" Height="24">
-                <Canvas.RenderTransform>
-                    <TranslateTransform X="0" Y="0"/>
-                </Canvas.RenderTransform>
-                <Canvas.Resources/>
-                <!--Unknown tag: sodipodi:namedview-->
-                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path289" Fill="#FFFFFFFF">
-                    <Path.Data>
-                        <PathGeometry Figures="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12Z" FillRule="NonZero"/>
-                    </Path.Data>
-                </Path>
-            </Canvas>
-        </Viewbox>
+        <Button WindowChrome.IsHitTestVisibleInChrome="True" 
+                Panel.ZIndex="90" 
+                Height="25" 
+                Width="25" 
+                Margin="110,0,0,20" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Bottom" 
+                Background="Transparent" 
+                BorderThickness="0" 
+                Opacity="1" 
+                Command="{Binding OpenGithubCommand}">
+            <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                 Stretch="Uniform" 
+                 HorizontalAlignment="Left" 
+                 Width="25" 
+                 VerticalAlignment="Bottom">
+                <Canvas Name="svg291" 
+                    Width="24" 
+                    Height="24">
+                    <Canvas.RenderTransform>
+                        <TranslateTransform X="0" Y="0"/>
+                    </Canvas.RenderTransform>
+                    <Canvas.Resources/>
+                    <!--Unknown tag: sodipodi:namedview-->
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                      Name="path289" 
+                      Fill="#FFFFFFFF">
+                        <Path.Data>
+                            <PathGeometry Figures="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12Z" 
+                                      FillRule="NonZero"/>
+                        </Path.Data>
+                    </Path>
+                </Canvas>
+            </Viewbox>
+        </Button>
+        <Label x:Name="GoodVibesVersion" 
+                 HorizontalAlignment="Left" 
+                 HorizontalContentAlignment="Center"
+                 Margin="0,0,0,0" 
+                 Content="GoodVibes 1.0-alpha1" 
+                 VerticalAlignment="Bottom" 
+                 Width="200" 
+                 Background="Transparent" 
+                 BorderThickness="0"
+                 Foreground="White" FontSize="10" FontWeight="Normal" FontFamily="Calibri Light"/>
+
+
     </Grid>
 </UserControl>
