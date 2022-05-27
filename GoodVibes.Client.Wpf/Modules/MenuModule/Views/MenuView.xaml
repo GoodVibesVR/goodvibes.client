@@ -198,6 +198,20 @@
                 </Canvas>
             </Viewbox>
 
+            <ItemsControl ItemsSource="{Binding Path=Toys}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0, 10, 0, 0"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding Path=Name}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
             <!--New Toy-->
             <Button Panel.ZIndex="90" 
                     HorizontalAlignment="Left" 

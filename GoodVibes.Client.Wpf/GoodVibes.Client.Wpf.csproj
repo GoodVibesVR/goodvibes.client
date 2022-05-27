@@ -6,7 +6,11 @@
 		<UseWPF>true</UseWPF>
 		<DisableWinExeOutputInference Condition="'$(Configuration)'=='DEBUG'">true</DisableWinExeOutputInference>
 		<DisableWinExeOutputInference Condition="'$(Configuration)'=='RELEASE'">false</DisableWinExeOutputInference>
+		<ApplicationIcon>GW_Logo.ico</ApplicationIcon>
 	</PropertyGroup>
+	<ItemGroup>
+	  <Content Include="GW_Logo.ico" />
+	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
 		<PackageReference Include="Prism.DryIoc" Version="8.1.97" />
