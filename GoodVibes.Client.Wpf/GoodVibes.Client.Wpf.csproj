@@ -9,6 +9,9 @@
 		<ApplicationIcon>GW_Logo.ico</ApplicationIcon>
 	</PropertyGroup>
 	<ItemGroup>
+	  <None Remove="Resources\lush3.png" />
+	</ItemGroup>
+	<ItemGroup>
 	  <Content Include="GW_Logo.ico" />
 	</ItemGroup>
 	<ItemGroup>
@@ -22,6 +25,22 @@
 		<ProjectReference Include="..\GoodVibes.Client.Osc\GoodVibes.Client.Osc.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.Settings\GoodVibes.Client.Settings.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.SignalR\GoodVibes.Client.SignalR.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Resource Include="Resources\lush3.png" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 	<ItemGroup>
 	  <None Update="applicationSettings.json">

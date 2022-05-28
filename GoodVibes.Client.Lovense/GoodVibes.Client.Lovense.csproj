@@ -18,4 +18,8 @@
     <ProjectReference Include="..\GoodVibes.Client.SignalR\GoodVibes.Client.SignalR.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Resource Include="Images\lush3.png" />
+  </ItemGroup>
+
 </Project>

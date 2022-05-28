@@ -1,4 +1,7 @@
-﻿using GoodVibes.Client.Core.Mvvm;
+﻿using System;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.Lovense;
 using Prism.Regions;
 

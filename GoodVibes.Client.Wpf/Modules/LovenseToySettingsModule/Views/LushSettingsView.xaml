@@ -4,6 +4,85 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:core1="clr-namespace:GoodVibes.Client.Core;assembly=GoodVibes.Client.Core"
              prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <Style x:Key="SliderRepeatButton" TargetType="RepeatButton">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="IsTabStop" Value="false" />
+            <Setter Property="Focusable" Value="false" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border BorderBrush="White" BorderThickness="0" Background="White" Height="3"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SliderRepeatButton1" TargetType="RepeatButton">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border SnapsToDevicePixels="True" Background="#CF3084" BorderThickness="0" BorderBrush="White" Height="3"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SliderThumb" TargetType="Thumb">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <!--Add name to ellipse to use in  controltemplate triggers-->
+                        <Ellipse x:Name="Ellipse" Height="10" Width="10" Fill="White"></Ellipse>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="Ellipse" Property="Fill" Value="#CF3084"></Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <ControlTemplate x:Key="Slider"  TargetType="Slider">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Track Grid.Row="1" x:Name="PART_Track"   >
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource SliderRepeatButton1}"  Command="Slider.DecreaseLarge" />
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb Style="{StaticResource SliderThumb}"  />
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource SliderRepeatButton}" Command="Slider.IncreaseLarge" />
+                    </Track.IncreaseRepeatButton>
+                </Track>
+            </Grid>
+        </ControlTemplate>
+
+        <Style x:Key="Horizontal_Slider" TargetType="Slider">
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Style.Triggers>
+                <Trigger Property="Orientation" Value="Horizontal">
+                    <Setter Property="MinHeight" Value="21" />
+                    <Setter Property="MinWidth" Value="104" />
+                    <Setter Property="Template" Value="{StaticResource Slider}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Rectangle>
             <Rectangle.Fill>
@@ -19,10 +98,62 @@
                 </LinearGradientBrush>
             </Rectangle.OpacityMask>
         </Rectangle>
-        <TextBlock Text="{Binding DisplayName}"
+        <StackPanel HorizontalAlignment="Center" 
+                    VerticalAlignment="Top"
+                    Margin="0,50,0,0">
+            <TextBlock Text="{Binding DisplayName}"
                    Foreground="White"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontSize="24"/>
+            <Grid>
+                <Rectangle Width="300"
+                       Height="300">
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="/GoodVibes.Client.Wpf;component/Resources/lush3.png"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Grid>
+            <StackPanel HorizontalAlignment="Center" 
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal"
+                    Margin="0,0,0,0">
+                <StackPanel HorizontalAlignment="Center" 
+                            VerticalAlignment="Top"
+                            Orientation="Vertical"
+                            Margin="0,0,0,0">
+                    <TextBlock Text="Max Strength"
+                           Foreground="White"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="18"/>
+                    <StackPanel HorizontalAlignment="Center" 
+                                VerticalAlignment="Top"
+                                Orientation="Horizontal"
+                                Margin="0,0,0,0">
+                        <TextBlock Text="0"
+                                   Foreground="White"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="18"
+                                   Margin="0, 0, 5, 0"/>
+                        <Slider Style="{StaticResource Horizontal_Slider}" 
+                                Maximum="20" 
+                                VerticalAlignment="Center" 
+                                Width="200" 
+                                Margin="5,0,5,0" 
+                                Value="10"
+                                TickPlacement="BottomRight" 
+                                TickFrequency="5"/>
+                        <TextBlock Text="20"
+                                   Foreground="White"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="18"
+                                   Margin="5, 0, 0, 0"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </UserControl>
