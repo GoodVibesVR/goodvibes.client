@@ -12,6 +12,13 @@ public interface IApiClient
     Task<T?> PostAsync<T>(string path, HttpContent content);
 
     /// <summary>
+    /// Fetches an image from an API
+    /// </summary>
+    /// <param name="path">Path to the image. Needs a leading slash</param>
+    /// <returns></returns>
+    Task<MemoryStream> GetImageAsync(string path);
+
+    /// <summary>
     /// The current set API root path
     /// </summary>
     string ApiRoot { get; }

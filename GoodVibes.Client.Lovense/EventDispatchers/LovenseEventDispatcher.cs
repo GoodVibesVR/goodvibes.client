@@ -5,7 +5,7 @@ using Prism.Events;
 
 namespace GoodVibes.Client.Lovense.EventDispatchers
 {
-    public class LovenseEventDispatcher : IDispatchEvent<LovenseQrCodeReceivedEvent>, IDispatchEvent<LovenseDeviceAccessibilityEvent>
+    public class LovenseEventDispatcher : IDispatchEvent<LovenseQrCodeReceivedEvent>, IDispatchEvent<LovenseDeviceAccessibilityEvent>, IDispatchEvent<LovenseToyListUpdatedEvent>
     {
         private readonly IEventAggregator _eventAggregator;
 
@@ -22,6 +22,11 @@ namespace GoodVibes.Client.Lovense.EventDispatchers
         public void Dispatch(LovenseDeviceAccessibilityEvent e)
         {
             _eventAggregator.GetEvent<LovenseDeviceAccessibilityEventCarrier>().Publish(e);
+        }
+
+        public void Dispatch(LovenseToyListUpdatedEvent e)
+        {
+            _eventAggregator.GetEvent<LovenseToyListUpdatedEventCarrier>().Publish(e);
         }
     }
 }

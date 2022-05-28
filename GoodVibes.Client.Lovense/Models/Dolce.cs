@@ -9,6 +9,7 @@ public class Dolce : LovenseToy
     public override string? Nickname { get; set; }
     public override string? Name { get; set; }
     public override bool Status { get; set; }
+    public override string? Version { get; set; }
     public override int? Battery { get; set; }
     public override LovenseCommandEnum Function1 { get; set; }
     public override LovenseCommandEnum Function2 { get; set; }

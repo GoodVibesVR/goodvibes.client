@@ -1,6 +1,4 @@
-﻿using System.Text;
-using System.Windows.Markup;
-using GoodVibes.Client.Lovense.Dtos;
+﻿using GoodVibes.Client.Lovense.Dtos;
 using GoodVibes.Client.Lovense.Enums;
 
 namespace GoodVibes.Client.Lovense.Models.Abstractions
@@ -11,7 +9,11 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
         public abstract string? Nickname { get; set; }
         public abstract string? Name { get; set; }
         public abstract bool Status { get; set; }
+        public abstract string? Version { get; set; }
         public abstract int? Battery { get; set; }
+
+        public string? DisplayName =>
+            string.IsNullOrEmpty(Nickname) ? $"{Name} {Version}" : $"{Nickname} ({Name} {Version})";
 
         public abstract LovenseCommandEnum Function1 { get; set; }
         public abstract LovenseCommandEnum Function2 { get; set; }

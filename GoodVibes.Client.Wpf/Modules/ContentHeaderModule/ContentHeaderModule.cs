@@ -17,6 +17,7 @@ namespace GoodVibes.Client.Wpf.Modules.ContentHeaderModule
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
+            _regionManager.RequestNavigate(RegionNames.ContentHeaderRegion, "ContentHeaderView");
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)

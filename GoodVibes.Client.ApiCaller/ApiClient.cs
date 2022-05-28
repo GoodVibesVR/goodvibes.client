@@ -28,4 +28,18 @@ public class ApiClient : IApiClient, ILovenseApiClient
 
         return default;
     }
+
+    public async Task<MemoryStream> GetImageAsync(string path)
+    {
+        using var client = new HttpClient();
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        var response = await client.GetAsync($"{ApiRoot}{path}");
+        var responseStream = await response.Content.ReadAsStreamAsync();
+        var dataStream = new MemoryStream();
+        await responseStream.CopyToAsync(dataStream);
+        dataStream.Position = 0;
+
+        return dataStream;
+    }
 }

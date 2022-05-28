@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
+using GoodVibes.Client.Core;
 using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.Lovense;
-using GoodVibes.Client.Lovense.Dtos;
 using GoodVibes.Client.Osc;
-using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
@@ -12,15 +11,10 @@ namespace GoodVibes.Client.Wpf.Modules.ContentModule.ViewModels
 {
     public class ContentViewModel : RegionViewModelBase
     {
+        private readonly IRegionManager _regionManager;
+
         private readonly LovenseClient _lovenseClient;
         private readonly OscServer _oscServer;
-
-        private string _message;
-        public string Message
-        {
-            get => _message;
-            set => SetProperty(ref _message, value);
-        }
 
         private DelegateCommand _connectToCommandHubCommand;
         public DelegateCommand ConnectToCommandHubCommand =>
@@ -33,13 +27,10 @@ namespace GoodVibes.Client.Wpf.Modules.ContentModule.ViewModels
         public ContentViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, LovenseClient lovenseClient, OscServer oscServer) :
             base(regionManager)
         {
+            _regionManager = regionManager;
+
             _lovenseClient = lovenseClient;
             _oscServer = oscServer;
-            
-            //eventAggregator.GetEvent<LovenseCallbackReceivedEventCarrier>().Subscribe(LovenseCallbackReceived);
-
-            // TODO: ObservableCollection for toys
-            //this.AllMedicines = new ObservableCollection<Medicine>();
         }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
@@ -49,20 +40,13 @@ namespace GoodVibes.Client.Wpf.Modules.ContentModule.ViewModels
 
         private void ConnectToLovense()
         {
-            Task.Run(() => _lovenseClient.ConnectAsync());
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, "LovenseConnectView");
+            //Task.Run(() => _lovenseClient.ConnectAsync());
         }
 
         private void ConnectToOsc()
         {
             _oscServer.ConnectAsync();
-        }
-
-        private void LovenseCallbackReceived(LovenseCallbackReceivedDto callback)
-        {
-            // TODO: Update toys list
-            var callbackJson = JsonConvert.SerializeObject(callback);
-            //Console.WriteLine($"SignalRViewModel: {callbackJson}");
-            Message = callbackJson;
         }
     }
 }

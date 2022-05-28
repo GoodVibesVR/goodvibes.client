@@ -19,7 +19,7 @@ namespace GoodVibes.Client.Lovense
     {
         private readonly ApplicationSettings _applicationSettings;
         private readonly LovenseEventDispatcher _lovenseEventDispatcher;
-        
+
         private ILovenseApiClient? _lovenseApiClient;
         private bool Connected { get; set; }
 
@@ -63,7 +63,7 @@ namespace GoodVibes.Client.Lovense
         public Task SendCommand(string command, int value, int seconds, string toy)
         {
             if (!Connected) return Task.CompletedTask;
-            
+
             //var toyObj = Toys[toy];
             var toyObj = Toys!.First().Value;
 
@@ -100,11 +100,14 @@ namespace GoodVibes.Client.Lovense
             {
                 Available = deviceAvailable
             });
+            _lovenseEventDispatcher.Dispatch(new LovenseToyListUpdatedEvent()
+            {
+                ToyList = Toys.Select(t => t.Value).ToList()
+            });
         }
 
         private void ReceiveQrCodeHandler(string message)
         {
-            Console.WriteLine($"onReceiveQrCode: {message}");
             var @event = JsonConvert.DeserializeObject<LovenseQrCodeReceivedEvent>(message)!;
             _lovenseEventDispatcher.Dispatch(@event);
         }
@@ -149,8 +152,9 @@ namespace GoodVibes.Client.Lovense
                     toy.Name = toyDto.Name;
                     toy.Status = toyDto.Status == 1;
                     toy.Battery = detailedToys?[toyDto.Id!].Battery ?? null;
+                    toy.Version = detailedToys?[toyDto.Id!].Version ?? null;
                 }
-                
+
                 tempList.Add(toyDto.Id!, toy);
             }
 
@@ -170,6 +174,9 @@ namespace GoodVibes.Client.Lovense
             {
                 foreach (var lovenseToy in Toys!)
                 {
+                    if (lovenseToy.Value.Status == false)
+                        continue;
+
                     if (_lovenseApiClient == null)
                     {
                         var commandList = lovenseToy.Value.GetCommandList();

@@ -1,6 +1,9 @@
 ﻿using GoodVibes.Client.Core;
+using GoodVibes.Client.Wpf.Modules.ContentModule.ViewModels;
+using GoodVibes.Client.Wpf.Modules.ContentModule.Views;
 using Prism.Ioc;
 using Prism.Modularity;
+using Prism.Mvvm;
 using Prism.Regions;
 
 namespace GoodVibes.Client.Wpf.Modules.ContentModule
@@ -17,14 +20,15 @@ namespace GoodVibes.Client.Wpf.Modules.ContentModule
         public void OnInitialized(IContainerProvider containerProvider)
         {
             _regionManager.RequestNavigate(RegionNames.ContentRegion, "ContentView");
-
-            // Needs to be at the bottom
-            _regionManager.RequestNavigate(RegionNames.ContentHeaderRegion, "ContentHeaderView");
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            ViewModelLocationProvider.Register<ContentView, ContentViewModel>();
+            ViewModelLocationProvider.Register<LovenseConnectView, LovenseConnectViewModel>();
+
             containerRegistry.RegisterForNavigation<Views.ContentView>();
+            containerRegistry.RegisterForNavigation<Views.LovenseConnectView>();
         }
     }
 }

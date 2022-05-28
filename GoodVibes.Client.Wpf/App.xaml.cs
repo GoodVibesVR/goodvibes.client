@@ -11,6 +11,7 @@ using GoodVibes.Client.Settings.Enums;
 using GoodVibes.Client.Settings.Models;
 using GoodVibes.Client.Wpf.Modules.ContentHeaderModule;
 using GoodVibes.Client.Wpf.Modules.ContentModule;
+using GoodVibes.Client.Wpf.Modules.LovenseToySettingsModule;
 using GoodVibes.Client.Wpf.Modules.MenuFooterModule;
 using GoodVibes.Client.Wpf.Modules.MenuHeaderModule;
 using GoodVibes.Client.Wpf.Modules.MenuModule;
@@ -35,15 +36,19 @@ namespace GoodVibes.Client.Wpf
             // Settings
             var applicationSettingsManager = new SettingsManager<ApplicationSettings>("applicationSettings.json",
                 SettingsLocationEnum.ApplicationDirectory);
-            containerRegistry.RegisterSingleton<ApplicationSettings>(_ => applicationSettingsManager.LoadSettings());
+            var applicationSettings = applicationSettingsManager.LoadSettings();
+            containerRegistry.RegisterSingleton<ApplicationSettings>(_ => applicationSettings);
 
             // TODO: Add AvatarSettings, ToySettings, MappingProfile etc
 
             // Services
             containerRegistry.RegisterSingleton<IMessageService, MessageService>();
+            containerRegistry.RegisterSingleton<IImageService, ImageService>();
+            containerRegistry.RegisterSingleton<ILovenseApiClient>(() => new ApiClient(string.Empty));
+            containerRegistry.RegisterSingleton<IApiClient>(() => new ApiClient(applicationSettings!.GoodVibesRoot!));
+
             containerRegistry.RegisterSingleton<LovenseClient>();
             containerRegistry.RegisterSingleton<OscServer>();
-            containerRegistry.RegisterSingleton<ILovenseApiClient>(() => new ApiClient(""));
             containerRegistry.RegisterSingleton<LovenseEventHandler>();
         }
 
@@ -52,6 +57,7 @@ namespace GoodVibes.Client.Wpf
             moduleCatalog.AddModule<ContentHeaderModule>();
             moduleCatalog.AddModule<MenuHeaderModule>();
             moduleCatalog.AddModule<MenuFooterModule>();
+            moduleCatalog.AddModule<LovenseToySettingsModule>();
 
             // Main modules need to be declared last
             moduleCatalog.AddModule<ContentModule>();
