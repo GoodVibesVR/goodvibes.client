@@ -28,7 +28,7 @@ namespace GoodVibes.Client.Wpf.Modules.MenuFooterModule.ViewModels
         {
             Process.Start(new ProcessStartInfo
             {
-                FileName = "https://github.com/Miwca/GoodVibes.Client",
+                FileName = "https://github.com/GoodVibesVR/goodvibes.client",
                 UseShellExecute = true
             });
         }
