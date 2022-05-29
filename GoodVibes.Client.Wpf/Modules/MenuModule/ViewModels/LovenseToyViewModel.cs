@@ -1,4 +1,5 @@
-﻿using GoodVibes.Client.Core;
+﻿using System.Windows.Media;
+using GoodVibes.Client.Core;
 using GoodVibes.Client.Core.Mvvm;
 using Prism.Commands;
 using Prism.Ioc;
@@ -50,6 +51,14 @@ namespace GoodVibes.Client.Wpf.Modules.MenuModule.ViewModels
         {
             get => _status;
             set => SetProperty(ref _status, value);
+        }
+
+        private ImageSource _toyIcon;
+
+        public ImageSource ToyIcon
+        {
+            get => _toyIcon;
+            set => SetProperty(ref _toyIcon, value);
         }
     }
 }

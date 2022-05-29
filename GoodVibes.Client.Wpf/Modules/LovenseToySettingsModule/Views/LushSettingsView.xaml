@@ -98,46 +98,49 @@
                 </LinearGradientBrush>
             </Rectangle.OpacityMask>
         </Rectangle>
-        <StackPanel HorizontalAlignment="Center" 
-                    VerticalAlignment="Top"
-                    Margin="0,50,0,0">
-            <TextBlock Text="{Binding DisplayName}"
+        <ScrollViewer Margin="0,30,0,0"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Auto">
+            <StackPanel HorizontalAlignment="Center" 
+                        VerticalAlignment="Top"
+                        Margin="0,20,0,0">
+                <TextBlock Text="{Binding DisplayName}"
                    Foreground="White"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontSize="24"/>
-            <Grid>
-                <Rectangle Width="300"
+                <Grid>
+                    <Rectangle Width="300"
                        Height="300">
-                    <Rectangle.Fill>
-                        <ImageBrush ImageSource="/GoodVibes.Client.Wpf;component/Resources/lush3.png"/>
-                    </Rectangle.Fill>
-                </Rectangle>
-            </Grid>
-            <StackPanel HorizontalAlignment="Center" 
+                        <Rectangle.Fill>
+                            <ImageBrush ImageSource="/GoodVibes.Client.Wpf;component/Resources/lush3.png"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Grid>
+                <StackPanel HorizontalAlignment="Center" 
                     VerticalAlignment="Top"
                     Orientation="Horizontal"
                     Margin="0,0,0,0">
-                <StackPanel HorizontalAlignment="Center" 
+                    <StackPanel HorizontalAlignment="Center" 
                             VerticalAlignment="Top"
                             Orientation="Vertical"
                             Margin="0,0,0,0">
-                    <TextBlock Text="Max Strength"
+                        <TextBlock Text="Max Strength"
                            Foreground="White"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            FontSize="18"/>
-                    <StackPanel HorizontalAlignment="Center" 
+                        <StackPanel HorizontalAlignment="Center" 
                                 VerticalAlignment="Top"
                                 Orientation="Horizontal"
                                 Margin="0,0,0,0">
-                        <TextBlock Text="0"
+                            <TextBlock Text="0"
                                    Foreground="White"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontSize="18"
                                    Margin="0, 0, 5, 0"/>
-                        <Slider Style="{StaticResource Horizontal_Slider}" 
+                            <Slider Style="{StaticResource Horizontal_Slider}" 
                                 Maximum="20" 
                                 VerticalAlignment="Center" 
                                 Width="200" 
@@ -145,15 +148,16 @@
                                 Value="10"
                                 TickPlacement="BottomRight" 
                                 TickFrequency="5"/>
-                        <TextBlock Text="20"
+                            <TextBlock Text="20"
                                    Foreground="White"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontSize="18"
                                    Margin="5, 0, 0, 0"/>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
-        </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>

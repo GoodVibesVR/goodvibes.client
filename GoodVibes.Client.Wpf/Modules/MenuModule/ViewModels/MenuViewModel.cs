@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using GoodVibes.Client.Core;
 using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.Lovense.EventCarriers;
@@ -69,7 +70,11 @@ public class MenuViewModel : RegionViewModelBase
                     {
                         Id = lovenseToy.Id,
                         Battery = lovenseToy.Battery,
-                        DisplayName = lovenseToy.DisplayName
+                        DisplayName = lovenseToy.DisplayName,
+                        ToyIcon =
+                            new BitmapImage(
+                                new Uri(
+                                    "pack://application:,,,/GoodVibes.Client.Wpf;component/Resources/lush3_icon.png"))
                     });
                     continue;
                 }
@@ -77,6 +82,7 @@ public class MenuViewModel : RegionViewModelBase
                 toy.Battery = lovenseToy.Battery;
                 toy.DisplayName = lovenseToy.DisplayName;
                 toy.Status = lovenseToy.Status;
+                
             }
 
             var disconnectedToys = tempList.Where(t => obj.ToyList.All(x => x.Id != t.Id));
