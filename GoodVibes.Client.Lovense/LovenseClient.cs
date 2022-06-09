@@ -2,6 +2,7 @@
 using GoodVibes.Client.ApiCaller;
 using GoodVibes.Client.ApiCaller.Abstractions;
 using GoodVibes.Client.Lovense.Dtos;
+using GoodVibes.Client.Lovense.Enums;
 using GoodVibes.Client.Lovense.EventDispatchers;
 using GoodVibes.Client.Lovense.Events;
 using GoodVibes.Client.Lovense.Models;
@@ -60,15 +61,19 @@ namespace GoodVibes.Client.Lovense
 #pragma warning restore CS4014
         }
 
-        public Task SendCommand(string command, int value, int seconds, string toy)
+        public Task SendCommand(LovenseCommandEnum command, float value, int seconds, string toy)
         {
             if (!Connected) return Task.CompletedTask;
 
             //var toyObj = Toys[toy];
+            
+            // [      OscAddress1       ]    >    [      Toyidochcommanobject[]      ]
+            
+            
             var toyObj = Toys!.First().Value;
 
             // TODO: Do we need to validate anything here?
-            toyObj.AddCommandToList(command, value);
+            toyObj.AddCommandToList(command, toyObj.ConvertPercentageByCommand(command,value));
 
             return Task.CompletedTask;
         }
@@ -192,7 +197,7 @@ namespace GoodVibes.Client.Lovense
 
                         return;
                     }
-
+                    
                     var commandStr = lovenseToy.Value.GetCommandString();
                     if (string.IsNullOrEmpty(commandStr)) continue;
                     lovenseToy.Value.ClearCommandList();

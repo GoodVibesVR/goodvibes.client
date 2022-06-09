@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodVibes.Client.Settings",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodVibes.Vrchat.Avatar", "GoodVibes.Vrchat.Avatar\GoodVibes.Vrchat.Avatar.csproj", "{98678F26-DB8D-43AF-BB18-3A75D6BB4F2D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodVibes.Client.Mapper", "GoodVibes.Client.Mapper\GoodVibes.Client.Mapper.csproj", "{B9D80A9F-6A07-4D74-9301-520AD24637CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{98678F26-DB8D-43AF-BB18-3A75D6BB4F2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98678F26-DB8D-43AF-BB18-3A75D6BB4F2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98678F26-DB8D-43AF-BB18-3A75D6BB4F2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9D80A9F-6A07-4D74-9301-520AD24637CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9D80A9F-6A07-4D74-9301-520AD24637CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9D80A9F-6A07-4D74-9301-520AD24637CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9D80A9F-6A07-4D74-9301-520AD24637CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

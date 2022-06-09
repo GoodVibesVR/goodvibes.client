@@ -17,7 +17,7 @@ public class Ferri : LovenseToy
     {
         LovenseCommandEnum.Vibrate
     };
-
+    
     public Ferri() : base()
     {
     }

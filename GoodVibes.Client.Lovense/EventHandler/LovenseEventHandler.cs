@@ -27,7 +27,7 @@ namespace GoodVibes.Client.Lovense.EventHandler
 
         private void LovenseCommandReceived(LovenseCommandEvent obj)
         {
-            Task.Run(() => _lovenseClient.SendCommand(obj.Command.ToString(), obj.Value, 0, obj.Toy!));
+            Task.Run(() => _lovenseClient.SendCommand(obj.Command, obj.Value, 0, obj.Toy!));
         }
     }
 }

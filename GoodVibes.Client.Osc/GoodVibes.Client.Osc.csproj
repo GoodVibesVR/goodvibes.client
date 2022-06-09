@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GoodVibes.Client.Lovense\GoodVibes.Client.Lovense.csproj" />
+    <ProjectReference Include="..\GoodVibes.Client.Mapper\GoodVibes.Client.Mapper.csproj" />
   </ItemGroup>
 
 </Project>

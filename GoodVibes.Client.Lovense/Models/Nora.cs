@@ -19,7 +19,7 @@ public class Nora : LovenseToy
         LovenseCommandEnum.Rotate,
         LovenseCommandEnum.RotateAntiClockwise
     };
-
+    
     public Nora() : base()
     {
     }

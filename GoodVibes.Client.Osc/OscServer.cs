@@ -1,6 +1,7 @@
 ﻿using GoodVibes.Client.Lovense.Enums;
 using GoodVibes.Client.Lovense.EventCarriers;
 using GoodVibes.Client.Lovense.Events;
+using GoodVibes.Client.Mapper;
 using Prism.Events;
 using Rug.Osc.Core;
 
@@ -8,14 +9,14 @@ namespace GoodVibes.Client.Osc
 {
     public class OscServer
     {
-        private readonly IEventAggregator _eventAggregator;
+        private readonly AvatarMapper _avatarMapper;
 
         private OscReceiver _receiver = null!;
         private Thread _thread = null!;
 
-        public OscServer(IEventAggregator eventAggregator)
+        public OscServer(AvatarMapper avatarMapper)
         {
-            _eventAggregator = eventAggregator;
+            _avatarMapper = avatarMapper;
         }
 
         public Task ConnectAsync()
@@ -48,29 +49,11 @@ namespace GoodVibes.Client.Osc
                     if (!messageReceived) continue;
 
                     var message = packet as OscMessage;
-                    switch (message!.Address)
-                    {
-                        case "/avatar/parameters/GoodVibes/ToyA/Function1":
-                        case "/avatar/parameters/GoodVibes/ToyA/Function2":
-                        case "/avatar/parameters/GoodVibes/ToyB/Function1":
-                        case "/avatar/parameters/GoodVibes/ToyB/Function2":
-                            //Console.WriteLine(packet.ToString());
-                            Console.WriteLine(message.ToString());
-                            var test = (message.FirstOrDefault() as float? ?? 0.0f); // TODO: Dump double messages
-                            var percentComplete = (int)Math.Round((double)(test / 5) * 100);
-                            _eventAggregator.GetEvent<LovenseCommandEventCarrier>().Publish(new LovenseCommandEvent()
-                            {
-                                Command = LovenseCommandEnum.Vibrate,
-                                Toy = "12345",
-                                Value = percentComplete
-                            });
-                            break;
-                        case "/avatar/change":
-                            Console.WriteLine(packet.ToString());
-                            break;
-                        default:
-                            continue;
-                    }
+
+                    var typedMessage = message!.ToDto();
+                    if(typedMessage == null) continue;
+                    
+                    _avatarMapper.MapAndPublishEvent(typedMessage);
                 }
             }
             catch (Exception ex)

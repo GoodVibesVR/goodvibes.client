@@ -17,7 +17,7 @@ public class Lush : LovenseToy
     {
         LovenseCommandEnum.Vibrate
     };
-
+    
     public Lush() : base()
     {
     }

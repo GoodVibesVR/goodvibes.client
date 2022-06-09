@@ -17,7 +17,7 @@ public class SexMachine : LovenseToy
     {
         LovenseCommandEnum.Vibrate
     };
-
+    
     public SexMachine() : base()
     {
     }

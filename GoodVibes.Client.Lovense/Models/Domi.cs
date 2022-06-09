@@ -17,7 +17,7 @@ public class Domi : LovenseToy
     {
         LovenseCommandEnum.Vibrate
     };
-
+    
     public Domi() : base()
     {
     }

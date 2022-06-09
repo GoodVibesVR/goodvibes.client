@@ -5,6 +5,7 @@ using GoodVibes.Client.ApiCaller;
 using GoodVibes.Client.ApiCaller.Abstractions;
 using GoodVibes.Client.Lovense;
 using GoodVibes.Client.Lovense.EventHandler;
+using GoodVibes.Client.Mapper;
 using GoodVibes.Client.Osc;
 using GoodVibes.Client.Settings;
 using GoodVibes.Client.Settings.Enums;
@@ -50,6 +51,7 @@ namespace GoodVibes.Client.Wpf
             containerRegistry.RegisterSingleton<LovenseClient>();
             containerRegistry.RegisterSingleton<OscServer>();
             containerRegistry.RegisterSingleton<LovenseEventHandler>();
+            containerRegistry.RegisterSingleton<AvatarMapper>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

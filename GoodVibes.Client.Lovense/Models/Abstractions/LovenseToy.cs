@@ -19,16 +19,50 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
         public abstract LovenseCommandEnum Function2 { get; set; }
         public abstract LovenseCommandEnum[] ToyFunctions { get; }
 
-        public Dictionary<string, List<int>> ToyCommands { get; set; }
+        public Dictionary<LovenseCommandEnum, List<int>> ToyCommands { get; set; }
         private int Function1LastValue { get; set; }
         private int Function2LastValue { get; set; }
 
         protected LovenseToy()
         {
-            ToyCommands = new Dictionary<string, List<int>>();
+            ToyCommands = new Dictionary<LovenseCommandEnum, List<int>>();
         }
 
-        public void AddCommandToList(string function, int value)
+        public int ConvertPercentageByCommand(LovenseCommandEnum command, float percentage)
+        {
+            switch (command)
+            {
+                case LovenseCommandEnum.Vibrate:
+                case LovenseCommandEnum.Vibrate1:
+                case LovenseCommandEnum.Vibrate2:
+                    return ConvertVibratePercentage(percentage);
+                case LovenseCommandEnum.Rotate:
+                case LovenseCommandEnum.RotateAntiClockwise:
+                    return ConvertRotatePercentage(percentage);
+                case LovenseCommandEnum.Pump:
+                    return ConvertPumpPercentage(percentage);
+                case LovenseCommandEnum.None:
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(command), command, null);
+            }
+        }
+
+        private int ConvertVibratePercentage(float percentage)
+        {
+            return (int)Math.Round((double)(percentage / 5) * 100);
+        }
+        
+        private int ConvertRotatePercentage(float percentage)
+        {
+            return (int)Math.Round((double)(percentage / 5) * 100);
+        }
+
+        private int ConvertPumpPercentage(float percentage)
+        {
+            return (int)Math.Round((double)(percentage / 33) * 100);
+        }
+        
+        public void AddCommandToList(LovenseCommandEnum function, int value)
         {
             Function1LastValue = value;
 
@@ -53,7 +87,7 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
                 Console.WriteLine($"CommandString returned: Vibrate:{Function1LastValue}");
                 return $"Vibrate:{Function1LastValue}"; // TODO: FIX ME
             }
-            
+
             var test = new Dictionary<string, int>();
 
             foreach (var toyCommand in ToyCommands)
@@ -61,9 +95,11 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
                 var values = toyCommand.Value;
                 var highestValue = values.Prepend(0).Max();
 
-                test.Add(toyCommand.Key, highestValue);
+                test.Add(toyCommand.Key.ToString(), highestValue);
             }
+
             
+            //To string istället
             var commandStr = string.Empty;
             foreach (var i in test)
             {
@@ -72,7 +108,7 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
                     commandStr += ",";
                 }
 
-                commandStr += $"{i.Key}:{i.Value}";
+                commandStr += $"{i.Key.ToString()}:{i.Value}";
             }
 
             Console.WriteLine($"CommandString returned: {commandStr}");
@@ -88,11 +124,11 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
                 var values = toyCommand.Value;
                 var highestValue = values.Prepend(0).Max();
 
-                test.Add(toyCommand.Key, highestValue);
+                test.Add(toyCommand.Key.ToString(), highestValue);
             }
 
             //var functionStr = string.Empty;
-            var commandList = test.Select(i => new CommandDto { Command = i.Key, Value = i.Value }).ToList();
+            var commandList = test.Select(i => new CommandDto {Command = i.Key.ToString(), Value = i.Value}).ToList();
 
             return commandList;
         }
