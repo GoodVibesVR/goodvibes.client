@@ -16,5 +16,5 @@ public static class ToyTypeConstants
     public const string Max = "max";
     public const string Nora = "nora";
     public const string Osci = "osci";
-    public const string SexMachine = "sexmachine";
+    public const string SexMachine = "xmachine";
 }

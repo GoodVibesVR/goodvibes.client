@@ -63,18 +63,9 @@ namespace GoodVibes.Client.Lovense
 
         public Task SendCommand(LovenseCommandEnum command, float value, int seconds, string toy)
         {
-            if (!Connected) return Task.CompletedTask;
-
-            //var toyObj = Toys[toy];
+            if (!Connected || !Toys!.TryGetValue(toy, out var toyObj)) return Task.CompletedTask;
             
-            // [      OscAddress1       ]    >    [      Toyidochcommanobject[]      ]
-            
-            
-            var toyObj = Toys!.First().Value;
-
-            // TODO: Do we need to validate anything here?
             toyObj.AddCommandToList(command, toyObj.ConvertPercentageByCommand(command,value));
-
             return Task.CompletedTask;
         }
 

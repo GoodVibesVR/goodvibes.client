@@ -2,6 +2,7 @@
 using GoodVibes.Client.Lovense.EventCarriers;
 using GoodVibes.Client.Lovense.Events;
 using GoodVibes.Client.Mapper;
+using GoodVibes.Client.Mapper.Dtos;
 using Prism.Events;
 using Rug.Osc.Core;
 
@@ -17,6 +18,11 @@ namespace GoodVibes.Client.Osc
         public OscServer(AvatarMapper avatarMapper)
         {
             _avatarMapper = avatarMapper;
+            _avatarMapper.AddMapping("/avatar/parameters/GoodVibes/ToyA/Function1", new ToyMappingDto()
+            {
+                Function = LovenseCommandEnum.Vibrate,
+                ToyId = "cffd248698bd"
+            });
         }
 
         public Task ConnectAsync()

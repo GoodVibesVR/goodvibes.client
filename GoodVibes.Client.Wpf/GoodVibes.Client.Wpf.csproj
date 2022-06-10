@@ -10,6 +10,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 	  <None Remove="Resources\lush3.png" />
+	  <None Remove="Resources\lush3_icon.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Content Include="GW_Logo.ico" />
@@ -28,6 +29,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Resource Include="Resources\lush3.png" />
+	  <Resource Include="Resources\lush3_icon.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Compile Update="Properties\Resources.Designer.cs">
