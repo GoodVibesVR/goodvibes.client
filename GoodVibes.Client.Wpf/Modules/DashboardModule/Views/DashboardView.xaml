@@ -20,7 +20,7 @@
                 </LinearGradientBrush>
             </Rectangle.OpacityMask>
         </Rectangle>
-        <StackPanel Margin="0, 30, 0, 0"
+        <StackPanel Margin="0, 40, 0, 0"
                     HorizontalAlignment="Center">
         <Button Name="ConnectBtn"
                 FontSize="15" 
