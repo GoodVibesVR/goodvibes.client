@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GoodVibes.Client.Wpf.Modules.ContentModule.Views
+namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.Views
 {
     /// <summary>
-    /// Interaction logic for LovenseConnectView.xaml
+    /// Interaction logic for AvatarMapperView.xaml
     /// </summary>
-    public partial class LovenseConnectView : UserControl
+    public partial class AvatarMapperView : UserControl
     {
-        public LovenseConnectView()
+        public AvatarMapperView()
         {
             InitializeComponent();
         }

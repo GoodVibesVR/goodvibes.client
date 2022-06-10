@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 using Prism.Events;
 using Prism.Regions;
 
-namespace GoodVibes.Client.Wpf.Modules.ContentModule.ViewModels
+namespace GoodVibes.Client.Wpf.Modules.LovenseConnectModule.ViewModels
 {
     public class LovenseConnectViewModel : RegionViewModelBase
     {

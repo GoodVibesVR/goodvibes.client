@@ -10,8 +10,10 @@ using GoodVibes.Client.Osc;
 using GoodVibes.Client.Settings;
 using GoodVibes.Client.Settings.Enums;
 using GoodVibes.Client.Settings.Models;
+using GoodVibes.Client.Wpf.Modules.AvatarMapperModule;
 using GoodVibes.Client.Wpf.Modules.ContentHeaderModule;
 using GoodVibes.Client.Wpf.Modules.ContentModule;
+using GoodVibes.Client.Wpf.Modules.DashboardModule;
 using GoodVibes.Client.Wpf.Modules.LovenseToySettingsModule;
 using GoodVibes.Client.Wpf.Modules.MenuFooterModule;
 using GoodVibes.Client.Wpf.Modules.MenuHeaderModule;
@@ -60,9 +62,11 @@ namespace GoodVibes.Client.Wpf
             moduleCatalog.AddModule<MenuHeaderModule>();
             moduleCatalog.AddModule<MenuFooterModule>();
             moduleCatalog.AddModule<LovenseToySettingsModule>();
+            moduleCatalog.AddModule<AvatarMapperModule>();
 
             // Main modules need to be declared last
-            moduleCatalog.AddModule<ContentModule>();
+            //moduleCatalog.AddModule<ContentModule>();
+            moduleCatalog.AddModule<DashboardModule>();
             moduleCatalog.AddModule<MenuModule>();
         }
     }

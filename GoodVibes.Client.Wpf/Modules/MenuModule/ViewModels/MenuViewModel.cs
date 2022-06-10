@@ -19,31 +19,40 @@ public class MenuViewModel : RegionViewModelBase
     
     public ObservableCollection<LovenseToyViewModel> Toys { get; set; }
 
-    private DelegateCommand _navigateToHomeCommand;
-    public DelegateCommand NavigateToHomeCommand =>
-        _navigateToHomeCommand ??= new DelegateCommand(NavigateToHome);
+    private DelegateCommand _navigateToDashboardCommand;
+    public DelegateCommand NavigateToDashboardCommand =>
+        _navigateToDashboardCommand ??= new DelegateCommand(NavigateToDashboard);
 
-    private void NavigateToHome()
+    private void NavigateToDashboard()
     {
         _regionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
     }
 
-    private DelegateCommand _navigateToSessionsCommand;
-    public DelegateCommand NavigateToSessionsCommand =>
-        _navigateToSessionsCommand ??= new DelegateCommand(NavigateToSessions);
+    private DelegateCommand _navigateToGroupsCommand;
+    public DelegateCommand NavigateToGroupsCommand =>
+        _navigateToGroupsCommand ??= new DelegateCommand(NavigateToGroups);
 
-    private void NavigateToSessions()
+    private void NavigateToGroups()
     {
-        _regionManager.RequestNavigate(RegionNames.ContentRegion, "SessionsView");
+        _regionManager.RequestNavigate(RegionNames.ContentRegion, "GroupsView");
     }
 
-    private DelegateCommand _navigateToAvatarsCommand;
-    public DelegateCommand NavigateToAvatarsCommand =>
-        _navigateToAvatarsCommand ??= new DelegateCommand(NavigateToAvatars);
+    private DelegateCommand _navigateToAvatarMappingsCommand;
+    public DelegateCommand NavigateToAvatarMappingsCommand =>
+        _navigateToAvatarMappingsCommand ??= new DelegateCommand(NavigateToAvatarMappings);
 
-    private void NavigateToAvatars()
+    private void NavigateToAvatarMappings()
     {
-        _regionManager.RequestNavigate(RegionNames.ContentRegion, "AvatarsView");
+        _regionManager.RequestNavigate(RegionNames.ContentRegion, "AvatarMapperView");
+    }
+
+    private DelegateCommand _navigateToWorldMappingsCommand;
+    public DelegateCommand NavigateToWorldMappingsCommand =>
+        _navigateToWorldMappingsCommand ??= new DelegateCommand(NavigateToWorldMappings);
+
+    private void NavigateToWorldMappings()
+    {
+        _regionManager.RequestNavigate(RegionNames.ContentRegion, "WorldMapperView");
     }
 
     public MenuViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) :

@@ -1,6 +1,8 @@
 ﻿using GoodVibes.Client.Core;
 using GoodVibes.Client.Wpf.Modules.ContentModule.ViewModels;
 using GoodVibes.Client.Wpf.Modules.ContentModule.Views;
+using GoodVibes.Client.Wpf.Modules.LovenseConnectModule.ViewModels;
+using GoodVibes.Client.Wpf.Modules.LovenseConnectModule.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
@@ -28,7 +30,7 @@ namespace GoodVibes.Client.Wpf.Modules.ContentModule
             ViewModelLocationProvider.Register<LovenseConnectView, LovenseConnectViewModel>();
 
             containerRegistry.RegisterForNavigation<Views.ContentView>();
-            containerRegistry.RegisterForNavigation<Views.LovenseConnectView>();
+            containerRegistry.RegisterForNavigation<LovenseConnectView>();
         }
     }
 }
