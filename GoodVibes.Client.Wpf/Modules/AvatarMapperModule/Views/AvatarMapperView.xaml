@@ -4,6 +4,7 @@
                  xmlns:prism="http://prismlibrary.com/"
                  xmlns:core1="clr-namespace:GoodVibes.Client.Core;assembly=GoodVibes.Client.Core"
                  xmlns:coreLibrary="clr-namespace:BlackPearl.Controls.CoreLibrary;assembly=BlackPearl.Controls.CoreLibrary"
+                 xmlns:paddedGrid="crl-namespace:PaddedGrid;assembly=PaddedGrid"
                  prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
         <!--<Style TargetType="{x:Type TextBox}">
@@ -13,6 +14,134 @@
                 </Style>
             </TextBox.Resources>
         </Style>-->
+        <!-- FontFamily="Calibri" FontSize="18" FontWeight="Regular" BorderThickness="0"-->
+        <Style TargetType="Button" x:Key="RoundButton">
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <SolidColorBrush Opacity="1" Color="White" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Opacity="1" Color="#3475CC" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                SnapsToDevicePixels="True"
+                                CornerRadius="10"
+                                Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Name="content" />
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Opacity="1" Color="{Binding RelativeSource={RelativeSource Self}, Path = hoverColor }" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+
+            <!--
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10" />
+                </Style>
+            </Style.Resources>
+            -->
+        </Style>
+        <Style x:Key="ComboBoxButtonStyle" TargetType="ToggleButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="border" CornerRadius="0,10,10,0" BorderThickness="0,0,0,0">
+                            <Border.Background>
+                                <SolidColorBrush Color="Black" Opacity="0.25" />
+                            </Border.Background>
+                            <ContentPresenter />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ComboBoxTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Template"> 
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Grid>
+                            <Border CornerRadius="10,0,0,10" BorderThickness="0,0,0,0">
+                                <Border.Background>
+                                    <SolidColorBrush Color="Black" Opacity="0.25" />
+                                </Border.Background>
+                                <ScrollViewer x:Name="PART_ContentHost" />
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ComboBoxRounded" TargetType="ComboBox">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition MaxWidth="18" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Name="PART_EditableTextBox"
+                                     Style="{StaticResource ComboBoxTextBoxStyle}"
+                                     Padding="5,0,0,0"
+                                     Foreground="White"
+                                     Height="{TemplateBinding Height}" />
+                            <ToggleButton Grid.Column="1" Margin="0"
+                                          Height="{TemplateBinding Height}"
+                                          Style="{StaticResource ComboBoxButtonStyle}"
+                                          Focusable="False"
+                                          IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          ClickMode="Press"
+                                          >
+                                <Path Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z" Fill="DodgerBlue" />
+                            </ToggleButton>
+                            <ContentPresenter Name="ContentSite"
+                                              Content="{TemplateBinding SelectionBoxItem}"
+                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Left"
+                                              Margin="5,0,0,0" />
+                            <Popup Name="Popup"
+                                   Placement="Bottom"
+                                   IsOpen="{Binding IsDropDownOpen}"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   PopupAnimation="Slide">
+                                <Grid Name="DropDown"
+                                     SnapsToDevicePixels="True"
+                                     MinWidth="{TemplateBinding ActualWidth}"
+                                     MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border x:Name="DropDownBorder" BorderThickness="1" CornerRadius="5" BorderBrush="Black" />
+                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <Grid Width="824">
         <Rectangle>
@@ -38,6 +167,7 @@
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Hidden">
             <StackPanel Margin="10, 20, 10, 0"
+                        Width="804"
                     HorizontalAlignment="left">
                 <Label x:Name="GoodVibesVersion" 
                        HorizontalAlignment="Left" 
@@ -49,17 +179,107 @@
                        Background="Transparent" 
                        BorderThickness="0"
                        Foreground="White" FontSize="24" FontWeight="SemiBold" FontFamily="Calibri"/>
-                <DockPanel Margin="5, 5, 5, 5"
-                           HorizontalAlignment="Center">
-                    <ComboBox DockPanel.Dock="Left" Margin="0,0,0,0"
-                    Width="300" Height="40" HorizontalAlignment="Left">
+                <DockPanel Margin="0, 5, 0, 5"
+                           HorizontalAlignment="Stretch"
+                           >
+                    <ComboBox Margin="0,0,0,0" Style="{StaticResource ComboBoxRounded}"
+                    Width="300" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="1,1,1,1">
                         <ComboBox.Background>
                             <SolidColorBrush Color="#000000" Opacity="0.25"/>
                         </ComboBox.Background>
+                        <ComboBoxItem>Hello</ComboBoxItem>
+                        <ComboBoxItem>Hello</ComboBoxItem>
+                        <ComboBoxItem>Hello</ComboBoxItem>
+                        <ComboBoxItem>Hello</ComboBoxItem>
+                        <ComboBoxItem>Hello</ComboBoxItem>
                     </ComboBox>
-                    <Button DockPanel.Dock="Right" Content="Import" FontFamily="Calibri" FontSize="16" FontWeight="Regular"></Button>
-                    <Button DockPanel.Dock="Right" Content="Export" FontFamily="Calibri" FontSize="16" FontWeight="Regular"></Button>
+                    <StackPanel Orientation="Horizontal" Width="155" HorizontalAlignment="Right">
+                        <Button Style="{DynamicResource RoundButton}" Content="Import" Background="#3475CC" Width="75" FontFamily="Calibri" FontSize="18" FontWeight="Regular" BorderThickness="0" />
+                        <Button Style="{DynamicResource RoundButton}" Content="Export" Background="#CF3084" Width="75" Margin="5,0,0,0" FontFamily="Calibri" FontSize="18" FontWeight="Regular" BorderThickness="0" />
+                    </StackPanel>
                 </DockPanel>
+                <Border CornerRadius="10" BorderThickness="0" Padding="10,0,10,10">
+                    <Border.Background>
+                        <SolidColorBrush Color="#000" Opacity="0.25" />
+                    </Border.Background>
+                    <!-- Rows -->
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Margin="0,10,0,0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="0.3*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="2*" />
+                                    <RowDefinition Height="1*" />
+                                    <RowDefinition Height="1*" />
+                                </Grid.RowDefinitions>
+                                <TextBox Grid.Column="0" Height="40" Padding="5,10,10,5" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                                    <TextBox.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="10" />
+                                        </Style>
+                                    </TextBox.Resources>
+                                    <TextBox.BorderBrush>
+                                        <SolidColorBrush Color="Transparent" />
+                                    </TextBox.BorderBrush>
+                                    <TextBox.Foreground>
+                                        <SolidColorBrush Color="White" />
+                                    </TextBox.Foreground>
+                                    <TextBox.Background>
+                                        <SolidColorBrush Color="#000" Opacity="0.30"></SolidColorBrush>
+                                    </TextBox.Background>
+                                    <TextBox.Text>Hello World</TextBox.Text>
+                                </TextBox>
+                                <coreLibrary:MultiSelectCombobox Grid.Column="1" Height="40" Padding="5,10,10,5">
+            
+                                </coreLibrary:MultiSelectCombobox>
+                                <!--
+                                <TextBox Grid.Column="1" Height="40" Padding="5,10,10,5" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                                    <TextBox.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="10" />
+                                        </Style>
+                                    </TextBox.Resources>
+                                    <TextBox.BorderBrush>
+                                        <SolidColorBrush Color="Transparent" />
+                                    </TextBox.BorderBrush>
+                                    <TextBox.Foreground>
+                                        <SolidColorBrush Color="White" />
+                                    </TextBox.Foreground>
+                                    <TextBox.Background>
+                                        <SolidColorBrush Color="#000" Opacity="0.30"></SolidColorBrush>
+                                    </TextBox.Background>
+                                </TextBox>-->
+                                <Button Grid.Column="2" BorderBrush="Transparent">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="10" />
+                                        </Style>
+                                    </Button.Resources>
+                                    <Button.Background>
+                                        <SolidColorBrush Color="#000" Opacity="0.30"></SolidColorBrush>
+                                    </Button.Background>
+                                    <Canvas Width="20" Height="20">
+                                        <Canvas.RenderTransform>
+                                            <TranslateTransform X="0" Y="0"/>
+                                        </Canvas.RenderTransform>
+                                        <Canvas.Resources/>
+                                        <!--Unknown tag: sodipodi:namedview-->
+                                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" StrokeThickness="1.5" Stroke="#80FF4949" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                                            <Path.Data>
+                                                <PathGeometry Figures="M1 5h16m-1 0-.867 12.142A2 2 0 0 1 13.138 19H4.862a2 2 0 0 1-1.995-1.858L2 5h14ZM7 9v6-6Zm4 0v6-6Zm1-4V2a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v3h6Z" FillRule="NonZero"/>
+                                            </Path.Data>
+                                        </Path>
+                                    </Canvas>
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <!--
                 <Border CornerRadius="5" 
                         BorderThickness="1" 
                         Margin="0,5,0,5" >
@@ -114,6 +334,7 @@
                         </StackPanel>
                     </Grid>
                 </Border>
+                -->
             </StackPanel>
         </ScrollViewer>
     </Grid>
