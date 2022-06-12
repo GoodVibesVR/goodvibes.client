@@ -3,24 +3,119 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:prism="http://prismlibrary.com/"
                  xmlns:core1="clr-namespace:GoodVibes.Client.Core;assembly=GoodVibes.Client.Core"
+                 xmlns:coreLibrary="clr-namespace:BlackPearl.Controls.CoreLibrary;assembly=BlackPearl.Controls.CoreLibrary"
                  prism:ViewModelLocator.AutoWireViewModel="True">
-    <Grid Width="400" Height="400">
+    <UserControl.Resources>
+        <!--<Style TargetType="{x:Type TextBox}">
+            <TextBox.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="3"/>
+                </Style>
+            </TextBox.Resources>
+        </Style>-->
+    </UserControl.Resources>
+    <Grid Width="824">
         <Rectangle>
             <Rectangle.Fill>
-                <LinearGradientBrush EndPoint="0.5,0" StartPoint="0.5,1" Opacity="1">
+                <LinearGradientBrush EndPoint="0.5,0" 
+                                     StartPoint="0.5,1" 
+                                     Opacity="1">
                     <GradientStop Color="#3C5C8C" Offset="0" />
                     <GradientStop Color="#3C5C8C" Offset="1" />
                 </LinearGradientBrush>
             </Rectangle.Fill>
 
             <Rectangle.OpacityMask>
-                <LinearGradientBrush EndPoint="0.5,0" StartPoint="0.5,1" Opacity="0.8">
+                <LinearGradientBrush EndPoint="0.5,0" StartPoint="0.5,1" 
+                                     Opacity="0.8">
                     <GradientStop Color="Transparent" Offset="-1.2" />
                     <GradientStop Color="#3C5C8C" Offset="1" />
                 </LinearGradientBrush>
             </Rectangle.OpacityMask>
         </Rectangle>
 
-
+        <ScrollViewer Margin="0,30,0,0"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Hidden">
+            <StackPanel Margin="10, 20, 10, 0"
+                    HorizontalAlignment="left">
+                <Label x:Name="GoodVibesVersion" 
+                       HorizontalAlignment="Left" 
+                       HorizontalContentAlignment="Left"
+                       Margin="0,0,0,0" 
+                       Content="Avatar Mapping" 
+                       VerticalAlignment="Bottom" 
+                       Width="200" 
+                       Background="Transparent" 
+                       BorderThickness="0"
+                       Foreground="White" FontSize="24" FontWeight="SemiBold" FontFamily="Calibri"/>
+                <DockPanel Margin="5, 5, 5, 5"
+                           HorizontalAlignment="Center">
+                    <ComboBox DockPanel.Dock="Left" Margin="0,0,0,0"
+                    Width="300" Height="40" HorizontalAlignment="Left">
+                        <ComboBox.Background>
+                            <SolidColorBrush Color="#000000" Opacity="0.25"/>
+                        </ComboBox.Background>
+                    </ComboBox>
+                    <Button DockPanel.Dock="Right" Content="Import" FontFamily="Calibri" FontSize="16" FontWeight="Regular"></Button>
+                    <Button DockPanel.Dock="Right" Content="Export" FontFamily="Calibri" FontSize="16" FontWeight="Regular"></Button>
+                </DockPanel>
+                <Border CornerRadius="5" 
+                        BorderThickness="1" 
+                        Margin="0,5,0,5" >
+                    <Border.Background>
+                        <SolidColorBrush Color="#000000" Opacity="0.25"/>
+                    </Border.Background>
+                    <Border.BorderBrush>
+                        <SolidColorBrush Color="#000000" Opacity="0.25"/>
+                    </Border.BorderBrush>
+                    <Grid Margin="10, 10, 10, 10">
+                        <StackPanel Margin="5, 5, 5, 5"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <Border CornerRadius="5" 
+                                BorderThickness="1" 
+                                Margin="5,5,5,5" >
+                                <Border.Background>
+                                    <SolidColorBrush Color="#000000" Opacity="0.25"/>
+                                </Border.Background>
+                                <Border.BorderBrush>
+                                    <SolidColorBrush Color="#000000" Opacity="0.25"/>
+                                </Border.BorderBrush>
+                                <TextBox Background="Transparent"
+                                     Margin="0, 0, 0, 0"
+                                     Opacity="1"
+                                     Foreground="White"
+                                     BorderThickness="0" 
+                                     Height="30"
+                                     Width="372"
+                                     Name="txtContents"/>
+                            </Border>
+                            <Border CornerRadius="5" 
+                                    BorderThickness="1" 
+                                    Margin="5,5,5,5" >
+                                <Border.Background>
+                                    <SolidColorBrush Color="#000000" Opacity="0.25"/>
+                                </Border.Background>
+                                <Border.BorderBrush>
+                                    <SolidColorBrush Color="#000000" Opacity="0.25"/>
+                                </Border.BorderBrush>
+                                <coreLibrary:MultiSelectCombobox Width="372" Height="30"
+                                                                 Background="Transparent"
+                                    Margin="5, 0, 0, 0"
+                                    TabIndex="101"
+                                    ItemSource="{Binding Source, Mode=TwoWay, 
+                                    UpdateSourceTrigger=PropertyChanged}"
+                                    SelectedItems="{Binding SelectedItems, 
+                                    Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    DisplayMemberPath="Name"
+                                    ItemSeparator=";"/>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
+
 </UserControl>
