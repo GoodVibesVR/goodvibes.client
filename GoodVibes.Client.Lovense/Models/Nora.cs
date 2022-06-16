@@ -11,8 +11,13 @@ public class Nora : LovenseToy
     public override bool Status { get; set; }
     public override string? Version { get; set; }
     public override int? Battery { get; set; }
-    public override bool Enabled { get; set; }
-    
+    private bool _enabled { get; set; }
+    public override bool Enabled
+    {
+        get => true;
+        set => _enabled = false;
+    }
+
     private LovenseCommandEnum TempFunction1 { get; set; }
     public override LovenseCommandEnum Function1
     {
