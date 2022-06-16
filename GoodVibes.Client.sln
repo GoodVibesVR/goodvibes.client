@@ -17,11 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodVibes.Client.Osc", "Goo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodVibes.Client.SignalR", "GoodVibes.Client.SignalR\GoodVibes.Client.SignalR.csproj", "{A9FB8419-A380-48D8-8520-32461A3F063C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodVibes.Client.Settings", "GoodVibes.Client.Settings\GoodVibes.Client.Settings.csproj", "{4C146B92-3638-4A6B-9886-5CE9B7292981}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodVibes.Client.Settings", "GoodVibes.Client.Settings\GoodVibes.Client.Settings.csproj", "{4C146B92-3638-4A6B-9886-5CE9B7292981}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodVibes.Vrchat.Avatar", "GoodVibes.Vrchat.Avatar\GoodVibes.Vrchat.Avatar.csproj", "{98678F26-DB8D-43AF-BB18-3A75D6BB4F2D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodVibes.Client.Mapper", "GoodVibes.Client.Mapper\GoodVibes.Client.Mapper.csproj", "{B9D80A9F-6A07-4D74-9301-520AD24637CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodVibes.Client.Mapper", "GoodVibes.Client.Mapper\GoodVibes.Client.Mapper.csproj", "{B9D80A9F-6A07-4D74-9301-520AD24637CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,10 +59,6 @@ Global
 		{4C146B92-3638-4A6B-9886-5CE9B7292981}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C146B92-3638-4A6B-9886-5CE9B7292981}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C146B92-3638-4A6B-9886-5CE9B7292981}.Release|Any CPU.Build.0 = Release|Any CPU
-		{98678F26-DB8D-43AF-BB18-3A75D6BB4F2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{98678F26-DB8D-43AF-BB18-3A75D6BB4F2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{98678F26-DB8D-43AF-BB18-3A75D6BB4F2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{98678F26-DB8D-43AF-BB18-3A75D6BB4F2D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B9D80A9F-6A07-4D74-9301-520AD24637CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B9D80A9F-6A07-4D74-9301-520AD24637CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9D80A9F-6A07-4D74-9301-520AD24637CF}.Release|Any CPU.ActiveCfg = Release|Any CPU

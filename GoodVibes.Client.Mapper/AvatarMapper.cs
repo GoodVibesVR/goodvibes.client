@@ -2,6 +2,9 @@
 using GoodVibes.Client.Lovense.Events;
 using GoodVibes.Client.Mapper.Dtos;
 using GoodVibes.Client.Mapper.Dtos.Abstractions;
+using GoodVibes.Client.Mapper.EventCarriers;
+using GoodVibes.Client.Mapper.Events;
+using Newtonsoft.Json;
 using Prism.Events;
 
 namespace GoodVibes.Client.Mapper;
@@ -10,33 +13,13 @@ public class AvatarMapper
 {
     private readonly IEventAggregator _eventAggregator;
 
-    private Dictionary<string, IList<ToyMappingDto>> _mappings;
-    // private List<ToyDto> _toys; //TODO move to viewmodel
-
-
+    private readonly Dictionary<string, IList<ToyMappingDto>> _mappings;
+    
     public AvatarMapper(IEventAggregator eventAggregator)
     {
         _eventAggregator = eventAggregator;
         _mappings = new Dictionary<string, IList<ToyMappingDto>>();
-        // _toys = new List<ToyDto>();
     }
-
-    public void Subscribe()
-    {
-        // _eventAggregator.GetEvent<LovenseToyListUpdatedEventCarrier>().Subscribe(Handle);
-    }
-
-    // private void Handle(LovenseToyListUpdatedEvent obj)
-    // {
-    //     _toys = obj.ToyList!.Select(toy => new ToyDto
-    //         {
-    //             Id = toy.Id,
-    //             DisplayName = toy.DisplayName!,
-    //             Function1 = toy.Function1,
-    //             Function2 = toy.Function2
-    //         }).OrderBy(x => x.DisplayName)
-    //         .ToList();
-    // }
 
     public void AddMapping(string oscAddress, ToyMappingDto toyMappingDto)
     {
@@ -75,8 +58,17 @@ public class AvatarMapper
 
     private void MapAndPublishStringEvent(OscStringMessageDto dto)
     {
+        Console.WriteLine($"String value returned: {JsonConvert.SerializeObject(dto)}");
+
         // TODO Avatar changed
-        // "/avatar/change"
+        if (dto.Address == "/avatar/change")
+        {
+            var avatarId = dto.Value.ToString().Replace("/avatar/change, ", "");
+            _eventAggregator.GetEvent<AvatarChangedEventCarrier>().Publish(new AvatarChangedEvent()
+            {
+                AvatarId = avatarId
+            });
+        }
     }
 
     private void MapAndPublishIntEvent(OscIntMessageDto dto)

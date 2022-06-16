@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using GoodVibes.Client.Core.Mvvm;
@@ -6,6 +7,8 @@ using GoodVibes.Client.Lovense.Enums;
 using GoodVibes.Client.Lovense.EventCarriers;
 using GoodVibes.Client.Lovense.Events;
 using GoodVibes.Client.Mapper.Dtos;
+using GoodVibes.Client.Mapper.EventCarriers;
+using GoodVibes.Client.Mapper.Events;
 using Prism.Events;
 using Prism.Regions;
 
@@ -14,12 +17,29 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
     internal class AvatarMapperViewModel : RegionViewModelBase
     {
         public ObservableCollection<ToyMappingDto> Toys { get; set; }
+        public ObservableCollection<AvatarMappingDto> Avatars { get; set; }
 
         public AvatarMapperViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager)
         {
             Toys = new ObservableCollection<ToyMappingDto>();
+            Avatars = new ObservableCollection<AvatarMappingDto>();
 
             eventAggregator.GetEvent<LovenseToyListUpdatedEventCarrier>().Subscribe(LovenseToyListUpdated);
+            eventAggregator.GetEvent<AvatarChangedEventCarrier>().Subscribe(AvatarChanged);
+        }
+
+        private void AvatarChanged(AvatarChangedEvent obj)
+        {
+            Console.WriteLine("AvatarChanged event received");
+            var exists = Avatars.Any(a => a.AvatarId == obj.AvatarId);
+            if (!exists)
+            {
+                Console.WriteLine($"Adding new avatar with ID {obj.AvatarId} to Avatar list");
+                Avatars.Add(new AvatarMappingDto()
+                {
+                    AvatarId = obj.AvatarId
+                });
+            }
         }
 
         private void LovenseToyListUpdated(LovenseToyListUpdatedEvent obj)

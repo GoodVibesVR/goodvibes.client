@@ -13,36 +13,33 @@ public static class MessageConverter
 
         var oscMessage = message.First();
 
-        var floatValue = oscMessage as float?;
-        if (floatValue != null)
-            return new OscFloatMessageDto
-            {
-                Address = message.Address,
-                Value = floatValue.Value
-            };
-
-        var intValue = oscMessage as int?;
-        if (intValue != null)
+        switch (oscMessage)
         {
-            return new OscIntMessageDto
-            {
-                Address = message.Address,
-                Value = intValue.Value
-            };
+            case float floatValue:
+                return new OscFloatMessageDto
+                {
+                    Address = message.Address,
+                    Value = floatValue
+                };
+            case int intValue:
+                return new OscIntMessageDto
+                {
+                    Address = message.Address,
+                    Value = intValue
+                };
+            case bool boolValue:
+                return new OscBoolMessageDto
+                {
+                    Address = message.Address,
+                    Value = boolValue
+                };
+            default:
+                Console.WriteLine(message.ToString());
+                return new OscStringMessageDto
+                {
+                    Address = message.Address,
+                    Value = message.ToString()
+                };
         }
-
-        var boolValue = oscMessage as bool?;
-        if (boolValue != null)
-            return new OscBoolMessageDto
-            {
-                Address = message.Address,
-                Value = boolValue.Value
-            };
-
-        return new OscStringMessageDto
-        {
-            Address = message.Address,
-            Value = message.ToString()
-        };
     }
 }
