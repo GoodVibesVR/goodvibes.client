@@ -1,4 +1,5 @@
-﻿using GoodVibes.Client.Lovense.Dtos;
+﻿using System.Diagnostics.Contracts;
+using GoodVibes.Client.Lovense.Dtos;
 using GoodVibes.Client.Lovense.Enums;
 
 namespace GoodVibes.Client.Lovense.Models.Abstractions
@@ -11,6 +12,7 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
         public abstract bool Status { get; set; }
         public abstract string? Version { get; set; }
         public abstract int? Battery { get; set; }
+        public abstract bool Enabled { get; set; } // TODO: This need to be set in properties
 
         public string? DisplayName =>
             string.IsNullOrEmpty(Nickname) ? $"{Name} {Version}" : $"{Nickname} ({Name} {Version})";
@@ -51,7 +53,7 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
         {
             return (int)Math.Round((double)(percentage / 5) * 100);
         }
-        
+
         private int ConvertRotatePercentage(float percentage)
         {
             return (int)Math.Round((double)(percentage / 5) * 100);
@@ -61,7 +63,7 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
         {
             return (int)Math.Round((double)(percentage / 33) * 100);
         }
-        
+
         public void AddCommandToList(LovenseCommandEnum function, int value)
         {
             Function1LastValue = value;
@@ -98,7 +100,7 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
                 test.Add(toyCommand.Key.ToString(), highestValue);
             }
 
-            
+
             //To string istället
             var commandStr = string.Empty;
             foreach (var i in test)
@@ -128,7 +130,7 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
             }
 
             //var functionStr = string.Empty;
-            var commandList = test.Select(i => new CommandDto {Command = i.Key.ToString(), Value = i.Value}).ToList();
+            var commandList = test.Select(i => new CommandDto { Command = i.Key.ToString(), Value = i.Value }).ToList();
 
             return commandList;
         }

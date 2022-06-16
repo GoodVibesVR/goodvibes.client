@@ -21,5 +21,4 @@ public class DetailedToyDto
 
     [JsonProperty("status")]
     public string? Status { get; set; }
-
 }

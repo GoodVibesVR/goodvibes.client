@@ -21,7 +21,7 @@ namespace GoodVibes.Client.Osc
             _avatarMapper.AddMapping("/avatar/parameters/GoodVibes/ToyA/Function1", new ToyMappingDto()
             {
                 Function = LovenseCommandEnum.Vibrate,
-                ToyId = "cffd248698bd"
+                Id = "cffd248698bd"
             });
         }
 

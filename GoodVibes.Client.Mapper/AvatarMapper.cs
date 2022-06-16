@@ -92,7 +92,7 @@ public class AvatarMapper
             _eventAggregator.GetEvent<LovenseCommandEventCarrier>().Publish(new LovenseCommandEvent
             {
                 Command = mappingDto.Function,
-                Toy = mappingDto.ToyId,
+                Toy = mappingDto.Id,
                 Value = messageDto.Value
             });
         }

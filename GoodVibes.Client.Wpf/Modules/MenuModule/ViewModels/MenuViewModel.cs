@@ -69,7 +69,6 @@ public class MenuViewModel : RegionViewModelBase
         Application.Current.Dispatcher.Invoke((Action)delegate
         {
             var tempList = Toys;
-
             foreach (var lovenseToy in obj.ToyList!)
             {
                 var toy = tempList.FirstOrDefault(t => t.Id == lovenseToy.Id);
