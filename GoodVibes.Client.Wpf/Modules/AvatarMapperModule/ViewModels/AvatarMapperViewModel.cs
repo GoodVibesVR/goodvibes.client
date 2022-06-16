@@ -79,7 +79,7 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                 }
             };
 
-            SelectedAvatar.PropertyChanged += SelectedAvatar_PropertyChanged;
+            //SelectedAvatar.PropertyChanged += SelectedAvatar_PropertyChanged;
 
             eventAggregator.GetEvent<LovenseToyListUpdatedEventCarrier>().Subscribe(LovenseToyListUpdated);
             eventAggregator.GetEvent<AvatarChangedEventCarrier>().Subscribe(AvatarChanged);
