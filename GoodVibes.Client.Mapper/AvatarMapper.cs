@@ -63,7 +63,7 @@ public class AvatarMapper
         // TODO Avatar changed
         if (dto.Address == "/avatar/change")
         {
-            var avatarId = dto.Value.ToString().Replace("/avatar/change, ", "");
+            var avatarId = dto.Value.ToString().Replace("/avatar/change, ", "").Replace("\"", "");
             _eventAggregator.GetEvent<AvatarChangedEventCarrier>().Publish(new AvatarChangedEvent()
             {
                 AvatarId = avatarId
