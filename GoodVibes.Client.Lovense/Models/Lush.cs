@@ -12,13 +12,18 @@ public class Lush : LovenseToy
     public override string? Version { get; set; }
     public override int? Battery { get; set; }
     public override bool Enabled { get; set; }
-    public override LovenseCommandEnum Function1 { get; set; }
+    private LovenseCommandEnum TempFunction1 { get; set; }
+    public override LovenseCommandEnum Function1
+    {
+        get => LovenseCommandEnum.Vibrate;
+        set => TempFunction1 = value;
+    }
     public override LovenseCommandEnum Function2 { get; set; }
     public override LovenseCommandEnum[] ToyFunctions => new[]
     {
         LovenseCommandEnum.Vibrate
     };
-    
+
     public Lush() : base()
     {
     }

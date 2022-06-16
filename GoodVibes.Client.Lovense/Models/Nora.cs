@@ -12,8 +12,19 @@ public class Nora : LovenseToy
     public override string? Version { get; set; }
     public override int? Battery { get; set; }
     public override bool Enabled { get; set; }
-    public override LovenseCommandEnum Function1 { get; set; }
-    public override LovenseCommandEnum Function2 { get; set; }
+    
+    private LovenseCommandEnum TempFunction1 { get; set; }
+    public override LovenseCommandEnum Function1
+    {
+        get => LovenseCommandEnum.Vibrate;
+        set => TempFunction1 = value;
+    }
+    private LovenseCommandEnum TempFunction2 { get; set; }
+    public override LovenseCommandEnum Function2
+    {
+        get => LovenseCommandEnum.Rotate;
+        set => TempFunction2 = value;
+    }
     public override LovenseCommandEnum[] ToyFunctions => new[]
     {
         LovenseCommandEnum.Vibrate,
