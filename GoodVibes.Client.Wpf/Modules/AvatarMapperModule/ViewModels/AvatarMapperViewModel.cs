@@ -79,7 +79,7 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                 }
             };
 
-            //SelectedAvatar.PropertyChanged += SelectedAvatar_PropertyChanged;
+            // SelectedAvatar?.PropertyChanged += SelectedAvatar_PropertyChanged;
 
             eventAggregator.GetEvent<LovenseToyListUpdatedEventCarrier>().Subscribe(LovenseToyListUpdated);
             eventAggregator.GetEvent<AvatarChangedEventCarrier>().Subscribe(AvatarChanged);
@@ -142,6 +142,12 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                     }
                 }
 
+                foreach(var toy in tempList2)
+                {
+                    Toys.Add(toy);
+                }
+
+                /*
                 foreach (var toy in Toys)
                 {
                     var exists = tempList2.Any(t => t.Id == toy.Id && t.Function == toy.Function);
@@ -152,6 +158,7 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
 
                     // TODO: Actually remove as well.
                 }
+                */
 
                 // TODO: We need to handle mapped toy types as well as IDs here... or?
                 //var disconnectedToys = tempList.Where(t => obj.ToyList.All(x => x.Id != t.Id));

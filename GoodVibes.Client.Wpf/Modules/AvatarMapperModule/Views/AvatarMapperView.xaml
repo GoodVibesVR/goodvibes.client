@@ -394,7 +394,7 @@
                                     <RowDefinition Height="1*" />
                                     <RowDefinition Height="1*" />
                                 </Grid.RowDefinitions>
-                                <TextBox Grid.Column="0" Height="40" Padding="5,10,10,5" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                                <TextBox Grid.Column="0" Height="40" Margin="0 0 5 0" Padding="5,10,10,5" VerticalAlignment="Center" HorizontalAlignment="Stretch">
                                     <TextBox.Resources>
                                         <Style TargetType="Border">
                                             <Setter Property="CornerRadius" Value="10" />
@@ -411,8 +411,14 @@
                                     </TextBox.Background>
                                     <TextBox.Text>Hello World</TextBox.Text>
                                 </TextBox>
-                                <coreLibrary:MultiSelectCombobox Grid.Column="1" Height="40" Padding="5,10,10,5">
-            
+                                <coreLibrary:MultiSelectCombobox 
+                                    Grid.Column="1" 
+                                    Height="40" 
+                                    Margin="0 0 5 0" 
+                                    Padding="5,10,10,5" 
+                                    ItemSource="{ Binding Path=Toys, Mode=TwoWay}"
+                                    DisplayMemberPath="DisplayName"
+                                >
                                 </coreLibrary:MultiSelectCombobox>
                                 <!--
                                 <TextBox Grid.Column="1" Height="40" Padding="5,10,10,5" VerticalAlignment="Center" HorizontalAlignment="Stretch">
