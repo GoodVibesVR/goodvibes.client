@@ -22,6 +22,7 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
         private readonly IDialogService _dialogService;
 
         public ObservableCollection<ToyMappingDto> Toys { get; set; }
+        public ObservableCollection<ToyMappingDto> SelectedToys { get; set; }
         public ObservableCollection<AvatarMappingDto> Avatars { get; set; }
 
         private AvatarMappingDto _selectedAvatar;
