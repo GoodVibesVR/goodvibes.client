@@ -10,6 +10,7 @@ using GoodVibes.Client.Lovense.Events;
 using GoodVibes.Client.Mapper.Dtos;
 using GoodVibes.Client.Mapper.EventCarriers;
 using GoodVibes.Client.Mapper.Events;
+using GoodVibes.Client.Wpf.Services.Abstractions;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
@@ -18,7 +19,9 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
 {
     internal class AvatarMapperViewModel : RegionViewModelBase
     {
-        public ObservableCollection<ToyViewModel> Toys { get; set; }
+        private readonly IDialogService _dialogService;
+
+        public ObservableCollection<ToyMappingDto> Toys { get; set; }
         public ObservableCollection<AvatarMappingDto> Avatars { get; set; }
 
         private AvatarMappingDto _selectedAvatar;
@@ -36,29 +39,52 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
             set => SetProperty(ref _mappings, value);
         }
 
-        public AvatarMapperViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager)
+        private DelegateCommand _openImportDialog;
+        public DelegateCommand OpenImportDialog =>
+            _openImportDialog ??= new DelegateCommand(ImportProfile);
+
+        private void ImportProfile()
         {
-            Toys = new ObservableCollection<ToyViewModel>()
+            var jsonProfile = _dialogService.OpenJsonFileDialog();
+            if (string.IsNullOrEmpty(jsonProfile))
             {
-                new ToyViewModel()
+                return;
+            }
+        }
+
+        private DelegateCommand _openExportDialog;
+        public DelegateCommand OpenExportDialog =>
+            _openExportDialog ??= new DelegateCommand(ExportProfile);
+
+        private void ExportProfile()
+        {
+            // TODO: Fix
+        }
+
+        public AvatarMapperViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, IDialogService dialogService) : base(regionManager)
+        {
+            _dialogService = dialogService;
+
+            Toys = new ObservableCollection<ToyMappingDto>()
+            {
+                new ToyMappingDto()
                 {
-                    DisplayName = "Brrr (Lush 2)",
-                    Id = "12341",
-                    Functions = new List<LovenseCommandEnum>()
-                    {
-                        LovenseCommandEnum.Vibrate
-                    }
+                    Name = "Brrr (Lush 2)",
+                    Function = LovenseCommandEnum.Vibrate,
+                    Id = "12345"
                 },
-                new ToyViewModel()
+                new ToyMappingDto()
                 {
-                    DisplayName = "Nora",
-                    Id = "12341",
-                    Functions = new List<LovenseCommandEnum>()
-                    {
-                        LovenseCommandEnum.Vibrate,
-                        LovenseCommandEnum.Rotate
-                    }
+                    Name = "Nora",
+                    Function = LovenseCommandEnum.Vibrate,
+                    Id = "12345"
                 },
+                new ToyMappingDto()
+                {
+                    Name = "Nora",
+                    Function = LovenseCommandEnum.Rotate,
+                    Id = "12345"
+                }
             };
             Avatars = new ObservableCollection<AvatarMappingDto>()
             {
@@ -114,45 +140,49 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
             Application.Current.Dispatcher.Invoke((Action)delegate
             {
                 var tempList = Toys;
-                var tempList2 = new List<ToyViewModel>();
+                var tempList2 = new List<ToyMappingDto>();
                 foreach (var lovenseToy in obj.ToyList!)
                 {
                     if (!lovenseToy.Status || !lovenseToy.Enabled)
                     {
                         continue;
                     }
-
-                    var toy = new ToyViewModel()
+                    if (lovenseToy.Function1 != LovenseCommandEnum.None)
                     {
-                        Id = lovenseToy.Id,
-                        DisplayName = lovenseToy.DisplayName,
-                        Functions = new List<LovenseCommandEnum>()
+                        tempList2.Add(new ToyMappingDto()
                         {
-                            lovenseToy.Function1
-                        }
-                    };
+                            Name = lovenseToy.DisplayName,
+                            Function = lovenseToy.Function1,
+                            Id = lovenseToy.Id!
+                        });
+                    }
                     if (lovenseToy.Function2 != LovenseCommandEnum.None)
                     {
-                        toy.Functions.Add(lovenseToy.Function2);
+                        tempList2.Add(new ToyMappingDto()
+                        {
+                            Name = lovenseToy.DisplayName,
+                            Function = lovenseToy.Function2,
+                            Id = lovenseToy.Id!
+                        });
                     }
-                    
-                    tempList2.Add(toy);
                 }
+
 
                 foreach (var toy in tempList2.ToList())
                 {
-                    var exists = tempList.Any(t => t.Id == toy.Id);
+                    var exists = tempList.Any(t => t.Id == toy.Id && t.Function == toy.Function);
                     if (!exists)
                     {
                         Toys.Add(toy);
                     }
+
+                    // TODO: Actually remove as well.
                 }
 
                 // TODO: We need to handle mapped toy types as well as IDs here... or?
                 //var disconnectedToys = tempList.Where(t => obj.ToyList.All(x => x.Id != t.Id));
                 //var test = tempList.Except(Toys);
             });
-            
         }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)

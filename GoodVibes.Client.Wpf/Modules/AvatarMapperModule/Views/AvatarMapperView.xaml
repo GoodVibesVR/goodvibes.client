@@ -297,8 +297,8 @@
                         </Border>
                     </Grid>
                     <StackPanel Orientation="Horizontal" Width="155" HorizontalAlignment="Right">
-                        <Button Cursor="Hand" Style="{DynamicResource RoundButton}" Content="Import" Background="#3475CC" Width="75" FontFamily="Calibri" FontSize="18" FontWeight="Regular" BorderThickness="0" />
-                        <Button Cursor="Hand" Style="{DynamicResource RoundButton}" Content="Export" Background="#CF3084" Width="75" Margin="5,0,0,0" FontFamily="Calibri" FontSize="18" FontWeight="Regular" BorderThickness="0" />
+                        <Button Cursor="Hand" Style="{DynamicResource RoundButton}" Content="Import" Background="#3475CC" Width="75" FontFamily="Calibri" FontSize="18" FontWeight="Regular" BorderThickness="0" Command="{Binding OpenImportDialog}"/>
+                        <Button Cursor="Hand" Style="{DynamicResource RoundButton}" Content="Export" Background="#CF3084" Width="75" Margin="5,0,0,0" FontFamily="Calibri" FontSize="18" FontWeight="Regular" BorderThickness="0" Command="{Binding OpenExportDialog}"/>
                     </StackPanel>
                 </DockPanel>
                 <Border CornerRadius="10" BorderThickness="0" Padding="10,0,10,10">

@@ -47,6 +47,9 @@ namespace GoodVibes.Client.Wpf
             // Services
             containerRegistry.RegisterSingleton<IMessageService, MessageService>();
             containerRegistry.RegisterSingleton<IImageService, ImageService>();
+            containerRegistry.RegisterSingleton<IDialogService, DialogService>();
+
+            // Clients
             containerRegistry.RegisterSingleton<ILovenseApiClient>(() => new ApiClient(string.Empty));
             containerRegistry.RegisterSingleton<IApiClient>(() => new ApiClient(applicationSettings!.GoodVibesRoot!));
 
