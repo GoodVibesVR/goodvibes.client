@@ -18,7 +18,7 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
 {
     internal class AvatarMapperViewModel : RegionViewModelBase
     {
-        public ObservableCollection<ToyMappingDto> Toys { get; set; }
+        public ObservableCollection<ToyViewModel> Toys { get; set; }
         public ObservableCollection<AvatarMappingDto> Avatars { get; set; }
 
         private AvatarMappingDto _selectedAvatar;
@@ -38,26 +38,27 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
 
         public AvatarMapperViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager)
         {
-            Toys = new ObservableCollection<ToyMappingDto>()
+            Toys = new ObservableCollection<ToyViewModel>()
             {
-                new ToyMappingDto()
+                new ToyViewModel()
                 {
-                    DisplayName = "Brrr (Lush 2)/Vibrate",
-                    Function = LovenseCommandEnum.Vibrate,
-                    Id = "12345"
+                    DisplayName = "Brrr (Lush 2)",
+                    Id = "12341",
+                    Functions = new List<LovenseCommandEnum>()
+                    {
+                        LovenseCommandEnum.Vibrate
+                    }
                 },
-                new ToyMappingDto()
+                new ToyViewModel()
                 {
-                    DisplayName = "Nora/Vibrate",
-                    Function = LovenseCommandEnum.Vibrate,
-                    Id = "12345"
+                    DisplayName = "Nora",
+                    Id = "12341",
+                    Functions = new List<LovenseCommandEnum>()
+                    {
+                        LovenseCommandEnum.Vibrate,
+                        LovenseCommandEnum.Rotate
+                    }
                 },
-                new ToyMappingDto()
-                {
-                    DisplayName = "Nora/Rotate",
-                    Function = LovenseCommandEnum.Rotate,
-                    Id = "12345"
-                }
             };
             Avatars = new ObservableCollection<AvatarMappingDto>()
             {
@@ -113,7 +114,7 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
             Application.Current.Dispatcher.Invoke((Action)delegate
             {
                 var tempList = Toys;
-                var tempList2 = new List<ToyMappingDto>();
+                var tempList2 = new List<ToyViewModel>();
                 foreach (var lovenseToy in obj.ToyList!)
                 {
                     if (!lovenseToy.Status || !lovenseToy.Enabled)
@@ -121,30 +122,26 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                         continue;
                     }
 
-                    if (lovenseToy.Function1 != LovenseCommandEnum.None)
+                    var toy = new ToyViewModel()
                     {
-                        tempList2.Add(new ToyMappingDto()
+                        Id = lovenseToy.Id,
+                        DisplayName = lovenseToy.DisplayName,
+                        Functions = new List<LovenseCommandEnum>()
                         {
-                            DisplayName = lovenseToy.DisplayName,
-                            Function = lovenseToy.Function1,
-                            Id = lovenseToy.Id!
-                        });
-                    }
-
+                            lovenseToy.Function1
+                        }
+                    };
                     if (lovenseToy.Function2 != LovenseCommandEnum.None)
                     {
-                        tempList2.Add(new ToyMappingDto()
-                        {
-                            DisplayName = lovenseToy.DisplayName,
-                            Function = lovenseToy.Function2,
-                            Id = lovenseToy.Id!
-                        });
+                        toy.Functions.Add(lovenseToy.Function2);
                     }
+                    
+                    tempList2.Add(toy);
                 }
 
                 foreach (var toy in tempList2.ToList())
                 {
-                    var exists = tempList.Any(t => t.Id == toy.Id && t.Function == toy.Function);
+                    var exists = tempList.Any(t => t.Id == toy.Id);
                     if (!exists)
                     {
                         Toys.Add(toy);

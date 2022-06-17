@@ -7,6 +7,6 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels;
 internal class ToyViewModel : ViewModelBase
 {
     public string DisplayName { get; set; }
-    public string ToyId { get; set; }
+    public string Id { get; set; }
     public List<LovenseCommandEnum> Functions { get; set; }
 }
