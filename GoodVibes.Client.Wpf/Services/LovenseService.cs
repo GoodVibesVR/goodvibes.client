@@ -18,7 +18,7 @@ public class LovenseService : ILovenseService
             Dolce => "pack://application:,,,/GoodVibes.Client.Wpf;component/Resources/icon_dolce.png",
             Domi => "pack://application:,,,/GoodVibes.Client.Wpf;component/Resources/icon_domi.png",
             Edge => "pack://application:,,,/GoodVibes.Client.Wpf;component/Resources/icon_edge.png",
-            Exomoon => "pack://application:,,,/GoodVibes.Client.Wpf;component/Resources/", // <--- FIX
+            Exomoon => "pack://application:,,,/GoodVibes.Client.Wpf;component/Resources/icon_exomoon.png",
             Ferri => "pack://application:,,,/GoodVibes.Client.Wpf;component/Resources/icon_ferri.png",
             Gush => "pack://application:,,,/GoodVibes.Client.Wpf;component/Resources/icon_gush.png",
             Hush => "pack://application:,,,/GoodVibes.Client.Wpf;component/Resources/icon_hush.png",
