@@ -8,4 +8,5 @@ public class ToyMappingDto
     public string? Name { get; set; }
     public string? DisplayName => $"{Name} / {Function}";
     public LovenseCommandEnum Function { get; set; }
+    public bool IsChecked { get; set; }
 }
