@@ -197,14 +197,10 @@ namespace GoodVibes.Client.Lovense
                     {
                         command = "Function",
                         action = commandStr,
-                        timeSec = 10,
                         stopPrevious = 0,
-                        //loopRunningSec = 10,
-                        //loopPauseSec = 0,
                         apiVer = 1,
                         toy = lovenseToy.Value.Id
                     }), Encoding.UTF8, "application/json"));
-
                 }
             }
         }
