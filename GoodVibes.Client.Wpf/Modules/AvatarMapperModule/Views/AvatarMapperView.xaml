@@ -6,6 +6,7 @@
                  xmlns:coreLibrary="clr-namespace:BlackPearl.Controls.CoreLibrary;assembly=BlackPearl.Controls.CoreLibrary"
                  prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="MyBoolToVisibilityConverter" />
         <Style TargetType="Button" x:Key="RoundButton">
             <Setter Property="Foreground">
                 <Setter.Value>
@@ -215,7 +216,34 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
+        <Style TargetType="TextBlock"
+           x:Key="BlackPearl.MultiselectCombobox.SelectedTextBlockStyle">
+            <Setter Property="Margin"
+                Value="0,2,2,2" />
+            <Setter Property="Padding"
+                Value="1,1,1,1" />
+            <Setter Property="Background"
+                Value="Transparent" />
+            <Setter Property="Foreground"
+                Value="White" />
+            <Setter Property="FontWeight"
+                Value="SemiBold" />
+        </Style>
+        <Style TargetType="Run"
+           x:Key="BlackPearl.MultiselectCombobox.RunStyle">
+            <!--<Setter Property=""
+                Value="0,2,5,2" />-->
+            <!--<Setter Property="Padding"
+                Value="7,1,7,1" />-->
+            <Setter Property="BaselineAlignment"
+                Value="Center" />
+            <Setter Property="Foreground"
+                Value="White" />
+            <Setter Property="FontWeight"
+                Value="SemiBold" />
+        </Style>
+
         <!-- MultiComboBox -->
         <Style TargetType="{x:Type coreLibrary:MultiSelectCombobox}">
             <Setter Property="Template">
@@ -229,7 +257,7 @@
                             </Border.Background>
                             <!--Main Grid-->
                             <Grid>
-                                <ToggleButton 
+                                <!--<ToggleButton 
                             Name="ToggleButton" 
                             Template="{StaticResource ComboBoxToggleButton}" 
                             Grid.Column="1" 
@@ -237,8 +265,8 @@
                             IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
                             ClickMode="Press"
                             Cursor="Hand">
-                                </ToggleButton>
-                                
+                                </ToggleButton>-->
+
                                 <RichTextBox Name="rtxt"
                                              Foreground="White"
                                          IsDocumentEnabled="False"
@@ -247,7 +275,15 @@
                                          Background="Transparent"
                                          BorderBrush="Transparent"
                                          BorderThickness="0"
-                                         FontSize="{Binding FontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control}}"></RichTextBox>
+                                             CaretBrush="White" 
+                                         FontSize="{Binding FontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control}}">
+                                    <RichTextBox.Resources>
+                                        <Style TargetType="TextBlock"
+                                           BasedOn="{StaticResource BlackPearl.MultiselectCombobox.SelectedTextBlockStyle}" />
+                                        <Style TargetType="Run"
+                                           BasedOn="{StaticResource BlackPearl.MultiselectCombobox.RunStyle}" />
+                                    </RichTextBox.Resources>
+                                </RichTextBox>
 
                                 <!--Suggestion Drop-Down -->
                                 <Popup Name="popup"
@@ -269,7 +305,7 @@
                                                 <Style TargetType="ListBoxItem"
                                                    BasedOn="{StaticResource {x:Type ListBoxItem}}">
                                                     <Setter Property="Margin"
-                                                        Value=".5" />
+                                                        Value="0.5" />
                                                 </Style>
                                             </ListBox.ItemContainerStyle>
                                         </ListBox>
@@ -358,32 +394,35 @@
                                     <RowDefinition Height="1*" />
                                     <RowDefinition Height="1*" />
                                 </Grid.RowDefinitions>
-                                <TextBox Grid.Column="0" Height="40" Margin="0 0 5 0" Padding="5,10,10,5" VerticalAlignment="Center" HorizontalAlignment="Stretch">
-                                    <TextBox.Resources>
-                                        <Style TargetType="Border">
-                                            <Setter Property="CornerRadius" Value="10" />
-                                        </Style>
-                                    </TextBox.Resources>
-                                    <TextBox.BorderBrush>
-                                        <SolidColorBrush Color="Transparent" />
-                                    </TextBox.BorderBrush>
-                                    <TextBox.Foreground>
-                                        <SolidColorBrush Color="White" />
-                                    </TextBox.Foreground>
-                                    <TextBox.Background>
-                                        <SolidColorBrush Color="#000" Opacity="0.30"></SolidColorBrush>
-                                    </TextBox.Background>
-                                    <TextBox.Text>Hello World</TextBox.Text>
-                                </TextBox>
+                                <Grid Grid.Column="0" Height="40" Margin="0 0 5 0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                    <TextBlock Name="hintOSCParamaterText" Height="40" Padding="6,10,10,5" Text="GoodVibes/Toy/Vibrate" Foreground="SlateGray" IsHitTestVisible="False" />
+                                    <TextBox Height="40" Padding="5,10,10,5" Name="OSCParamaterText" TextChanged="OSCParamaterText_TextChanged">
+                                        <TextBox.Resources>
+                                            <Style TargetType="Border">
+                                                <Setter Property="CornerRadius" Value="10" />
+                                            </Style>
+                                        </TextBox.Resources>
+                                        <TextBox.BorderBrush>
+                                            <SolidColorBrush Color="Transparent" />
+                                        </TextBox.BorderBrush>
+                                        <TextBox.Foreground>
+                                            <SolidColorBrush Color="White" />
+                                        </TextBox.Foreground>
+                                        <TextBox.Background>
+                                            <SolidColorBrush Color="#000" Opacity="0.30" />
+                                        </TextBox.Background>
+                                    </TextBox>
+                                </Grid>
                                 <coreLibrary:MultiSelectCombobox 
                                     Grid.Column="1" 
                                     Height="40" 
                                     Margin="0 0 5 0" 
                                     Padding="5,10,10,5" 
-                                    ItemSource="{ Binding Path=Toys, Mode=TwoWay}"
+                                    ItemSource="{ Binding Path=Toys, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"
+                                    SelectedItems="{ Binding Path=SelectedToys, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"
                                     DisplayMemberPath="DisplayName"
-                                >
-                                </coreLibrary:MultiSelectCombobox>
+                                    ItemSeparator=";" />
+
                                 <Button Cursor="Hand" Grid.Column="2" BorderBrush="Transparent">
                                     <Button.Resources>
                                         <Style TargetType="Border">
@@ -391,7 +430,7 @@
                                         </Style>
                                     </Button.Resources>
                                     <Button.Background>
-                                        <SolidColorBrush Color="#000" Opacity="0.30"></SolidColorBrush>
+                                        <SolidColorBrush Color="#000" Opacity="0.30" />
                                     </Button.Background>
                                     <Canvas Width="20" Height="20">
                                         <Canvas.RenderTransform>

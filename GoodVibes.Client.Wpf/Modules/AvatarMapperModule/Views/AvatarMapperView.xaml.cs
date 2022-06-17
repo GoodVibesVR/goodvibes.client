@@ -11,5 +11,12 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.Views
         {
             InitializeComponent();
         }
+
+        private void OSCParamaterText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            hintOSCParamaterText.Visibility = System.Windows.Visibility.Visible;
+            if (OSCParamaterText.Text.Length > 0)
+                hintOSCParamaterText.Visibility = System.Windows.Visibility.Hidden;
+        }
     }
 }
