@@ -9,8 +9,22 @@
 		<ApplicationIcon>GW_Logo.ico</ApplicationIcon>
 	</PropertyGroup>
 	<ItemGroup>
+	  <None Remove="Resources\icon_ambi.png" />
+	  <None Remove="Resources\icon_blast.png" />
+	  <None Remove="Resources\icon_calor.png" />
+	  <None Remove="Resources\icon_diamo.png" />
+	  <None Remove="Resources\icon_dolce.png" />
+	  <None Remove="Resources\icon_domi.png" />
+	  <None Remove="Resources\icon_edge.png" />
+	  <None Remove="Resources\icon_ferri.png" />
+	  <None Remove="Resources\icon_gush.png" />
+	  <None Remove="Resources\icon_hush.png" />
+	  <None Remove="Resources\icon_hyphy.png" />
+	  <None Remove="Resources\icon_lush.png" />
+	  <None Remove="Resources\icon_max.png" />
+	  <None Remove="Resources\icon_nora.png" />
+	  <None Remove="Resources\icon_osci.png" />
 	  <None Remove="Resources\lush3.png" />
-	  <None Remove="Resources\lush3_icon.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Content Include="GW_Logo.ico" />
@@ -29,8 +43,22 @@
 		<ProjectReference Include="..\GoodVibes.Client.SignalR\GoodVibes.Client.SignalR.csproj" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Resource Include="Resources\icon_ambi.png" />
+	  <Resource Include="Resources\icon_blast.png" />
+	  <Resource Include="Resources\icon_calor.png" />
+	  <Resource Include="Resources\icon_diamo.png" />
+	  <Resource Include="Resources\icon_dolce.png" />
+	  <Resource Include="Resources\icon_domi.png" />
+	  <Resource Include="Resources\icon_edge.png" />
+	  <Resource Include="Resources\icon_ferri.png" />
+	  <Resource Include="Resources\icon_gush.png" />
+	  <Resource Include="Resources\icon_hush.png" />
+	  <Resource Include="Resources\icon_hyphy.png" />
+	  <Resource Include="Resources\icon_lush.png" />
+	  <Resource Include="Resources\icon_max.png" />
+	  <Resource Include="Resources\icon_nora.png" />
+	  <Resource Include="Resources\icon_osci.png" />
 	  <Resource Include="Resources\lush3.png" />
-	  <Resource Include="Resources\lush3_icon.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Compile Update="Properties\Resources.Designer.cs">

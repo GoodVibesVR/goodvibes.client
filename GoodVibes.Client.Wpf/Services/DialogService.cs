@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using GoodVibes.Client.Wpf.Services.Abstractions;
 using Microsoft.Win32;
 

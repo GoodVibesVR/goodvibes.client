@@ -7,6 +7,7 @@ using GoodVibes.Client.Core;
 using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.Lovense.EventCarriers;
 using GoodVibes.Client.Lovense.Events;
+using GoodVibes.Client.Wpf.Services.Abstractions;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
@@ -16,6 +17,7 @@ namespace GoodVibes.Client.Wpf.Modules.MenuModule.ViewModels;
 public class MenuViewModel : RegionViewModelBase
 {
     private readonly IRegionManager _regionManager;
+    private readonly ILovenseService _lovenseService;
     
     public ObservableCollection<LovenseToyViewModel> Toys { get; set; }
 
@@ -55,12 +57,13 @@ public class MenuViewModel : RegionViewModelBase
         _regionManager.RequestNavigate(RegionNames.ContentRegion, "WorldMapperView");
     }
 
-    public MenuViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) :
+    public MenuViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, ILovenseService lovenseService) :
           base(regionManager)
     {
         _regionManager = regionManager;
-        Toys = new ObservableCollection<LovenseToyViewModel>();
+        _lovenseService = lovenseService;
 
+        Toys = new ObservableCollection<LovenseToyViewModel>();
         eventAggregator.GetEvent<LovenseToyListUpdatedEventCarrier>().Subscribe(LovenseToyListUpdated);
     }
 
@@ -79,11 +82,9 @@ public class MenuViewModel : RegionViewModelBase
                         Id = lovenseToy.Id,
                         Battery = lovenseToy.Battery,
                         DisplayName = lovenseToy.DisplayName,
-                        ToyIcon =
-                            new BitmapImage(
-                                new Uri(
-                                    "pack://application:,,,/GoodVibes.Client.Wpf;component/Resources/lush3_icon.png"))
+                        ToyIcon = _lovenseService.GetToyIcon(lovenseToy)
                     });
+
                     continue;
                 }
 

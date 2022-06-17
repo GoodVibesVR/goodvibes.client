@@ -118,10 +118,52 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="icon_ambi" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_ambi.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_blast" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_blast.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_calor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_calor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_diamo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_diamo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_dolce" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_dolce.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_domi" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_domi.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_edge" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_edge.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_ferri" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_ferri.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_gush" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_gush.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_hush" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_hush.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_hyphy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_hyphy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_lush" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_lush.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_max" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_max.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_nora" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_nora.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_osci" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_osci.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="lush3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\lush3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="lush3_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\lush3_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
