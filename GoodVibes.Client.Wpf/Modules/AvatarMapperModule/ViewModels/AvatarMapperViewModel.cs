@@ -142,15 +142,13 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                     }
                 }
 
-                foreach (var toy in Toys)
+                foreach (var toy in tempList2.ToList())
                 {
-                    var exists = tempList2.Any(t => t.Id == toy.Id && t.Function == toy.Function);
+                    var exists = tempList.Any(t => t.Id == toy.Id && t.Function == toy.Function);
                     if (!exists)
                     {
                         Toys.Add(toy);
                     }
-
-                    // TODO: Actually remove as well.
                 }
 
                 // TODO: We need to handle mapped toy types as well as IDs here... or?

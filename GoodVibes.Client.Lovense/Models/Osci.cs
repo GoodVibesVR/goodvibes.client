@@ -3,7 +3,7 @@ using GoodVibes.Client.Lovense.Models.Abstractions;
 
 namespace GoodVibes.Client.Lovense.Models;
 
-public class Osci : LovenseToy
+public sealed class Osci : LovenseToy
 {
     public override string? Id { get; set; }
     public override string? Nickname { get; set; }
@@ -21,5 +21,8 @@ public class Osci : LovenseToy
 
     public Osci() : base()
     {
+        Enabled = true;
+        Function1 = LovenseCommandEnum.Vibrate;
+        Function2 = LovenseCommandEnum.None;
     }
 }

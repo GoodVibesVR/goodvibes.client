@@ -3,7 +3,7 @@ using GoodVibes.Client.Lovense.Models.Abstractions;
 
 namespace GoodVibes.Client.Lovense.Models;
 
-public class Dolce : LovenseToy
+public sealed class Dolce : LovenseToy
 {
     public override string? Id { get; set; }
     public override string? Nickname { get; set; }
@@ -23,6 +23,9 @@ public class Dolce : LovenseToy
 
     public Dolce() : base()
     {
+        Enabled = true;
+        Function1 = LovenseCommandEnum.Vibrate1;
+        Function2 = LovenseCommandEnum.Vibrate2;
     }
 }
 

@@ -23,5 +23,8 @@ public class Edge : LovenseToy
 
     public Edge() : base()
     {
+        Enabled = true;
+        Function1 = LovenseCommandEnum.Vibrate1;
+        Function2 = LovenseCommandEnum.Vibrate2;
     }
 }

@@ -140,6 +140,7 @@ namespace GoodVibes.Client.Lovense
                         ToyTypeConstants.Nora => new Nora(),
                         ToyTypeConstants.Osci => new Osci(),
                         ToyTypeConstants.SexMachine => new SexMachine(),
+                        ToyTypeConstants.Exomoon => new Exomoon(),
                         _ => throw new ArgumentOutOfRangeException("Unsupported toy")
                     };
 

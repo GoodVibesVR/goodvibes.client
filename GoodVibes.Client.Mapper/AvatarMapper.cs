@@ -63,7 +63,7 @@ public class AvatarMapper
         // TODO Avatar changed
         if (dto.Address == "/avatar/change")
         {
-            var avatarId = dto.Value.ToString().Replace("/avatar/change, ", "").Replace("\"", "");
+            var avatarId = dto.Value!.ToString().Replace("/avatar/change, ", "").Replace("\"", "");
             _eventAggregator.GetEvent<AvatarChangedEventCarrier>().Publish(new AvatarChangedEvent()
             {
                 AvatarId = avatarId
@@ -77,7 +77,7 @@ public class AvatarMapper
 
     private void MapAndPublishFloatEvent(OscFloatMessageDto messageDto)
     {
-        if (!_mappings.TryGetValue(messageDto.Address, out var mappingDtos)) return;
+        if (!_mappings.TryGetValue(messageDto.Address!, out var mappingDtos)) return;
 
         foreach (var mappingDto in mappingDtos)
         {

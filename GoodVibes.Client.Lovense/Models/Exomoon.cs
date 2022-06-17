@@ -3,7 +3,7 @@ using GoodVibes.Client.Lovense.Models.Abstractions;
 
 namespace GoodVibes.Client.Lovense.Models;
 
-public sealed class Hyphy : LovenseToy
+public sealed class Exomoon : LovenseToy
 {
     public override string? Id { get; set; }
     public override string? Nickname { get; set; }
@@ -19,7 +19,7 @@ public sealed class Hyphy : LovenseToy
         LovenseCommandEnum.Vibrate
     };
 
-    public Hyphy() : base()
+    public Exomoon() : base()
     {
         Enabled = true;
         Function1 = LovenseCommandEnum.Vibrate;
