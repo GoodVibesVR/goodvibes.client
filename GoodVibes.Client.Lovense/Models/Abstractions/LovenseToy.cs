@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.Contracts;
-using GoodVibes.Client.Lovense.Dtos;
+﻿using GoodVibes.Client.Lovense.Dtos;
 using GoodVibes.Client.Lovense.Enums;
 
 namespace GoodVibes.Client.Lovense.Models.Abstractions
@@ -100,33 +99,29 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
         public string? GetCommandString()
         {
             if (ToyCommands.Count == 0) return null;
-
-            var test = new Dictionary<string, int>();
+            
+            var commandStr = string.Empty;
             foreach (var toyCommand in ToyCommands)
             {
-                if (toyCommand.Key != Function1)
+                var highestValue = 0;
+                if (toyCommand.Key == Function1 || toyCommand.Key == Function2)
                 {
+                    var values = toyCommand.Value;
                     
-
+                    // TODO: Add more calculation methods for different behaviors
+                    highestValue = values.Prepend(0).Max();
+                }
+                else
+                {
+                    continue;
                 }
 
-                var values = toyCommand.Value;
-                var highestValue = values.Prepend(0).Max();
-
-                test.Add(toyCommand.Key.ToString(), highestValue);
-            }
-
-
-            //To string istället
-            var commandStr = string.Empty;
-            foreach (var i in test)
-            {
                 if (commandStr != string.Empty)
                 {
                     commandStr += ",";
                 }
 
-                commandStr += $"{i.Key.ToString()}:{i.Value}";
+                commandStr += $"{toyCommand.Key.ToString()}:{highestValue}";
             }
 
             Console.WriteLine($"CommandString returned: {commandStr}");
