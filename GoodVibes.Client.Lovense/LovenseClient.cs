@@ -65,7 +65,7 @@ namespace GoodVibes.Client.Lovense
         {
             if (!Connected || !Toys!.TryGetValue(toy, out var toyObj)) return Task.CompletedTask;
             
-            toyObj.AddCommandToList(command, toyObj.ConvertPercentageByCommand(command,value));
+            toyObj.AddCommand(command, toyObj.ConvertPercentageByCommand(command,value));
             return Task.CompletedTask;
         }
 

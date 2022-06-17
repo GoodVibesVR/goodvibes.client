@@ -6,17 +6,17 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
 {
     public abstract class LovenseToy
     {
-        public abstract string? Id { get; set; }
-        public abstract string? Nickname { get; set; }
-        public abstract string? Name { get; set; }
-        public abstract bool Status { get; set; }
-        public abstract string? Version { get; set; }
-        public abstract int? Battery { get; set; }
-        public abstract bool Enabled { get; set; } // TODO: This need to be set in properties
+        public virtual string? Id { get; set; }
+        public virtual string? Nickname { get; set; }
+        public virtual string? Name { get; set; }
+        public virtual bool Status { get; set; }
+        public virtual string? Version { get; set; }
+        public virtual int? Battery { get; set; }
 
         public string? DisplayName =>
             string.IsNullOrEmpty(Nickname) ? $"{Name} {Version}" : $"{Nickname} ({Name} {Version})";
 
+        public abstract bool Enabled { get; set; } // TODO: This need to be set in properties
         public abstract LovenseCommandEnum Function1 { get; set; }
         public abstract LovenseCommandEnum Function2 { get; set; }
         public abstract LovenseCommandEnum[] ToyFunctions { get; }
@@ -64,10 +64,25 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
             return (int)Math.Round((double)(percentage / 33) * 100);
         }
 
-        public void AddCommandToList(LovenseCommandEnum function, int value)
+        public void AddCommand(LovenseCommandEnum function, int value)
         {
-            Function1LastValue = value;
+            if (function == LovenseCommandEnum.None) return;
 
+            if (function == Function1)
+            {
+                Function1LastValue = value;
+                AddCommandToList(function, value);
+            }
+
+            if (function == Function2)
+            {
+                Function2LastValue = value;
+                AddCommandToList(function, value);
+            }
+        }
+
+        private void AddCommandToList(LovenseCommandEnum function, int value)
+        {
             var functionExists = ToyCommands.TryGetValue(function, out var values);
             if (!functionExists)
             {
@@ -82,18 +97,19 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
             }
         }
 
-        public string GetCommandString()
+        public string? GetCommandString()
         {
-            if (ToyCommands.Count == 0)
-            {
-                Console.WriteLine($"CommandString returned: Vibrate:{Function1LastValue}");
-                return $"Vibrate:{Function1LastValue}"; // TODO: FIX ME
-            }
+            if (ToyCommands.Count == 0) return null;
 
             var test = new Dictionary<string, int>();
-
             foreach (var toyCommand in ToyCommands)
             {
+                if (toyCommand.Key != Function1)
+                {
+                    
+
+                }
+
                 var values = toyCommand.Value;
                 var highestValue = values.Prepend(0).Max();
 

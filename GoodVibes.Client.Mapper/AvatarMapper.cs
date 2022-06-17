@@ -28,7 +28,7 @@ public class AvatarMapper
             mappingDtos.Add(toyMappingDto);
             //TODO make mapping list updated event
             
-        }   
+        }
         else
         {
             _mappings.Add(oscAddress, new List<ToyMappingDto> { toyMappingDto });
