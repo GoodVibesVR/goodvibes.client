@@ -69,9 +69,9 @@ namespace GoodVibes.Client.Wpf.Modules.MenuModule.ViewModels
         set => SetProperty(ref _battery, value);
     }
 
-    private bool _status;
+    private bool? _status;
 
-    public bool Status
+    public bool? Status
     {
         get => _status;
         set => SetProperty(ref _status, value);
