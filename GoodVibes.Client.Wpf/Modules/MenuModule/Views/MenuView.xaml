@@ -277,7 +277,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal"
-                            Margin="0, 0, 0, 0">
+                            Margin="0, 5, 0, 0">
                                 <Button Panel.ZIndex="90" 
                             HorizontalAlignment="Left" 
                             VerticalAlignment="Top" 
@@ -292,10 +292,11 @@
                                     <StackPanel Orientation="Horizontal"
                                 Margin="0, 0, 0, 0">
 
-                                        <Image Source="{Binding ToyIcon}" 
-                                       Margin="20, 0,0, 0"
+                                        <Border x:Name="toyIcon" CornerRadius="20" Margin="20 0 0 0">
+                                            <Image Source="{Binding ToyIcon}" 
                                        Width="30"
                                        Height="30"/>
+                                        </Border>
                                         <Label x:Name="ToyLabel" 
                                    HorizontalAlignment="Left" 
                                    HorizontalContentAlignment="Left"
@@ -348,6 +349,14 @@
                                     </Viewbox>
                                 </Button>
                             </StackPanel>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{ Binding Status}" Value="True">
+                                    <Setter Property="Background" TargetName="toyIcon" Value="#CF3084" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{ Binding Status}" Value="False">
+                                    <Setter Property="Background" TargetName="toyIcon" Value="#6A6A6A" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
