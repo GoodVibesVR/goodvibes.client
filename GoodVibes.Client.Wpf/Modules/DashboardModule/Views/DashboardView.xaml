@@ -20,25 +20,57 @@
                 </LinearGradientBrush>
             </Rectangle.OpacityMask>
         </Rectangle>
-        <StackPanel Margin="0, 40, 0, 0"
-                    HorizontalAlignment="Center">
-        <Button Name="ConnectBtn"
-                FontSize="15" 
-                HorizontalAlignment="Left" 
-                VerticalAlignment="Top"
-                Margin="0,0,0,0" 
-                Width="120"
-                Content="Lovense Connect" 
-                Command="{Binding ConnectToCommandHubCommand}"/>
+        <StackPanel Margin="10 40 10 10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" CornerRadius="5">
+                    <Border.Background>
+                        <SolidColorBrush Color="#000" Opacity="0.25" />
+                    </Border.Background>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="100" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Lovense" Grid.Column="0" Foreground="White" FontSize="24" />
+                            <Button Name="ConnectBtn"
+                                    Grid.Column="1"
+                                FontSize="15" 
+                                Padding="5"
+                                Content="Connect" 
+                                Command="{Binding ConnectToCommandHubCommand}"/>
+                        </Grid>
 
-        <Button Name="ConnectOscBtn"
-                FontSize="15" 
-                HorizontalAlignment="Left" 
-                VerticalAlignment="Top"
-                Margin="0,0,0,0" 
-                Width="120"
-                Content="OSC Connect" 
-                Command="{Binding ConnectToOscCommand}"/>
+                        <Grid Grid.Row="1" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="100" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="OSC" Grid.Column="0" Foreground="White" FontSize="24" />
+                            <Button Name="ConnectOscBtn"
+                                    Grid.Column="1"
+                                FontSize="15" 
+                                Padding="5"
+                                Content="Connect" 
+                                Command="{Binding ConnectToOscCommand}"/>
+                        </Grid>
+                    </Grid>
+                </Border>
+                <StackPanel Grid.Column="1">
+                </StackPanel>
+            </Grid>
         </StackPanel>
     </Grid>
 </UserControl>
