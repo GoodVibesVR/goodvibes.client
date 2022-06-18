@@ -15,6 +15,7 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
         public string? DisplayName =>
             string.IsNullOrEmpty(Nickname) ? $"{Name} {Version}" : $"{Nickname} ({Name} {Version})";
 
+        public abstract LovenseToyEnum ToyType { get; }
         public abstract bool Enabled { get; set; } // TODO: This need to be set in properties
         public abstract LovenseCommandEnum Function1 { get; set; }
         public abstract LovenseCommandEnum Function2 { get; set; }

@@ -66,6 +66,7 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
         {
             _dialogService = dialogService;
 
+            SelectedToys = new ObservableCollection<ToyMappingDto>();
             Toys = new ObservableCollection<ToyMappingDto>()
             {
                 new ToyMappingDto()
@@ -106,8 +107,6 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                     AvatarId = "avtr_182C8B2F-D1A6-4FBE-AAB0-B42F51A0D7AE"
                 }
             };
-
-            // SelectedAvatar?.PropertyChanged += SelectedAvatar_PropertyChanged;
 
             eventAggregator.GetEvent<LovenseToyListUpdatedEventCarrier>().Subscribe(LovenseToyListUpdated);
             eventAggregator.GetEvent<AvatarChangedEventCarrier>().Subscribe(AvatarChanged);

@@ -82,7 +82,8 @@ public class MenuViewModel : RegionViewModelBase
                         Id = lovenseToy.Id,
                         Battery = lovenseToy.Battery,
                         DisplayName = lovenseToy.DisplayName,
-                        ToyIcon = _lovenseService.GetToyIcon(lovenseToy)
+                        ToyIcon = _lovenseService.GetToyIcon(lovenseToy),
+                        ToyType = lovenseToy.ToyType
                     });
 
                     continue;

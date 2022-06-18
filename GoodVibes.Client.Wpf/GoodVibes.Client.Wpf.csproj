@@ -26,6 +26,7 @@
 	  <None Remove="Resources\icon_nora.png" />
 	  <None Remove="Resources\icon_osci.png" />
 	  <None Remove="Resources\lush3.png" />
+	  <None Remove="Resources\nora.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Content Include="GW_Logo.ico" />
@@ -61,6 +62,7 @@
 	  <Resource Include="Resources\icon_nora.png" />
 	  <Resource Include="Resources\icon_osci.png" />
 	  <Resource Include="Resources\lush3.png" />
+	  <Resource Include="Resources\nora.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Compile Update="Properties\Resources.Designer.cs">

@@ -23,9 +23,11 @@ namespace GoodVibes.Client.Wpf.Modules.LovenseToySettingsModule
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            ViewModelLocationProvider.Register<LushSettingsView, LovenseToySettingsViewModel>();
+            ViewModelLocationProvider.Register<LushSettingsView, LovenseSingleFunctionToySettingsViewModel>();
+            ViewModelLocationProvider.Register<NoraSettingsView, LovenseMultiFunctionToySettingsViewModel>();
 
-            containerRegistry.RegisterForNavigation<Views.LushSettingsView>();
+            containerRegistry.RegisterForNavigation<LushSettingsView>();
+            containerRegistry.RegisterForNavigation<NoraSettingsView>();
         }
     }
 }
