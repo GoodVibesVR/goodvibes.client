@@ -2,13 +2,24 @@
 using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.Lovense;
 using GoodVibes.Client.Lovense.Enums;
+using GoodVibes.Client.Lovense.EventCarriers;
+using GoodVibes.Client.Lovense.Events;
+using Prism.Events;
 using Prism.Regions;
 
 namespace GoodVibes.Client.Wpf.Modules.LovenseToySettingsModule.ViewModels;
 
 internal class LovenseMultiFunctionToySettingsViewModel : RegionViewModelBase
 {
+    private readonly IEventAggregator _eventAggregator;
     private readonly LovenseClient _lovenseClient;
+
+    private string _toyId;
+    public string ToyId
+    {
+        get => _toyId;
+        set => SetProperty(ref _toyId, value);
+    }
 
     private string _displayName;
     public string DisplayName
@@ -55,12 +66,7 @@ internal class LovenseMultiFunctionToySettingsViewModel : RegionViewModelBase
             ChangeStrength1(value);
         }
     }
-
-    private void ChangeStrength1(double value)
-    {
-        Console.WriteLine($"Strength2 changed to: {value}");
-    }
-
+    
     private double _strength2;
     public double Strength2
     {
@@ -72,13 +78,9 @@ internal class LovenseMultiFunctionToySettingsViewModel : RegionViewModelBase
         }
     }
 
-    private void ChangeStrength2(double value)
+    public LovenseMultiFunctionToySettingsViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, LovenseClient lovenseClient) : base(regionManager)
     {
-        Console.WriteLine($"Strength2 changed to: {value}");
-    }
-
-    public LovenseMultiFunctionToySettingsViewModel(IRegionManager regionManager, LovenseClient lovenseClient) : base(regionManager)
-    {
+        _eventAggregator = eventAggregator;
         _lovenseClient = lovenseClient;
     }
 
@@ -90,11 +92,42 @@ internal class LovenseMultiFunctionToySettingsViewModel : RegionViewModelBase
         {
             // TODO: Do something
         }
-
+        
         DisplayName = toy.DisplayName;
         Function1 = toy.Function1;
         Function2 = toy.Function2;
+        Strength1 = toy.Function1MaxStrengthPercentage;
+        Strength2 = toy.Function2MaxStrengthPercentage;
         Battery = toy.Battery;
         Enabled = toy.Enabled;
+        ToyId = toyId;
+    }
+
+    private void ChangeStrength1(double value)
+    {
+        if (ToyId == null) return;
+        
+        _eventAggregator.GetEvent<LovenseStrengthChangedEventCarrier>().Publish(new LovenseStrengthChangedEvent()
+        {
+            ToyId = ToyId,
+            Strength1Percentage = (int)value,
+            Strength2Percentage = (int)Strength2
+        });
+
+        Console.WriteLine($"Strength1 changed to: {value}");
+    }
+
+    private void ChangeStrength2(double value)
+    {
+        if (ToyId == null) return;
+
+        _eventAggregator.GetEvent<LovenseStrengthChangedEventCarrier>().Publish(new LovenseStrengthChangedEvent()
+        {
+            ToyId = ToyId,
+            Strength1Percentage = (int)Strength1,
+            Strength2Percentage = (int)value
+        });
+
+        Console.WriteLine($"Strength2 changed to: {value}");
     }
 }

@@ -83,7 +83,8 @@ public class MenuViewModel : RegionViewModelBase
                         Battery = lovenseToy.Battery,
                         DisplayName = lovenseToy.DisplayName,
                         ToyIcon = _lovenseService.GetToyIcon(lovenseToy),
-                        ToyType = lovenseToy.ToyType
+                        ToyType = lovenseToy.ToyType,
+                        Status = lovenseToy.Status
                     });
 
                     continue;
@@ -95,13 +96,11 @@ public class MenuViewModel : RegionViewModelBase
                 
             }
 
-            var disconnectedToys = tempList.Where(t => obj.ToyList.All(x => x.Id != t.Id));
-            foreach (var disconnectedToy in disconnectedToys)
-            {
-                disconnectedToy.Status = false;
-            }
-
-            Toys = tempList;
+            // TODO: Fix sorting
+            var test = from t in tempList
+                       orderby t.Status == null, t.Status.ToString() descending
+                       select t;
+            Toys = new ObservableCollection<LovenseToyViewModel>(test);
         });
     }
 

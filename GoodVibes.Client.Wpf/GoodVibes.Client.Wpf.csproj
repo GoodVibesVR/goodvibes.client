@@ -9,16 +9,6 @@
 		<ApplicationIcon>GW_Logo.ico</ApplicationIcon>
 	</PropertyGroup>
 	<ItemGroup>
-	  <None Remove="Resources\ambi.png" />
-	  <None Remove="Resources\calor.png" />
-	  <None Remove="Resources\diamo.png" />
-	  <None Remove="Resources\dolce.png" />
-	  <None Remove="Resources\domi2.png" />
-	  <None Remove="Resources\edge.png" />
-	  <None Remove="Resources\ferri.png" />
-	  <None Remove="Resources\gush.png" />
-	  <None Remove="Resources\hush.png" />
-	  <None Remove="Resources\hyphy.png" />
 	  <None Remove="Resources\icon_ambi.png" />
 	  <None Remove="Resources\icon_blast.png" />
 	  <None Remove="Resources\icon_calor.png" />
@@ -35,11 +25,21 @@
 	  <None Remove="Resources\icon_max.png" />
 	  <None Remove="Resources\icon_nora.png" />
 	  <None Remove="Resources\icon_osci.png" />
-	  <None Remove="Resources\lush3.png" />
-	  <None Remove="Resources\max.png" />
-	  <None Remove="Resources\nora.png" />
-	  <None Remove="Resources\osci.png" />
-	  <None Remove="Resources\sexmachine.png" />
+	  <None Remove="Resources\image_ambi.png" />
+	  <None Remove="Resources\image_calor.png" />
+	  <None Remove="Resources\image_diamo.png" />
+	  <None Remove="Resources\image_dolce.png" />
+	  <None Remove="Resources\image_domi.png" />
+	  <None Remove="Resources\image_edge.png" />
+	  <None Remove="Resources\image_ferri.png" />
+	  <None Remove="Resources\image_gush.png" />
+	  <None Remove="Resources\image_hush.png" />
+	  <None Remove="Resources\image_hyphy.png" />
+	  <None Remove="Resources\image_lush.png" />
+	  <None Remove="Resources\image_max.png" />
+	  <None Remove="Resources\image_nora.png" />
+	  <None Remove="Resources\image_osci.png" />
+	  <None Remove="Resources\image_sexmachine.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Content Include="GW_Logo.ico" />
@@ -58,16 +58,6 @@
 		<ProjectReference Include="..\GoodVibes.Client.SignalR\GoodVibes.Client.SignalR.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Resource Include="Resources\ambi.png" />
-	  <Resource Include="Resources\calor.png" />
-	  <Resource Include="Resources\diamo.png" />
-	  <Resource Include="Resources\dolce.png" />
-	  <Resource Include="Resources\domi2.png" />
-	  <Resource Include="Resources\edge.png" />
-	  <Resource Include="Resources\ferri.png" />
-	  <Resource Include="Resources\gush.png" />
-	  <Resource Include="Resources\hush.png" />
-	  <Resource Include="Resources\hyphy.png" />
 	  <Resource Include="Resources\icon_ambi.png" />
 	  <Resource Include="Resources\icon_blast.png" />
 	  <Resource Include="Resources\icon_calor.png" />
@@ -84,11 +74,21 @@
 	  <Resource Include="Resources\icon_max.png" />
 	  <Resource Include="Resources\icon_nora.png" />
 	  <Resource Include="Resources\icon_osci.png" />
-	  <Resource Include="Resources\lush3.png" />
-	  <Resource Include="Resources\max.png" />
-	  <Resource Include="Resources\nora.png" />
-	  <Resource Include="Resources\osci.png" />
-	  <Resource Include="Resources\sexmachine.png" />
+	  <Resource Include="Resources\image_ambi.png" />
+	  <Resource Include="Resources\image_calor.png" />
+	  <Resource Include="Resources\image_diamo.png" />
+	  <Resource Include="Resources\image_dolce.png" />
+	  <Resource Include="Resources\image_domi.png" />
+	  <Resource Include="Resources\image_edge.png" />
+	  <Resource Include="Resources\image_ferri.png" />
+	  <Resource Include="Resources\image_gush.png" />
+	  <Resource Include="Resources\image_hush.png" />
+	  <Resource Include="Resources\image_hyphy.png" />
+	  <Resource Include="Resources\image_lush.png" />
+	  <Resource Include="Resources\image_max.png" />
+	  <Resource Include="Resources\image_nora.png" />
+	  <Resource Include="Resources\image_osci.png" />
+	  <Resource Include="Resources\image_sexmachine.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Compile Update="Properties\Resources.Designer.cs">

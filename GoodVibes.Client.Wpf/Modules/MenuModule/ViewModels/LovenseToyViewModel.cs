@@ -3,6 +3,7 @@ using System.Windows.Media;
 using GoodVibes.Client.Core;
 using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.Lovense.Enums;
+using GoodVibes.Client.Wpf.Modules.LovenseToySettingsModule.Views;
 using Prism.Commands;
 using Prism.Ioc;
 using Prism.Regions;
@@ -23,22 +24,22 @@ namespace GoodVibes.Client.Wpf.Modules.MenuModule.ViewModels
             var view = ToyType switch
             {
                 LovenseToyEnum.Unknown => "",
-                LovenseToyEnum.Ambi => "",
-                LovenseToyEnum.Calor => "",
-                LovenseToyEnum.Diamo => "",
-                LovenseToyEnum.Dolce => "",
-                LovenseToyEnum.Domi => "",
-                LovenseToyEnum.Edge => "",
-                LovenseToyEnum.Exomoon => "",
-                LovenseToyEnum.Ferri => "",
-                LovenseToyEnum.Gush => "",
-                LovenseToyEnum.Hush => "",
-                LovenseToyEnum.Hyphy => "",
-                LovenseToyEnum.Lush => "LushSettingsView",
-                LovenseToyEnum.Max => "",
-                LovenseToyEnum.Nora => "NoraSettingsView",
-                LovenseToyEnum.Osci => "",
-                LovenseToyEnum.SexMachine => "",
+                LovenseToyEnum.Ambi => nameof(AmbiSettingsView),
+                LovenseToyEnum.Calor => nameof(CalorSettingsView),
+                LovenseToyEnum.Diamo => nameof(DiamoSettingsView),
+                LovenseToyEnum.Dolce => nameof(DolceSettingsView),
+                LovenseToyEnum.Domi => nameof(DomiSettingsView),
+                LovenseToyEnum.Edge => nameof(EdgeSettingsView),
+                LovenseToyEnum.Exomoon => nameof(ExomoonSettingsView),
+                LovenseToyEnum.Ferri => nameof(FerriSettingsView),
+                LovenseToyEnum.Gush => nameof(GushSettingsView),
+                LovenseToyEnum.Hush => nameof(HushSettingsView),
+                LovenseToyEnum.Hyphy => nameof(HyphySettingsView),
+                LovenseToyEnum.Lush => nameof(LushSettingsView),
+                LovenseToyEnum.Max => nameof(MaxSettingsView),
+                LovenseToyEnum.Nora => nameof(NoraSettingsView),
+                LovenseToyEnum.Osci => nameof(OsciSettingsView),
+                LovenseToyEnum.SexMachine => nameof(SexMachineSettingsView),
                 _ => ""
             };
 

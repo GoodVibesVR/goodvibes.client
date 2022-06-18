@@ -113,7 +113,7 @@
                     <Rectangle Width="300"
                        Height="300">
                         <Rectangle.Fill>
-                            <ImageBrush ImageSource="/GoodVibes.Client.Wpf;component/Resources/ferri.png"/>
+                            <ImageBrush ImageSource="/GoodVibes.Client.Wpf;component/Resources/image_ferri.png"/>
                         </Rectangle.Fill>
                     </Rectangle>
                 </Grid>
@@ -148,13 +148,14 @@
                                            FontWeight="SemiBold"
                                            FontSize="12"/>
                                     <Slider Style="{StaticResource Horizontal_Slider}" 
-                                        Maximum="20" 
+                                        Maximum="100" 
                                         VerticalAlignment="Center" 
                                         Width="200" 
                                         Margin="5,0,5,0" 
                                         Value="{Binding Path=Strength}"
                                         TickPlacement="BottomRight" 
-                                        TickFrequency="5"/>
+                                        IsSnapToTickEnabled="True"
+                                        TickFrequency="1"/>
                                 </StackPanel>
                                 <StackPanel HorizontalAlignment="Center" 
                                         VerticalAlignment="Top"

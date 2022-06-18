@@ -143,7 +143,7 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                 var tempList2 = new List<ToyMappingDto>();
                 foreach (var lovenseToy in obj.ToyList!)
                 {
-                    if (!lovenseToy.Status || !lovenseToy.Enabled)
+                    if (lovenseToy.Status == false || !lovenseToy.Enabled)
                     {
                         continue;
                     }

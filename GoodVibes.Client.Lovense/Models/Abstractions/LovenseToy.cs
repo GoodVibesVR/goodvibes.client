@@ -8,12 +8,14 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
         public virtual string? Id { get; set; }
         public virtual string? Nickname { get; set; }
         public virtual string? Name { get; set; }
-        public virtual bool Status { get; set; }
+        public virtual bool? Status { get; set; }
         public virtual string? Version { get; set; }
         public virtual int? Battery { get; set; }
 
         public string? DisplayName =>
             string.IsNullOrEmpty(Nickname) ? $"{Name} {Version}" : $"{Nickname} ({Name} {Version})";
+        public int Function1MaxStrengthPercentage { get; private set; }
+        public int Function2MaxStrengthPercentage { get; private set; }
 
         public abstract LovenseToyEnum ToyType { get; }
         public abstract bool Enabled { get; set; } // TODO: This need to be set in properties
@@ -28,6 +30,8 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
         protected LovenseToy()
         {
             ToyCommands = new Dictionary<LovenseCommandEnum, List<int>>();
+            Function1MaxStrengthPercentage = 100;
+            Function2MaxStrengthPercentage = 100;
         }
 
         public int ConvertPercentageByCommand(LovenseCommandEnum command, float percentage)
@@ -62,6 +66,23 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
         private int ConvertPumpPercentage(float percentage)
         {
             return (int)Math.Round((double)(percentage / 33) * 100);
+        }
+
+        private int DivideByStrengthPercentage(LovenseCommandEnum function, int value)
+        {
+            if (function == Function1)
+            {
+                var percentage = (float)Function1MaxStrengthPercentage / 100;
+                return (int)Math.Round(value * percentage);
+            }
+
+            if (function == Function2)
+            {
+                var percentage = (float)Function2MaxStrengthPercentage / 100;
+                return (int)Math.Round(value * percentage);
+            }
+
+            return 0;
         }
 
         public void AddCommand(LovenseCommandEnum function, int value)
@@ -122,7 +143,7 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
                     commandStr += ",";
                 }
 
-                commandStr += $"{toyCommand.Key.ToString()}:{highestValue}";
+                commandStr += $"{toyCommand.Key.ToString()}:{DivideByStrengthPercentage(toyCommand.Key, highestValue)}";
             }
 
             Console.WriteLine($"CommandString returned: {commandStr}");
@@ -150,6 +171,21 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
         public void ClearCommandList()
         {
             ToyCommands.Clear();
+        }
+
+        public void SetStrengthPercentage(int strength1Percentage, int strength2Percentage)
+        {
+            Function1MaxStrengthPercentage = strength1Percentage;
+            if (Function1 != LovenseCommandEnum.None)
+            {
+                AddCommandToList(Function1, Function1LastValue);
+            }
+
+            Function2MaxStrengthPercentage = strength2Percentage;
+            if (Function2 != LovenseCommandEnum.None)
+            {
+                AddCommandToList(Function2, Function2LastValue);
+            }
         }
     }
 }

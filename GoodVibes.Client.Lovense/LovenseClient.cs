@@ -69,6 +69,19 @@ namespace GoodVibes.Client.Lovense
             return Task.CompletedTask;
         }
 
+        public Task SetStrength(string toyId, int strength1, int strength2)
+        {
+            var toyExists = Toys!.TryGetValue(toyId, out var toy);
+            if (toyExists && toy != null)
+            {
+                toy.SetStrengthPercentage(strength1, strength2);
+            }
+
+            Console.WriteLine($"Strength now changed:\nStrength1: {strength1}\nStrength2: {strength2}");
+
+            return Task.CompletedTask;
+        }
+
         private void ReceiveCallbackHandler(string messageStr)
         {
             Console.WriteLine($"onReceiveMessage: {messageStr}");
@@ -112,6 +125,7 @@ namespace GoodVibes.Client.Lovense
         {
             var detailedToys = await GetDetailedToyList();
             var tempList = new Dictionary<string, LovenseToy>();
+            var handledIds = new List<string>();
             foreach (var toyDto in toyList)
             {
                 var toyExists = Toys!.TryGetValue(toyDto.Id!, out var toy);
@@ -152,7 +166,18 @@ namespace GoodVibes.Client.Lovense
                     toy.Version = detailedToys?[toyDto.Id!].Version ?? null;
                 }
 
+                handledIds.Add(toyDto.Id!);
                 tempList.Add(toyDto.Id!, toy);
+            }
+
+            var notHandledIds = Toys!.Keys.Except(handledIds);
+            foreach (var notHandledId in notHandledIds)
+            {
+                var toyExists = Toys!.TryGetValue(notHandledId, out var toy);
+                if (!toyExists || toy == null) continue;
+
+                toy.Status = null;
+                tempList.Add(toy.Id!, toy);
             }
 
             Console.WriteLine($"Modified toys list: {JsonConvert.SerializeObject(tempList)}");
