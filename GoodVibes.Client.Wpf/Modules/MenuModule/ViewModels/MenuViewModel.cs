@@ -67,43 +67,6 @@ public class MenuViewModel : RegionViewModelBase
 
         Toys = new ObservableCollection<LovenseToyViewModel>();
         eventAggregator.GetEvent<LovenseToyListUpdatedEventCarrier>().Subscribe(LovenseToyListUpdated);
-
-        Toys.Add(new LovenseToyViewModel()
-        {
-            Id = "e8b5fcfa9557",
-            Battery = 87,
-            DisplayName = "Brrr (Lush 2)",
-            ToyIcon = _lovenseService.GetToyIcon(new Lush()),
-            ToyType = LovenseToyEnum.Lush,
-            Status = true
-        });
-        Toys.Add(new LovenseToyViewModel()
-        {
-            Id = "cffd248698bd",
-            Battery = 43,
-            DisplayName = "Nora the Explora (Nora)",
-            ToyIcon = _lovenseService.GetToyIcon(new Nora()),
-            ToyType = LovenseToyEnum.Nora,
-            Status = true
-        });
-        Toys.Add(new LovenseToyViewModel()
-        {
-            Id = "cffd2486aaaa",
-            Battery = 8,
-            DisplayName = "Ferri",
-            ToyIcon = _lovenseService.GetToyIcon(new Ferri()),
-            ToyType = LovenseToyEnum.Ferri,
-            Status = false
-        });
-        Toys.Add(new LovenseToyViewModel()
-        {
-            Id = "cffd2486bbbb",
-            Battery = 100,
-            DisplayName = "Exomoon",
-            ToyIcon = _lovenseService.GetToyIcon(new Exomoon()),
-            ToyType = LovenseToyEnum.Exomoon,
-            Status = null
-        });
     }
 
     private void LovenseToyListUpdated(LovenseToyListUpdatedEvent obj)
