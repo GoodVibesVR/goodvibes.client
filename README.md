@@ -1,5 +1,6 @@
+
 # GoodVibes.Client
-Information regarding the GoodVibes Client goes here
+GoodVibes client is the locally running client of the GoodVibes ecosystem. The GoodVibes client uses OSC and websockets to synchronize parameters and control external toys such as Lovense.
 
 ## Flow diagram
 
