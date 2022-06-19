@@ -53,7 +53,7 @@
                                 Command="{Binding ConnectToCommandHubCommand}"/>
                         </Grid>
 
-                        <Grid Grid.Row="1" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                        <!--<Grid Grid.Row="1" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="100" />
@@ -65,7 +65,7 @@
                                 Padding="5"
                                 Content="Connect" 
                                 Command="{Binding ConnectToOscCommand}"/>
-                        </Grid>
+                        </Grid>-->
                     </Grid>
                 </Border>
                 <StackPanel Grid.Column="1">

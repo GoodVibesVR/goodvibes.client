@@ -11,9 +11,8 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
         public virtual bool? Status { get; set; }
         public virtual string? Version { get; set; }
         public virtual int? Battery { get; set; }
-
         public string? DisplayName =>
-            string.IsNullOrEmpty(Nickname) ? $"{Name} {Version}" : $"{Nickname} ({Name} {Version})";
+            string.IsNullOrEmpty(Nickname) ? CombinedName : $"{Nickname} ({CombinedName})";
         public int Function1MaxStrengthPercentage { get; private set; }
         public int Function2MaxStrengthPercentage { get; private set; }
 
@@ -24,6 +23,7 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
         public abstract LovenseCommandEnum[] ToyFunctions { get; }
 
         public Dictionary<LovenseCommandEnum, List<int>> ToyCommands { get; set; }
+        private string CombinedName => string.IsNullOrEmpty(Version) ? Name! : $"{Name} {Version}";
         private int Function1LastValue { get; set; }
         private int Function2LastValue { get; set; }
 

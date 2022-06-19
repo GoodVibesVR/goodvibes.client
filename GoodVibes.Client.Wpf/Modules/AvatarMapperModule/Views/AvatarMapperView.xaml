@@ -3,6 +3,7 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:prism="http://prismlibrary.com/"
                  xmlns:core1="clr-namespace:GoodVibes.Client.Core;assembly=GoodVibes.Client.Core"
+                 xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
                  xmlns:coreLibrary="clr-namespace:BlackPearl.Controls.CoreLibrary;assembly=BlackPearl.Controls.CoreLibrary"
                  prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
@@ -318,7 +319,7 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Grid Width="824">
+    <Grid>
         <Rectangle>
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,0" 
@@ -382,7 +383,94 @@
                     </Border.Background>
                     <!-- Rows -->
                     <StackPanel Orientation="Vertical">
-                        <StackPanel Margin="0,10,0,0">
+                        <ItemsControl ItemsSource="{Binding Path=MappingPoints}"
+                          Name="ToysList">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Margin="0,10,0,0"
+                                                Orientation="Vertical" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="0,10,0,0"
+                                    Orientation="Vertical">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2*" />
+                                                <ColumnDefinition Width="2*" />
+                                                <ColumnDefinition Width="0.3*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="2*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid Grid.Column="0" Height="40" Margin="0 0 5 0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                                <TextBlock Name="hintOSCParameterText" Height="40" Padding="6,10,10,5" Text="GoodVibes/Toy/Vibrate" Foreground="SlateGray" IsHitTestVisible="False" Visibility="{Binding Path=HintVisible}" />
+                                                <TextBox Height="40" Padding="5,10,10,5" Name="OSCParameterText" Text="{Binding Path=OscAddress}">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="LostFocus">
+                                                            <i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
+                                                        </i:EventTrigger>
+                                                        <i:EventTrigger EventName="GotFocus">
+                                                            <i:InvokeCommandAction Command="{Binding GotFocusCommand}" />
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                    <TextBox.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="10" />
+                                                        </Style>
+                                                    </TextBox.Resources>
+                                                    <TextBox.BorderBrush>
+                                                        <SolidColorBrush Color="Transparent" />
+                                                    </TextBox.BorderBrush>
+                                                    <TextBox.Foreground>
+                                                        <SolidColorBrush Color="White" />
+                                                    </TextBox.Foreground>
+                                                    <TextBox.Background>
+                                                        <SolidColorBrush Color="#000" Opacity="0.30" />
+                                                    </TextBox.Background>
+                                                </TextBox>
+                                            </Grid>
+                                            <coreLibrary:MultiSelectCombobox 
+                                    Grid.Column="1" 
+                                    Height="40" 
+                                    Margin="0 0 5 0" 
+                                    Padding="5,10,10,5" 
+                                    ItemSource="{ Binding Path=AvailableToyFunctions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"
+                                    SelectedItems="{ Binding Path=ToyMappings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"
+                                    DisplayMemberPath="DisplayName"
+                                    ItemSeparator=";" />
+
+                                            <Button Cursor="Hand" Grid.Column="2" BorderBrush="Transparent" Command="{Binding RemoveMappingCommand}">
+                                                <Button.Resources>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="CornerRadius" Value="10" />
+                                                    </Style>
+                                                </Button.Resources>
+                                                <Button.Background>
+                                                    <SolidColorBrush Color="#000" Opacity="0.30" />
+                                                </Button.Background>
+                                                <Canvas Width="20" Height="20">
+                                                    <Canvas.RenderTransform>
+                                                        <TranslateTransform X="0" Y="0"/>
+                                                    </Canvas.RenderTransform>
+                                                    <Canvas.Resources/>
+                                                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" StrokeThickness="1.5" Stroke="#80FF4949" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                                                        <Path.Data>
+                                                            <PathGeometry Figures="M1 5h16m-1 0-.867 12.142A2 2 0 0 1 13.138 19H4.862a2 2 0 0 1-1.995-1.858L2 5h14ZM7 9v6-6Zm4 0v6-6Zm1-4V2a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v3h6Z" FillRule="NonZero"/>
+                                                        </Path.Data>
+                                                    </Path>
+                                                </Canvas>
+                                            </Button>
+                                        </Grid>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <!--<StackPanel Margin="0,10,0,0"
+                                    Orientation="Vertical">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*" />
@@ -445,7 +533,7 @@
                                     </Canvas>
                                 </Button>
                             </Grid>
-                        </StackPanel>
+                        </StackPanel>-->
                     </StackPanel>
                 </Border>
             </StackPanel>

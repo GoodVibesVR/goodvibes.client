@@ -30,6 +30,7 @@ namespace GoodVibes.Client.Wpf.Modules.DashboardModule.ViewModels
 
             _lovenseClient = lovenseClient;
             _oscServer = oscServer;
+            _oscServer.ConnectAsync();
         }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)

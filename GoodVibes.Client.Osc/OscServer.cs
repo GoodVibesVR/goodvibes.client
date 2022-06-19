@@ -1,38 +1,33 @@
-﻿using GoodVibes.Client.Lovense.Enums;
-using GoodVibes.Client.Lovense.EventCarriers;
-using GoodVibes.Client.Lovense.Events;
-using GoodVibes.Client.Mapper;
-using GoodVibes.Client.Mapper.Dtos;
-using Prism.Events;
+﻿using GoodVibes.Client.Mapper;
 using Rug.Osc.Core;
 
 namespace GoodVibes.Client.Osc
 {
     public class OscServer
     {
-        private readonly AvatarMapper _avatarMapper;
+        private readonly AvatarMapperClient _avatarMapper;
 
         private OscReceiver _receiver = null!;
         private Thread _thread = null!;
 
-        public OscServer(AvatarMapper avatarMapper)
+        public OscServer(AvatarMapperClient avatarMapper)
         {
             _avatarMapper = avatarMapper;
-            _avatarMapper.AddMapping("/avatar/parameters/GoodVibes/ToyA/Function1", new ToyMappingDto()
-            {
-                Function = LovenseCommandEnum.Vibrate,
-                Id = "cffd248698bd"
-            });
-            _avatarMapper.AddMapping("/avatar/parameters/GoodVibes/ToyB/Function1", new ToyMappingDto()
-            {
-                Function = LovenseCommandEnum.Vibrate,
-                Id = "e8b5fcfa9557"
-            });
-            _avatarMapper.AddMapping("/avatar/parameters/GoodVibes/ToyB/Function2", new ToyMappingDto()
-            {
-                Function = LovenseCommandEnum.Rotate,
-                Id = "e8b5fcfa9557"
-            });
+            //_avatarMapper.AddMapping("/avatar/parameters/GoodVibes/ToyA/Function1", new ToyMappingDto()
+            //{
+            //    Function = LovenseCommandEnum.Vibrate,
+            //    Id = "cffd248698bd"
+            //});
+            //_avatarMapper.AddMapping("/avatar/parameters/GoodVibes/ToyB/Function1", new ToyMappingDto()
+            //{
+            //    Function = LovenseCommandEnum.Vibrate,
+            //    Id = "e8b5fcfa9557"
+            //});
+            //_avatarMapper.AddMapping("/avatar/parameters/GoodVibes/ToyB/Function2", new ToyMappingDto()
+            //{
+            //    Function = LovenseCommandEnum.Rotate,
+            //    Id = "e8b5fcfa9557"
+            //});
         }
 
         public Task ConnectAsync()

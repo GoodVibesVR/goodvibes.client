@@ -57,7 +57,7 @@ namespace GoodVibes.Client.Wpf
             containerRegistry.RegisterSingleton<LovenseClient>();
             containerRegistry.RegisterSingleton<OscServer>();
             containerRegistry.RegisterSingleton<LovenseEventHandler>();
-            containerRegistry.RegisterSingleton<AvatarMapper>();
+            containerRegistry.RegisterSingleton<AvatarMapperClient>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
