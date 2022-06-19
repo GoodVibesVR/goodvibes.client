@@ -29,6 +29,12 @@ namespace GoodVibes.Client.Wpf
     /// </summary>
     public partial class App
     {
+        public App()
+        {
+            ShutdownMode = ShutdownMode.OnLastWindowClose;
+            MainWindow = MainWindow;
+        }
+
         protected override Window CreateShell()
         {
             return Container.Resolve<MainWindow>();

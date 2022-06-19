@@ -48,24 +48,25 @@ namespace GoodVibes.Client.Lovense
 
         public async Task ConnectAsync()
         {
+            Console.WriteLine($"ConnectAsync called...");
+
             await ConnectAsync(
                 $"{_applicationSettings.GoodVibesRoot}{_applicationSettings.SignalRSettings!.CommandHubPath}", () =>
                 {
                     Connection!.On<string>(CommandMethodConstants.ReceiveCallback, ReceiveCallbackHandler);
                     Connection!.On<string>(CommandMethodConstants.ReceiveQrCode, ReceiveQrCodeHandler);
                 });
-
-#pragma warning disable CS4014
-            Task.Run(ApiCallerTask);
+            
+            Console.WriteLine("Starting ApiCallerTask");
+            Task.Run(ApiCallerTask).ConfigureAwait(false);
             // TODO: Make a connection checker task
-#pragma warning restore CS4014
         }
 
         public Task SendCommand(LovenseCommandEnum command, float value, int seconds, string toy)
         {
             if (!Connected || !Toys!.TryGetValue(toy, out var toyObj)) return Task.CompletedTask;
-            
-            toyObj.AddCommand(command, toyObj.ConvertPercentageByCommand(command,value));
+
+            toyObj.AddCommand(command, toyObj.ConvertPercentageByCommand(command, value));
             return Task.CompletedTask;
         }
 
@@ -104,7 +105,9 @@ namespace GoodVibes.Client.Lovense
             Version = callback.Version;
             Platform = callback.Platform;
 
+            Console.WriteLine("Setting Connected to true...");
             Connected = true;
+            Console.WriteLine("Connected set to true...");
             _lovenseEventDispatcher.Dispatch(new LovenseDeviceAccessibilityEvent()
             {
                 Available = deviceAvailable
@@ -123,77 +126,95 @@ namespace GoodVibes.Client.Lovense
 
         private async Task<Dictionary<string, LovenseToy>> BuildLovenseToys(List<ToyDto> toyList)
         {
-            var detailedToys = await GetDetailedToyList();
-            var tempList = new Dictionary<string, LovenseToy>();
-            var handledIds = new List<string>();
-            foreach (var toyDto in toyList)
+            try
             {
-                var toyExists = Toys!.TryGetValue(toyDto.Id!, out var toy);
-                if (toyExists && toy != null)
+                var detailedToys = await GetDetailedToyList();
+                var tempList = new Dictionary<string, LovenseToy>();
+                var handledIds = new List<string>();
+                foreach (var toyDto in toyList)
                 {
-                    toy.Nickname = toyDto.Nickname;
-                    toy.Status = toyDto.Status == 1;
-                    toy.Battery = detailedToys?[toyDto.Id!].Battery ?? null;
-                }
-                else
-                {
-                    toy = toyDto.Name!.ToLower() switch
+                    DetailedToyDto? detailedToy = null;
+                    detailedToys?.TryGetValue(toyDto.Id!, out detailedToy);
+
+                    var toyExists = Toys!.TryGetValue(toyDto.Id!, out var toy);
+                    if (toyExists && toy != null)
                     {
-                        ToyTypeConstants.Ambi => new Ambi(),
-                        ToyTypeConstants.Calor => new Calor(),
-                        ToyTypeConstants.Diamo => new Diamo(),
-                        ToyTypeConstants.Dolce => new Dolce(),
-                        ToyTypeConstants.Domi => new Domi(),
-                        ToyTypeConstants.Edge => new Edge(),
-                        ToyTypeConstants.Ferri => new Ferri(),
-                        ToyTypeConstants.Gush => new Gush(),
-                        ToyTypeConstants.Hush => new Hush(),
-                        ToyTypeConstants.Hyphy => new Hyphy(),
-                        ToyTypeConstants.Lush => new Lush(),
-                        ToyTypeConstants.Max => new Max(),
-                        ToyTypeConstants.Nora => new Nora(),
-                        ToyTypeConstants.Osci => new Osci(),
-                        ToyTypeConstants.SexMachine => new SexMachine(),
-                        ToyTypeConstants.Exomoon => new Exomoon(),
-                        _ => throw new ArgumentOutOfRangeException("Unsupported toy")
-                    };
+                        toy.Nickname = toyDto.Nickname;
+                        toy.Status = toyDto.Status == 1;
+                        toy.Battery = detailedToy?.Battery ?? null;
+                    }
+                    else
+                    {
+                        toy = toyDto.Name!.ToLower() switch
+                        {
+                            ToyTypeConstants.Ambi => new Ambi(),
+                            ToyTypeConstants.Calor => new Calor(),
+                            ToyTypeConstants.Diamo => new Diamo(),
+                            ToyTypeConstants.Dolce => new Dolce(),
+                            ToyTypeConstants.Domi => new Domi(),
+                            ToyTypeConstants.Edge => new Edge(),
+                            ToyTypeConstants.Ferri => new Ferri(),
+                            ToyTypeConstants.Gush => new Gush(),
+                            ToyTypeConstants.Hush => new Hush(),
+                            ToyTypeConstants.Hyphy => new Hyphy(),
+                            ToyTypeConstants.Lush => new Lush(),
+                            ToyTypeConstants.Max => new Max(),
+                            ToyTypeConstants.Nora => new Nora(),
+                            ToyTypeConstants.Osci => new Osci(),
+                            ToyTypeConstants.SexMachine => new SexMachine(),
+                            ToyTypeConstants.Exomoon => new Exomoon(),
+                            _ => throw new ArgumentOutOfRangeException("Unsupported toy")
+                        };
 
-                    toy.Id = toyDto.Id;
-                    toy.Nickname = toyDto.Nickname;
-                    toy.Name = toyDto.Name;
-                    toy.Status = toyDto.Status == 1;
-                    toy.Battery = detailedToys?[toyDto.Id!].Battery ?? null;
-                    toy.Version = detailedToys?[toyDto.Id!].Version ?? null;
+                        toy.Id = toyDto.Id;
+                        toy.Nickname = toyDto.Nickname;
+                        toy.Name = toyDto.Name;
+                        toy.Status = toyDto.Status == 1;
+                        toy.Battery = detailedToy?.Battery ?? null;
+                        toy.Version = detailedToy?.Version ?? null;
+                    }
+
+                    handledIds.Add(toyDto.Id!);
+                    tempList.Add(toyDto.Id!, toy);
                 }
 
-                handledIds.Add(toyDto.Id!);
-                tempList.Add(toyDto.Id!, toy);
-            }
+                var notHandledIds = Toys!.Keys.Except(handledIds);
+                foreach (var notHandledId in notHandledIds)
+                {
+                    var toyExists = Toys!.TryGetValue(notHandledId, out var toy);
+                    if (!toyExists || toy == null) continue;
 
-            var notHandledIds = Toys!.Keys.Except(handledIds);
-            foreach (var notHandledId in notHandledIds)
+                    toy.Status = null;
+                    tempList.Add(toy.Id!, toy);
+                }
+
+                Console.WriteLine($"Modified toys list: {JsonConvert.SerializeObject(tempList)}");
+                return tempList;
+            }
+            catch (Exception e)
             {
-                var toyExists = Toys!.TryGetValue(notHandledId, out var toy);
-                if (!toyExists || toy == null) continue;
-
-                toy.Status = null;
-                tempList.Add(toy.Id!, toy);
+                Console.WriteLine(e);
+                throw;
             }
-
-            Console.WriteLine($"Modified toys list: {JsonConvert.SerializeObject(tempList)}");
-            return tempList;
         }
 
         private async Task ApiCallerTask()
         {
+            Console.WriteLine("ApiCallerTask waiting to be connected...");
+
             while (!Connected)
             {
+                Thread.Sleep(100);
             }
+
+            Console.WriteLine("ApiCallerTask connected!");
 
             var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(500));
 
             while (await timer.WaitForNextTickAsync())
             {
+                Console.WriteLine("ApiCallerTask triggered");
+
                 foreach (var lovenseToy in Toys!)
                 {
                     if (lovenseToy.Value.Status == false)
@@ -214,18 +235,32 @@ namespace GoodVibes.Client.Lovense
 
                         return;
                     }
-                    
+
                     var commandStr = lovenseToy.Value.GetCommandString();
                     if (string.IsNullOrEmpty(commandStr)) continue;
                     lovenseToy.Value.ClearCommandList();
-                    await _lovenseApiClient.PostAsync<WebCommandResponse>("/command", new StringContent(JsonConvert.SerializeObject(new
+
+                    var requestBody = JsonConvert.SerializeObject(new
                     {
                         command = "Function",
                         action = commandStr,
                         stopPrevious = 0,
+                        timeSec = 0,
                         apiVer = 1,
                         toy = lovenseToy.Value.Id
-                    }), Encoding.UTF8, "application/json"));
+                    });
+
+                    try
+                    {
+                        Console.WriteLine($"Request body being sent: {requestBody}");
+                        var response = await _lovenseApiClient.PostAsync<WebCommandResponse>("/command", new StringContent(requestBody, Encoding.UTF8, "application/json"));
+                        Console.WriteLine($"API Response: {JsonConvert.SerializeObject(response)}");
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
                 }
             }
         }
@@ -234,14 +269,25 @@ namespace GoodVibes.Client.Lovense
         {
             if (_lovenseApiClient == null) return null;
 
-            var detailedToysResponse = await _lovenseApiClient.PostAsync<GetToysResponse>("/command",
-                new StringContent(JsonConvert.SerializeObject(new
-                {
-                    command = "GetToys"
-                }), Encoding.UTF8, "application/json"));
+            try
+            {
+                var detailedToysResponse = await _lovenseApiClient.PostAsync<GetToysResponse>("/command",
+                    new StringContent(JsonConvert.SerializeObject(new
+                    {
+                        command = "GetToys"
+                    }), Encoding.UTF8, "application/json"));
 
-            var toys = JsonConvert.DeserializeObject<Dictionary<string, DetailedToyDto>>(detailedToysResponse?.Data!.Toys!);
-            return toys;
+                Console.WriteLine($"Detailed Toy Response: {JsonConvert.SerializeObject(detailedToysResponse)}");
+
+                var toys = JsonConvert.DeserializeObject<Dictionary<string, DetailedToyDto>>(detailedToysResponse?.Data!.Toys!);
+                return toys;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+
         }
     }
 }

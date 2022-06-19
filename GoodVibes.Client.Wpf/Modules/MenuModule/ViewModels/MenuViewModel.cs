@@ -18,8 +18,13 @@ public class MenuViewModel : RegionViewModelBase
 {
     private readonly IRegionManager _regionManager;
     private readonly ILovenseService _lovenseService;
-    
-    public ObservableCollection<LovenseToyViewModel> Toys { get; set; }
+
+    private ObservableCollection<LovenseToyViewModel> _toys;
+    public ObservableCollection<LovenseToyViewModel> Toys
+    {
+        get => _toys;
+        set => SetProperty(ref _toys, value);
+    }
 
     private DelegateCommand _navigateToDashboardCommand;
     public DelegateCommand NavigateToDashboardCommand =>
@@ -71,6 +76,7 @@ public class MenuViewModel : RegionViewModelBase
     {
         Application.Current.Dispatcher.Invoke((Action)delegate
         {
+            Console.WriteLine($"ToyList update in menu received");
             var tempList = Toys;
             foreach (var lovenseToy in obj.ToyList!)
             {

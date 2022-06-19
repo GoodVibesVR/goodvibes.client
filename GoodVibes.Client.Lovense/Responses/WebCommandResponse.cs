@@ -4,9 +4,6 @@ namespace GoodVibes.Client.Lovense.Responses
 {
     public class WebCommandResponse
     {
-        [JsonProperty("result")]
-        public bool Result { get; set; }
-
         [JsonProperty("code")]
         public int Code { get; set; }
 

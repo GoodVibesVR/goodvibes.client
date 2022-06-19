@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -27,7 +28,8 @@ namespace GoodVibes.Client.Wpf.Modules.ContentHeaderModule.Views
 
         private void onCloseWindowCommand(object sender, ExecutedRoutedEventArgs e)
         {
-            SystemCommands.CloseWindow(Window.GetWindow(this));
+            Application.Current.Shutdown();
+            Process.GetCurrentProcess().Kill();
         }
 
         private void CommandBinding_Executed_2(object sender, ExecutedRoutedEventArgs e)

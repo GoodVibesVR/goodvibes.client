@@ -1,8 +1,8 @@
 ﻿using GoodVibes.Client.Core;
+using GoodVibes.Client.Wpf.Modules.AvatarMapperModule.Views;
 using GoodVibes.Client.Wpf.Modules.DashboardModule.Views;
 using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Mvvm;
 using Prism.Regions;
 
 namespace GoodVibes.Client.Wpf.Modules.DashboardModule
@@ -18,7 +18,8 @@ namespace GoodVibes.Client.Wpf.Modules.DashboardModule
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            _regionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(AvatarMapperView)); // TODO: This is a hack
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(DashboardView));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)

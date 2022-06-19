@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using GoodVibes.Client.Core;
 using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.Lovense.Enums;

@@ -13,21 +13,6 @@ namespace GoodVibes.Client.Osc
         public OscServer(AvatarMapperClient avatarMapper)
         {
             _avatarMapper = avatarMapper;
-            //_avatarMapper.AddMapping("/avatar/parameters/GoodVibes/ToyA/Function1", new ToyMappingDto()
-            //{
-            //    Function = LovenseCommandEnum.Vibrate,
-            //    Id = "cffd248698bd"
-            //});
-            //_avatarMapper.AddMapping("/avatar/parameters/GoodVibes/ToyB/Function1", new ToyMappingDto()
-            //{
-            //    Function = LovenseCommandEnum.Vibrate,
-            //    Id = "e8b5fcfa9557"
-            //});
-            //_avatarMapper.AddMapping("/avatar/parameters/GoodVibes/ToyB/Function2", new ToyMappingDto()
-            //{
-            //    Function = LovenseCommandEnum.Rotate,
-            //    Id = "e8b5fcfa9557"
-            //});
         }
 
         public Task ConnectAsync()
