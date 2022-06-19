@@ -1,0 +1,111 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType Condition="'$(Configuration)'=='DEBUG'">Exe</OutputType>
+		<OutputType Condition="'$(Configuration)'=='RELEASE'">WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<DisableWinExeOutputInference Condition="'$(Configuration)'=='DEBUG'">true</DisableWinExeOutputInference>
+		<DisableWinExeOutputInference Condition="'$(Configuration)'=='RELEASE'">false</DisableWinExeOutputInference>
+		<ApplicationIcon>GW_Logo.ico</ApplicationIcon>
+	</PropertyGroup>
+	<ItemGroup>
+	  <None Remove="Resources\icon_ambi.png" />
+	  <None Remove="Resources\icon_blast.png" />
+	  <None Remove="Resources\icon_calor.png" />
+	  <None Remove="Resources\icon_diamo.png" />
+	  <None Remove="Resources\icon_dolce.png" />
+	  <None Remove="Resources\icon_domi.png" />
+	  <None Remove="Resources\icon_edge.png" />
+	  <None Remove="Resources\icon_exomoon.png" />
+	  <None Remove="Resources\icon_ferri.png" />
+	  <None Remove="Resources\icon_gush.png" />
+	  <None Remove="Resources\icon_hush.png" />
+	  <None Remove="Resources\icon_hyphy.png" />
+	  <None Remove="Resources\icon_lush.png" />
+	  <None Remove="Resources\icon_max.png" />
+	  <None Remove="Resources\icon_nora.png" />
+	  <None Remove="Resources\icon_osci.png" />
+	  <None Remove="Resources\image_ambi.png" />
+	  <None Remove="Resources\image_calor.png" />
+	  <None Remove="Resources\image_diamo.png" />
+	  <None Remove="Resources\image_dolce.png" />
+	  <None Remove="Resources\image_domi.png" />
+	  <None Remove="Resources\image_edge.png" />
+	  <None Remove="Resources\image_ferri.png" />
+	  <None Remove="Resources\image_gush.png" />
+	  <None Remove="Resources\image_hush.png" />
+	  <None Remove="Resources\image_hyphy.png" />
+	  <None Remove="Resources\image_lush.png" />
+	  <None Remove="Resources\image_max.png" />
+	  <None Remove="Resources\image_nora.png" />
+	  <None Remove="Resources\image_osci.png" />
+	  <None Remove="Resources\image_sexmachine.png" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Include="GW_Logo.ico" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="BlackPearl.Controls.Library" Version="2.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
+		<PackageReference Include="Prism.DryIoc" Version="8.1.97" />
+		<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\GoodVibes.Client.Core\GoodVibes.Client.Core.csproj" />
+		<ProjectReference Include="..\GoodVibes.Client.Lovense\GoodVibes.Client.Lovense.csproj" />
+		<ProjectReference Include="..\GoodVibes.Client.Osc\GoodVibes.Client.Osc.csproj" />
+		<ProjectReference Include="..\GoodVibes.Client.Settings\GoodVibes.Client.Settings.csproj" />
+		<ProjectReference Include="..\GoodVibes.Client.SignalR\GoodVibes.Client.SignalR.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Resource Include="Resources\icon_ambi.png" />
+	  <Resource Include="Resources\icon_blast.png" />
+	  <Resource Include="Resources\icon_calor.png" />
+	  <Resource Include="Resources\icon_diamo.png" />
+	  <Resource Include="Resources\icon_dolce.png" />
+	  <Resource Include="Resources\icon_domi.png" />
+	  <Resource Include="Resources\icon_edge.png" />
+	  <Resource Include="Resources\icon_exomoon.png" />
+	  <Resource Include="Resources\icon_ferri.png" />
+	  <Resource Include="Resources\icon_gush.png" />
+	  <Resource Include="Resources\icon_hush.png" />
+	  <Resource Include="Resources\icon_hyphy.png" />
+	  <Resource Include="Resources\icon_lush.png" />
+	  <Resource Include="Resources\icon_max.png" />
+	  <Resource Include="Resources\icon_nora.png" />
+	  <Resource Include="Resources\icon_osci.png" />
+	  <Resource Include="Resources\image_ambi.png" />
+	  <Resource Include="Resources\image_calor.png" />
+	  <Resource Include="Resources\image_diamo.png" />
+	  <Resource Include="Resources\image_dolce.png" />
+	  <Resource Include="Resources\image_domi.png" />
+	  <Resource Include="Resources\image_edge.png" />
+	  <Resource Include="Resources\image_ferri.png" />
+	  <Resource Include="Resources\image_gush.png" />
+	  <Resource Include="Resources\image_hush.png" />
+	  <Resource Include="Resources\image_hyphy.png" />
+	  <Resource Include="Resources\image_lush.png" />
+	  <Resource Include="Resources\image_max.png" />
+	  <Resource Include="Resources\image_nora.png" />
+	  <Resource Include="Resources\image_osci.png" />
+	  <Resource Include="Resources\image_sexmachine.png" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="applicationSettings.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+</Project>
