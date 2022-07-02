@@ -366,7 +366,7 @@
                             <ComboBox Grid.Column="2" Height="20" Width="300" ItemsSource="{Binding Path=Avatars}" SelectedItem="{Binding SelectedAvatar}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Path=AvatarId}"></TextBlock>
+                                        <TextBlock Text="{Binding Path=DisplayName}"></TextBlock>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>

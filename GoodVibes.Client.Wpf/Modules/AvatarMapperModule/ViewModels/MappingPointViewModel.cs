@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows;
 using Prism.Ioc;
 using GoodVibes.Client.Core.Mvvm;
-using GoodVibes.Client.Mapper;
 using GoodVibes.Client.Mapper.Dtos;
 using GoodVibes.Client.Wpf.EventCarriers;
 using GoodVibes.Client.Wpf.Events;
+using GoodVibes.Client.Wpf.Services.Abstractions;
 using Prism.Commands;
 using Prism.Events;
 
@@ -16,7 +15,7 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
 {
     public class MappingPointViewModel : ViewModelBase
     {
-        private readonly AvatarMapperClient _avatarMapper;
+        private readonly IAvatarMapperService _mapperService;
         private readonly IEventAggregator _eventAggregator;
 
         private string _oscAddress;
@@ -61,7 +60,7 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
 
         public MappingPointViewModel()
         {
-            _avatarMapper = ContainerLocator.Container.Resolve<AvatarMapperClient>();
+            _mapperService = ContainerLocator.Container.Resolve<IAvatarMapperService>();
             _eventAggregator = ContainerLocator.Container.Resolve<IEventAggregator>();
 
             ToyMappings = new ObservableCollection<ToyViewModel>();
@@ -78,7 +77,7 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                     foreach (var newItem in e.NewItems!)
                     {
                         var mapping = newItem as ToyViewModel;
-                        _avatarMapper.AddMapping(OscAddress, new ToyMappingDto()
+                        _mapperService.AddMapping(OscAddress, new ToyMappingDto()
                         {
                             Id = mapping.ToyId,
                             Function = mapping.Function,
@@ -91,7 +90,7 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                     foreach (var oldItem in e.OldItems)
                     {
                         var mapping = oldItem as ToyViewModel;
-                        _avatarMapper.RemoveMapping(OscAddress, new ToyMappingDto()
+                        _mapperService.RemoveMapping(OscAddress, new ToyMappingDto()
                         {
                             Id = mapping.ToyId,
                             Function = mapping.Function,
@@ -121,8 +120,8 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                     _eventAggregator.GetEvent<AddEmptyMappingEventCarrier>().Publish(new AddEmptyMappingEvent());
                     break;
             }
-
-            _avatarMapper.ChangeOrAddMappingAddress(oldAddress, newAddress);
+            
+            _mapperService.ChangeOrAddMappingAddress(oldAddress, newAddress);
         }
 
         private void RemoveMapping()

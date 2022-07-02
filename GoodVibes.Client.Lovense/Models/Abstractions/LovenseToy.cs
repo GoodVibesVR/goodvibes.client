@@ -129,7 +129,10 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
                 if (toyCommand.Key == Function1 || toyCommand.Key == Function2)
                 {
                     var values = toyCommand.Value;
-                    
+
+                    // It seems like this, if you're quick is actually null.
+                    if (values == null) continue;
+
                     // TODO: Add more calculation methods for different behaviors
                     highestValue = values.Prepend(0).Max();
                 }

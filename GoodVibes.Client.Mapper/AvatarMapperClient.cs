@@ -85,11 +85,13 @@ public class AvatarMapperClient
 
     public void ChangeMappings(IEnumerable<MappingDto> oldMappings, IEnumerable<MappingDto> newMappings)
     {
-        foreach (var oldMapping in oldMappings)
-        {
-            var oscAddress = buildOscAddress(oldMapping.OscAddress!);
-            _mappings.Remove(oscAddress);
-        }
+        _mappings.Clear();
+
+        //foreach (var oldMapping in oldMappings)
+        //{
+        //    var oscAddress = buildOscAddress(oldMapping.OscAddress!);
+        //    _mappings.Remove(oscAddress);
+        //}
 
         foreach (var newMapping in newMappings)
         {

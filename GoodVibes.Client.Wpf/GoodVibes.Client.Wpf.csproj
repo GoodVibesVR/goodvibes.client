@@ -56,6 +56,7 @@
 		<ProjectReference Include="..\GoodVibes.Client.Osc\GoodVibes.Client.Osc.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.Settings\GoodVibes.Client.Settings.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.SignalR\GoodVibes.Client.SignalR.csproj" />
+		<ProjectReference Include="..\GoodVibes.Client.Vrchat\GoodVibes.Client.Vrchat.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Resource Include="Resources\icon_ambi.png" />

@@ -7,12 +7,13 @@ using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.Lovense.Enums;
 using GoodVibes.Client.Lovense.EventCarriers;
 using GoodVibes.Client.Lovense.Events;
-using GoodVibes.Client.Mapper;
 using GoodVibes.Client.Mapper.Dtos;
 using GoodVibes.Client.Mapper.EventCarriers;
 using GoodVibes.Client.Mapper.Events;
+using GoodVibes.Client.Vrchat.Dtos;
 using GoodVibes.Client.Wpf.EventCarriers;
 using GoodVibes.Client.Wpf.Events;
+using GoodVibes.Client.Wpf.Services;
 using GoodVibes.Client.Wpf.Services.Abstractions;
 using Prism.Commands;
 using Prism.Events;
@@ -23,11 +24,13 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
     internal class AvatarMapperViewModel : RegionViewModelBase
     {
         private readonly IDialogService _dialogService;
-        private readonly AvatarMapperClient _avatarMapper;
+        private readonly IAvatarMapperService _mapperService;
+        private readonly OscProfileConverterService _oscProfileService;
+        private readonly Dictionary<string, ObservableCollection<MappingPointViewModel>> _avatarMappingPoints;
 
-        private Dictionary<string, ObservableCollection<MappingPointViewModel>> _avatarMappingPoints;
+        public ObservableCollection<AvatarViewModel> Avatars { get; set; }
+        public ObservableCollection<ToyViewModel> AvailableToyFunctions { get; set; }
 
-        public ObservableCollection<AvatarMappingDto> Avatars { get; set; }
         private ObservableCollection<MappingPointViewModel> _mappingPoints;
         public ObservableCollection<MappingPointViewModel> MappingPoints
         {
@@ -39,13 +42,8 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
             }
         }
 
-        public ObservableCollection<ToyViewModel> AvailableToyFunctions { get; set; }
-
-        //public ObservableCollection<ToyMappingDto> Toys { get; set; }
-        //public ObservableCollection<ToyMappingDto> SelectedToys { get; set; }
-
-        private AvatarMappingDto _selectedAvatar;
-        public AvatarMappingDto SelectedAvatar
+        private AvatarViewModel _selectedAvatar;
+        public AvatarViewModel SelectedAvatar
         {
             get => _selectedAvatar;
             set
@@ -77,14 +75,17 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                 MappingPoints.Remove(argument as MappingPointViewModel);
             });
 
-        public AvatarMapperViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, IDialogService dialogService, AvatarMapperClient avatarMapper) : base(regionManager)
+        public AvatarMapperViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, IDialogService dialogService,
+            IAvatarMapperService mapperService, OscProfileConverterService oscProfileService) : base(regionManager)
         {
             _dialogService = dialogService;
-            _avatarMapper = avatarMapper;
+            _mapperService = mapperService;
+            //_avatarMapper = avatarMapper;
+            _oscProfileService = oscProfileService;
 
             _avatarMappingPoints = new Dictionary<string, ObservableCollection<MappingPointViewModel>>();
             AvailableToyFunctions = new ObservableCollection<ToyViewModel>();
-            Avatars = new ObservableCollection<AvatarMappingDto>(); // TODO: Fix this
+            Avatars = new ObservableCollection<AvatarViewModel>();
 
             MappingPoints = new ObservableCollection<MappingPointViewModel>()
             {
@@ -104,16 +105,11 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
 
         private void RemoveMappingPoint(RemoveAvatarMappingEvent obj)
         {
-            _avatarMapper.RemoveMapping(obj.MappingPoint.OscAddress);
+            _mapperService.RemoveMappingPoint(obj.MappingPoint.OscAddress);
             MappingPoints.Remove(obj.MappingPoint);
         }
 
-        private void SelectedAvatar_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            Console.WriteLine("Selected avatar changed");
-        }
-
-        private void SelectedAvatarChanged(AvatarMappingDto oldAvatarMapping, AvatarMappingDto newAvatarMapping)
+        private void SelectedAvatarChanged(AvatarViewModel oldAvatarMapping, AvatarViewModel newAvatarMapping)
         {
             if (oldAvatarMapping != null)
             {
@@ -147,36 +143,45 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
             }
         }
 
-        private void ChangeMapperMappings(ObservableCollection<MappingPointViewModel> oldMappings, ObservableCollection<MappingPointViewModel> newMappings)
+        private void AddOscProfileMappingPoints(OscProfileDto oscProfile)
         {
-            var oldMappingDtos = oldMappings == null
-                ? new List<MappingDto>()
-                : oldMappings.Select(mappingPointViewModel => new MappingDto()
-                {
-                    OscAddress = mappingPointViewModel.OscAddress,
-                    ToyMappings = mappingPointViewModel.ToyMappings.Select(tm => new ToyMappingDto()
-                        { Id = tm.ToyId, Function = tm.Function, IsChecked = tm.IsChecked, Name = tm.Name }).ToList()
-                });
-
-            var newMappingDtos = newMappings.Select(mappingPointViewModel => new MappingDto()
+            if (oscProfile.Id == null)
             {
-                OscAddress = mappingPointViewModel.OscAddress,
-                ToyMappings = mappingPointViewModel.ToyMappings.Select(tm => new ToyMappingDto()
-                    { Id = tm.ToyId, Function = tm.Function, IsChecked = tm.IsChecked, Name = tm.Name }).ToList()
+                // TODO: Show warning of invalid profile
+                return;
+            }
+            
+            ChangeAvatar(new AvatarViewModel()
+            {
+                AvatarId = oscProfile.Id,
+                Name = oscProfile.Name
             });
 
-            _avatarMapper.ChangeMappings(oldMappingDtos, newMappingDtos);
+            var newMappings = new ObservableCollection<MappingPointViewModel>();
+            newMappings.AddRange(oscProfile.Parameters!.Where(p => p.Output != null).Select(p => new MappingPointViewModel()
+            {
+                OscAddress = p.Output.Address!.Replace("/avatar/parameters/", ""),
+                AvailableToyFunctions = AvailableToyFunctions.ToArray(),
+                HintVisible = Visibility.Hidden
+            }));
+
+            MappingPoints = newMappings;
+        }
+
+        private void ChangeMapperMappings(IReadOnlyCollection<MappingPointViewModel> oldMappings, IEnumerable<MappingPointViewModel> newMappings)
+        {
+            _mapperService.ChangeMappings(oldMappings, newMappings);
         }
 
         private void ImportProfile()
         {
             var jsonProfile = _dialogService.OpenJsonFileDialog();
             if (string.IsNullOrEmpty(jsonProfile))
-            {
                 return;
-            }
 
-            // TODO: Do things
+            // TODO: OscProfile or GoodVibes Profile?
+            var oscProfile = _oscProfileService.DeserializeOscProfile(jsonProfile);
+            AddOscProfileMappingPoints(oscProfile);
         }
 
         private void ExportProfile()
@@ -190,20 +195,29 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
             {
                 Console.WriteLine("AvatarChanged event received");
 
-                var avatarDto = new AvatarMappingDto()
+                var avatarDto = new AvatarViewModel()
                 {
                     AvatarId = obj.AvatarId
                 };
 
-                var exists = Avatars.Any(a => a.AvatarId == obj.AvatarId);
-                if (!exists)
-                {
-                    Console.WriteLine($"Adding new avatar with ID {obj.AvatarId} to Avatar list");
-                    Avatars.Add(avatarDto);
-                }
-
-                SelectedAvatar = avatarDto;
+                ChangeAvatar(avatarDto);
             });
+        }
+
+        private void ChangeAvatar(AvatarViewModel avatar)
+        {
+            var existingAvatar = Avatars.FirstOrDefault(a => a.AvatarId == avatar.AvatarId);
+            if (existingAvatar == null)
+            {
+                Console.WriteLine($"Adding new avatar with ID {avatar.AvatarId} to Avatar list");
+                Avatars.Add(avatar);
+            }
+            else
+            {
+                avatar = existingAvatar;
+            }
+
+            SelectedAvatar = avatar;
         }
 
         private void LovenseToyListUpdated(LovenseToyListUpdatedEvent obj)
@@ -237,7 +251,7 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                         });
                     }
                 }
-                
+
                 foreach (var toy in tempList2.ToList())
                 {
                     var exists = tempList.Any(t => t.ToyId == toy.ToyId && t.Function == toy.Function);
