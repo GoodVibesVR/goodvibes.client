@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GoodVibes.Client.Lovense.Models.Abstractions;
 using GoodVibes.Client.Mapper.Dtos;
 using GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels;
 
@@ -8,7 +9,10 @@ public interface IAvatarMapperService
 {
     void ChangeMappings(IReadOnlyCollection<MappingPointViewModel> oldMappings,
         IEnumerable<MappingPointViewModel> newMappings);
-    
+
+    IEnumerable<ToyFunctionViewModel> BuildToyFunctionViewModels(IEnumerable<LovenseToy> toyList);
+
+
     void RemoveMappingPoint(string oscAddress);
 
     void AddMapping(string oscAddress, ToyMappingDto toyMapping);

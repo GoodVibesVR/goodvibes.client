@@ -30,14 +30,14 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
             }
         }
 
-        private ToyViewModel[] _availableToyFunctions;
-        public ToyViewModel[] AvailableToyFunctions
+        private ToyFunctionViewModel[] _availableToyFunctions;
+        public ToyFunctionViewModel[] AvailableToyFunctions
         {
             get => _availableToyFunctions;
             set => SetProperty(ref _availableToyFunctions, value);
         }
     
-        public ObservableCollection<ToyViewModel> ToyMappings { get; set; }
+        public ObservableCollection<ToyFunctionViewModel> ToyMappings { get; set; }
 
         private Visibility _hintVisible;
         public Visibility HintVisible
@@ -63,7 +63,7 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
             _mapperService = ContainerLocator.Container.Resolve<IAvatarMapperService>();
             _eventAggregator = ContainerLocator.Container.Resolve<IEventAggregator>();
 
-            ToyMappings = new ObservableCollection<ToyViewModel>();
+            ToyMappings = new ObservableCollection<ToyFunctionViewModel>();
             ToyMappings.CollectionChanged += ToyMappings_CollectionChanged;
 
             _oscAddress = string.Empty;
@@ -76,7 +76,7 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                 case NotifyCollectionChangedAction.Add:
                     foreach (var newItem in e.NewItems!)
                     {
-                        var mapping = newItem as ToyViewModel;
+                        var mapping = newItem as ToyFunctionViewModel;
                         _mapperService.AddMapping(OscAddress, new ToyMappingDto()
                         {
                             Id = mapping.ToyId,
@@ -89,7 +89,7 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                 case NotifyCollectionChangedAction.Remove:
                     foreach (var oldItem in e.OldItems)
                     {
-                        var mapping = oldItem as ToyViewModel;
+                        var mapping = oldItem as ToyFunctionViewModel;
                         _mapperService.RemoveMapping(OscAddress, new ToyMappingDto()
                         {
                             Id = mapping.ToyId,

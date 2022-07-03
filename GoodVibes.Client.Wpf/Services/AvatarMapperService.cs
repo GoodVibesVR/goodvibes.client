@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using GoodVibes.Client.Lovense.Enums;
+using GoodVibes.Client.Lovense.Models.Abstractions;
 using GoodVibes.Client.Mapper;
 using GoodVibes.Client.Mapper.Dtos;
 using GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels;
@@ -36,6 +38,41 @@ public class AvatarMapperService : IAvatarMapperService
         });
 
         _avatarMapper.ChangeMappings(oldMappingDtos, newMappingDtos);
+    }
+
+    public IEnumerable<ToyFunctionViewModel> BuildToyFunctionViewModels(IEnumerable<LovenseToy> toyList)
+    {
+        var toyFunctions = new List<ToyFunctionViewModel>();
+
+        foreach (var lovenseToy in toyList)
+        {
+            if (lovenseToy.Status == false || !lovenseToy.Enabled)
+            {
+                continue;
+            }
+            if (lovenseToy.Function1 != LovenseCommandEnum.None)
+            {
+                toyFunctions.Add(new ToyFunctionViewModel()
+                {
+                    Name = lovenseToy.DisplayName,
+                    Function = lovenseToy.Function1,
+                    ToyId = lovenseToy.Id!,
+                    Type = lovenseToy.GetType().Name
+                });
+            }
+            if (lovenseToy.Function2 != LovenseCommandEnum.None)
+            {
+                toyFunctions.Add(new ToyFunctionViewModel()
+                {
+                    Name = lovenseToy.DisplayName,
+                    Function = lovenseToy.Function2,
+                    ToyId = lovenseToy.Id!,
+                    Type = lovenseToy.GetType().Name
+                });
+            }
+        }
+
+        return toyFunctions;
     }
 
     public void RemoveMappingPoint(string oscAddress)

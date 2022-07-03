@@ -29,7 +29,7 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
         private readonly Dictionary<string, ObservableCollection<MappingPointViewModel>> _avatarMappingPoints;
 
         public ObservableCollection<AvatarViewModel> Avatars { get; set; }
-        public ObservableCollection<ToyViewModel> AvailableToyFunctions { get; set; }
+        public ObservableCollection<ToyFunctionViewModel> AvailableToyFunctions { get; set; }
 
         private ObservableCollection<MappingPointViewModel> _mappingPoints;
         public ObservableCollection<MappingPointViewModel> MappingPoints
@@ -84,7 +84,7 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
             _oscProfileService = oscProfileService;
 
             _avatarMappingPoints = new Dictionary<string, ObservableCollection<MappingPointViewModel>>();
-            AvailableToyFunctions = new ObservableCollection<ToyViewModel>();
+            AvailableToyFunctions = new ObservableCollection<ToyFunctionViewModel>();
             Avatars = new ObservableCollection<AvatarViewModel>();
 
             MappingPoints = new ObservableCollection<MappingPointViewModel>()
@@ -224,54 +224,20 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
         {
             Application.Current.Dispatcher.Invoke((Action)delegate
             {
-                var tempList = AvailableToyFunctions;
-                var tempList2 = new List<ToyViewModel>();
-                foreach (var lovenseToy in obj.ToyList!)
+                var toyFunctions = _mapperService.BuildToyFunctionViewModels(obj.ToyList);
+                foreach (var toy in toyFunctions)
                 {
-                    if (lovenseToy.Status == false || !lovenseToy.Enabled)
-                    {
-                        continue;
-                    }
-                    if (lovenseToy.Function1 != LovenseCommandEnum.None)
-                    {
-                        tempList2.Add(new ToyViewModel()
-                        {
-                            Name = lovenseToy.DisplayName,
-                            Function = lovenseToy.Function1,
-                            ToyId = lovenseToy.Id!
-                        });
-                    }
-                    if (lovenseToy.Function2 != LovenseCommandEnum.None)
-                    {
-                        tempList2.Add(new ToyViewModel()
-                        {
-                            Name = lovenseToy.DisplayName,
-                            Function = lovenseToy.Function2,
-                            ToyId = lovenseToy.Id!
-                        });
-                    }
-                }
-
-                foreach (var toy in tempList2.ToList())
-                {
-                    var exists = tempList.Any(t => t.ToyId == toy.ToyId && t.Function == toy.Function);
+                    var exists = AvailableToyFunctions.Any(t => t.ToyId == toy.ToyId && t.Function == toy.Function);
                     if (!exists)
                     {
                         AvailableToyFunctions.Add(toy);
                     }
-
-                    // TODO: Actually remove as well.
                 }
-
-                // TODO: Add to avatar mappingPoints as well
+                
                 foreach (var mappingPoint in MappingPoints)
                 {
                     mappingPoint.AvailableToyFunctions = AvailableToyFunctions.ToArray();
                 }
-
-                // TODO: We need to handle mapped toy types as well as IDs here... or?
-                //var disconnectedToys = tempList.Where(t => obj.ToyList.All(x => x.Id != t.Id));
-                //var test = tempList.Except(Toys);
             });
         }
 

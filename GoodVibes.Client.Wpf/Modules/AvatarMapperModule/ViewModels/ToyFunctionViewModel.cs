@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Windows.Navigation;
-using GoodVibes.Client.Core.Mvvm;
+﻿using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.Lovense.Enums;
 
 namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
 {
-    public class ToyViewModel : ViewModelBase
+    public class ToyFunctionViewModel : ViewModelBase
     {
         private string _toyId;
         public string ToyId
@@ -33,6 +31,13 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
         {
             get => _isChecked;
             set => SetProperty(ref _isChecked, value);
+        }
+
+        private string _type;
+        public string Type
+        {
+            get => _type;
+            set => SetProperty(ref _type, value);
         }
 
         public string DisplayName => $"{Name} / {Function}";
