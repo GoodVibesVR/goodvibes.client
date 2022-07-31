@@ -25,6 +25,7 @@
 	  <None Remove="Resources\icon_max.png" />
 	  <None Remove="Resources\icon_nora.png" />
 	  <None Remove="Resources\icon_osci.png" />
+	  <None Remove="Resources\icon_pishock_shocker.png" />
 	  <None Remove="Resources\image_ambi.png" />
 	  <None Remove="Resources\image_calor.png" />
 	  <None Remove="Resources\image_diamo.png" />
@@ -51,9 +52,11 @@
 		<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\GoodVibes.Client.Common\GoodVibes.Client.Common.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.Core\GoodVibes.Client.Core.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.Lovense\GoodVibes.Client.Lovense.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.Osc\GoodVibes.Client.Osc.csproj" />
+		<ProjectReference Include="..\GoodVibes.Client.PiShock\GoodVibes.Client.PiShock.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.Settings\GoodVibes.Client.Settings.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.SignalR\GoodVibes.Client.SignalR.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.Vrchat\GoodVibes.Client.Vrchat.csproj" />
@@ -75,6 +78,7 @@
 	  <Resource Include="Resources\icon_max.png" />
 	  <Resource Include="Resources\icon_nora.png" />
 	  <Resource Include="Resources\icon_osci.png" />
+	  <Resource Include="Resources\icon_pishock_shocker.png" />
 	  <Resource Include="Resources\image_ambi.png" />
 	  <Resource Include="Resources\image_calor.png" />
 	  <Resource Include="Resources\image_diamo.png" />

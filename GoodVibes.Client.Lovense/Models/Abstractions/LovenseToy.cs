@@ -1,4 +1,5 @@
-﻿using GoodVibes.Client.Lovense.Dtos;
+﻿using GoodVibes.Client.Common.Enums;
+using GoodVibes.Client.Lovense.Dtos;
 using GoodVibes.Client.Lovense.Enums;
 
 namespace GoodVibes.Client.Lovense.Models.Abstractions
@@ -16,7 +17,7 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
         public int Function1MaxStrengthPercentage { get; private set; }
         public int Function2MaxStrengthPercentage { get; private set; }
 
-        public abstract LovenseToyEnum ToyType { get; }
+        public abstract ToyTypeEnum ToyType { get; }
         public abstract bool Enabled { get; set; } // TODO: This need to be set in properties
         public abstract LovenseCommandEnum Function1 { get; set; }
         public abstract LovenseCommandEnum Function2 { get; set; }

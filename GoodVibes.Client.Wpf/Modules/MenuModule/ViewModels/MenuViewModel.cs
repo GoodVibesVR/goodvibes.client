@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using GoodVibes.Client.Core;
 using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.Lovense.EventCarriers;
@@ -19,8 +18,8 @@ public class MenuViewModel : RegionViewModelBase
     private readonly IRegionManager _regionManager;
     private readonly ILovenseService _lovenseService;
 
-    private ObservableCollection<LovenseToyViewModel> _toys;
-    public ObservableCollection<LovenseToyViewModel> Toys
+    private ObservableCollection<ToyViewModel> _toys;
+    public ObservableCollection<ToyViewModel> Toys
     {
         get => _toys;
         set => SetProperty(ref _toys, value);
@@ -68,7 +67,7 @@ public class MenuViewModel : RegionViewModelBase
         _regionManager = regionManager;
         _lovenseService = lovenseService;
 
-        Toys = new ObservableCollection<LovenseToyViewModel>();
+        Toys = new ObservableCollection<ToyViewModel>();
         eventAggregator.GetEvent<LovenseToyListUpdatedEventCarrier>().Subscribe(LovenseToyListUpdated);
     }
 
@@ -83,7 +82,7 @@ public class MenuViewModel : RegionViewModelBase
                 var toy = tempList.FirstOrDefault(t => t.Id == lovenseToy.Id);
                 if (toy == null)
                 {
-                    Toys.Add(new LovenseToyViewModel()
+                    Toys.Add(new ToyViewModel()
                     {
                         Id = lovenseToy.Id,
                         Battery = lovenseToy.Battery,
@@ -106,7 +105,7 @@ public class MenuViewModel : RegionViewModelBase
             var test = from t in tempList
                        orderby t.Status == null, t.Status.ToString() descending
                        select t;
-            Toys = new ObservableCollection<LovenseToyViewModel>(test);
+            Toys = new ObservableCollection<ToyViewModel>(test);
         });
     }
 

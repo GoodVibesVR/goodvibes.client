@@ -48,13 +48,13 @@ namespace GoodVibes.Client.Lovense
 
         public async Task ConnectAsync()
         {
-            Console.WriteLine($"ConnectAsync called...");
+            Console.WriteLine($"Lovense ConnectAsync called...");
 
             await ConnectAsync(
                 $"{_applicationSettings.GoodVibesRoot}{_applicationSettings.SignalRSettings!.CommandHubPath}", () =>
                 {
-                    Connection!.On<string>(CommandMethodConstants.ReceiveCallback, ReceiveCallbackHandler);
-                    Connection!.On<string>(CommandMethodConstants.ReceiveQrCode, ReceiveQrCodeHandler);
+                    Connection!.On<string>(LovenseCommandMethodConstants.ReceiveCallback, ReceiveCallbackHandler);
+                    Connection!.On<string>(LovenseCommandMethodConstants.ReceiveQrCode, ReceiveQrCodeHandler);
                 });
             
             Console.WriteLine("Starting ApiCallerTask");
@@ -233,7 +233,7 @@ namespace GoodVibes.Client.Lovense
                             }
                             foreach (var command in commandList)
                             {
-                                await Connection!.InvokeAsync(CommandMethodConstants.SendCommand, command.Command,
+                                await Connection!.InvokeAsync(LovenseCommandMethodConstants.SendCommand, command.Command,
                                     command.Value, 0, 0, lovenseToy.Id);
                             }
 

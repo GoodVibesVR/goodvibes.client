@@ -45,12 +45,25 @@
                                 <ColumnDefinition Width="100" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Lovense" Grid.Column="0" Foreground="White" FontSize="24" />
-                            <Button Name="ConnectBtn"
+                            <Button Name="LovenseConnectBtn"
                                     Grid.Column="1"
                                 FontSize="15" 
                                 Padding="5"
                                 Content="Connect" 
-                                Command="{Binding ConnectToCommandHubCommand}"/>
+                                Command="{Binding ConnectToLovenseCommandHubCommand}"/>
+                        </Grid>
+                        <Grid Grid.Row="1" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="100" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="PiShock" Grid.Column="0" Foreground="White" FontSize="24" />
+                            <Button Name="PiShockConnectBtn"
+                                    Grid.Column="1"
+                                    FontSize="15" 
+                                    Padding="5"
+                                    Content="Connect" 
+                                    Command="{Binding ConnectToPiShockCommandHubCommand}"/>
                         </Grid>
 
                         <!--<Grid Grid.Row="1" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Stretch">

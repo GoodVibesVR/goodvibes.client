@@ -15,9 +15,13 @@ namespace GoodVibes.Client.Wpf.Modules.DashboardModule.ViewModels
         private readonly LovenseClient _lovenseClient;
         private readonly OscServer _oscServer;
 
-        private DelegateCommand _connectToCommandHubCommand;
-        public DelegateCommand ConnectToCommandHubCommand =>
-            _connectToCommandHubCommand ??= new DelegateCommand(ConnectToLovense);
+        private DelegateCommand _connectToLovenseCommandHubCommand;
+        public DelegateCommand ConnectToLovenseCommandHubCommand =>
+            _connectToLovenseCommandHubCommand ??= new DelegateCommand(ConnectToLovense);
+
+        private DelegateCommand _connectToPiShockCommandHubCommand;
+        public DelegateCommand ConnectToPiShockCommandHubCommand =>
+            _connectToPiShockCommandHubCommand ??= new DelegateCommand(ConnectToPiShock);
 
         private DelegateCommand _connectToOscCommand;
         public DelegateCommand ConnectToOscCommand =>
@@ -41,6 +45,11 @@ namespace GoodVibes.Client.Wpf.Modules.DashboardModule.ViewModels
         private void ConnectToLovense()
         {
             _regionManager.RequestNavigate(RegionNames.ContentRegion, "LovenseConnectView");
+        }
+
+        private void ConnectToPiShock()
+        {
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, "PiShockConnectView");
         }
 
         private void ConnectToOsc()

@@ -1,6 +1,6 @@
 ﻿namespace GoodVibes.Client.SignalR
 {
-    public static class CommandMethodConstants
+    public static class LovenseCommandMethodConstants
     {
         /// <summary>
         /// Used to send commands through the GoodVibes servers

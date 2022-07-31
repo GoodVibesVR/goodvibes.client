@@ -4,9 +4,13 @@ using System.Windows;
 using GoodVibes.Client.ApiCaller;
 using GoodVibes.Client.ApiCaller.Abstractions;
 using GoodVibes.Client.Lovense;
+using GoodVibes.Client.Lovense.EventDispatchers;
 using GoodVibes.Client.Lovense.EventHandler;
 using GoodVibes.Client.Mapper;
 using GoodVibes.Client.Osc;
+using GoodVibes.Client.PiShock;
+using GoodVibes.Client.PiShock.EventDispatchers;
+using GoodVibes.Client.PiShock.EventHandlers;
 using GoodVibes.Client.Settings;
 using GoodVibes.Client.Settings.Enums;
 using GoodVibes.Client.Settings.Models;
@@ -18,6 +22,7 @@ using GoodVibes.Client.Wpf.Modules.LovenseToySettingsModule;
 using GoodVibes.Client.Wpf.Modules.MenuFooterModule;
 using GoodVibes.Client.Wpf.Modules.MenuHeaderModule;
 using GoodVibes.Client.Wpf.Modules.MenuModule;
+using GoodVibes.Client.Wpf.Modules.PiShockConnectModule;
 using GoodVibes.Client.Wpf.Services;
 using GoodVibes.Client.Wpf.Services.Abstractions;
 using Prism.Modularity;
@@ -62,9 +67,18 @@ namespace GoodVibes.Client.Wpf
             containerRegistry.RegisterSingleton<ILovenseApiClient>(() => new ApiClient(string.Empty));
             containerRegistry.RegisterSingleton<IApiClient>(() => new ApiClient(applicationSettings!.GoodVibesRoot!));
 
+            // Lovense
             containerRegistry.RegisterSingleton<LovenseClient>();
-            containerRegistry.RegisterSingleton<OscServer>();
             containerRegistry.RegisterSingleton<LovenseEventHandler>();
+            containerRegistry.RegisterSingleton<LovenseEventDispatcher>();
+
+            // PiShock
+            containerRegistry.RegisterSingleton<PiShockClient>();
+            containerRegistry.RegisterSingleton<PiShockEventHandler>();
+            containerRegistry.RegisterSingleton<PiShockEventDispatcher>();
+
+            // General GoodVibes
+            containerRegistry.RegisterSingleton<OscServer>();
             containerRegistry.RegisterSingleton<AvatarMapperClient>();
         }
 
@@ -76,6 +90,7 @@ namespace GoodVibes.Client.Wpf
             moduleCatalog.AddModule<LovenseToySettingsModule>();
             moduleCatalog.AddModule<LovenseConnectModule>();
             moduleCatalog.AddModule<AvatarMapperModule>();
+            moduleCatalog.AddModule<PiShockConnectModule>();
 
             // Main modules need to be declared last
             moduleCatalog.AddModule<DashboardModule>();

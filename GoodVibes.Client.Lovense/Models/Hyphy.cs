@@ -1,11 +1,12 @@
-﻿using GoodVibes.Client.Lovense.Enums;
+﻿using GoodVibes.Client.Common.Enums;
+using GoodVibes.Client.Lovense.Enums;
 using GoodVibes.Client.Lovense.Models.Abstractions;
 
 namespace GoodVibes.Client.Lovense.Models;
 
 public sealed class Hyphy : LovenseToy
 {
-    public override LovenseToyEnum ToyType => LovenseToyEnum.Hyphy;
+    public override ToyTypeEnum ToyType => ToyTypeEnum.LovenseHyphy;
     public override bool Enabled { get; set; }
     public override LovenseCommandEnum Function1 { get; set; }
     public override LovenseCommandEnum Function2 { get; set; }

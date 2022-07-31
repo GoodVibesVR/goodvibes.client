@@ -20,7 +20,6 @@ namespace GoodVibes.Client.Wpf.Modules.LovenseConnectModule
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            //ViewModelLocationProvider.Register<LovenseConnectView, LovenseConnectViewModel>();
             containerRegistry.RegisterForNavigation<LovenseConnectView>();
         }
     }
