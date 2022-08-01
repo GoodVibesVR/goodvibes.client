@@ -4,7 +4,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:core1="clr-namespace:GoodVibes.Client.Core;assembly=GoodVibes.Client.Core"
              prism:ViewModelLocator.AutoWireViewModel="True">
-    <Grid Width="400" Height="400">
+    <Grid>
         <Rectangle>
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,0" StartPoint="0.5,1" Opacity="1">

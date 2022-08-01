@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="GoodVibes.Client.Wpf.Modules.AddToyModule.Views.AddPiShockView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:core1="clr-namespace:GoodVibes.Client.Core;assembly=GoodVibes.Client.Core"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+        <StackPanel HorizontalAlignment="Left" 
+                    VerticalAlignment="Top"
+                    Margin="0,20,0,0">
+            <Border CornerRadius="10" 
+                    BorderThickness="0" 
+                    Padding="10,0,10,10"
+                    Margin="10,0,10,10">
+                <Border.Background>
+                    <SolidColorBrush Color="#000" Opacity="0.25" />
+                </Border.Background>
+                <StackPanel HorizontalAlignment="Left" 
+                        VerticalAlignment="Top"
+                        Margin="0,20,0,0">
+                    <Label x:Name="FriendlyNameLabel" 
+                       HorizontalAlignment="Left" 
+                       HorizontalContentAlignment="Left"
+                       Margin="0,0,0,0" 
+                       Content="Friendly name" 
+                       VerticalAlignment="Bottom" 
+                       Width="200" 
+                       Background="Transparent" 
+                       BorderThickness="0"
+                       Foreground="White" FontSize="16" FontWeight="Light" FontFamily="Calibri"/>
+                    <TextBox Height="40" Width="250" Name="FriendlyNameText" Text="{Binding Path=FriendlyName}">
+                        <TextBox.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="10" />
+                            </Style>
+                        </TextBox.Resources>
+                        <TextBox.BorderBrush>
+                            <SolidColorBrush Color="Transparent" />
+                        </TextBox.BorderBrush>
+                        <TextBox.Foreground>
+                            <SolidColorBrush Color="White" />
+                        </TextBox.Foreground>
+                        <TextBox.Background>
+                            <SolidColorBrush Color="#000" Opacity="0.30" />
+                        </TextBox.Background>
+                    </TextBox>
+                    <Label x:Name="ShareCodeLabel" 
+                       HorizontalAlignment="Left" 
+                       HorizontalContentAlignment="Left"
+                       Margin="0,0,0,0" 
+                       Content="Share code" 
+                       VerticalAlignment="Bottom" 
+                       Width="200" 
+                       Background="Transparent" 
+                       BorderThickness="0"
+                       Foreground="White" FontSize="16" FontWeight="Light" FontFamily="Calibri"/>
+                    <TextBox Height="40" Width="250" Name="ShareCodeText" Text="{Binding Path=ShareCode}">
+                        <TextBox.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="10" />
+                            </Style>
+                        </TextBox.Resources>
+                        <TextBox.BorderBrush>
+                            <SolidColorBrush Color="Transparent" />
+                        </TextBox.BorderBrush>
+                        <TextBox.Foreground>
+                            <SolidColorBrush Color="White" />
+                        </TextBox.Foreground>
+                        <TextBox.Background>
+                            <SolidColorBrush Color="#000" Opacity="0.30" />
+                        </TextBox.Background>
+                    </TextBox>
+                </StackPanel>
+            </Border>
+            <Label x:Name="ErrorLabel" 
+                   HorizontalAlignment="Left" 
+                   HorizontalContentAlignment="Left"
+                   Margin="10,0,0,0" 
+                   Content="{Binding ErrorMessage}"
+                   VerticalAlignment="Bottom" 
+                   Background="Transparent" 
+                   BorderThickness="0"
+                   Foreground="Red" FontSize="16" FontWeight="Light" FontFamily="Calibri"/>
+            <Button Cursor="Hand" Style="{DynamicResource RoundButton}" 
+                    Content="Add PiShock" 
+                    Background="#f4d600" 
+                    Width="100" 
+                    FontFamily="Calibri" 
+                    FontSize="18" 
+                    FontWeight="Regular" 
+                    BorderThickness="0" 
+                    Command="{Binding AddPiShockCommand}"/>
+        </StackPanel>
+        
+    </Grid>
+</UserControl>

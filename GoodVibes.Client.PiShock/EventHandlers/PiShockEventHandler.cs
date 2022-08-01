@@ -19,11 +19,15 @@ namespace GoodVibes.Client.PiShock.EventHandlers
         public void Subscribe()
         {
             _eventAggregator.GetEvent<PiShockCommandEventCarrier>().Subscribe(PiShockCommandReceived);
+            _eventAggregator.GetEvent<PiShockToyAddedEventCarrier>().Subscribe(PiShockToyAddedEventHandler);
+            _eventAggregator.GetEvent<PiShockToyRemovedEventCarrier>().Subscribe(PiShockToyRemovedEventHandler);
         }
 
         public void Unsubscribe()
         {
             _eventAggregator.GetEvent<PiShockCommandEventCarrier>().Unsubscribe(PiShockCommandReceived);
+            _eventAggregator.GetEvent<PiShockToyAddedEventCarrier>().Unsubscribe(PiShockToyAddedEventHandler);
+            _eventAggregator.GetEvent<PiShockToyRemovedEventCarrier>().Unsubscribe(PiShockToyRemovedEventHandler);
         }
 
         private void PiShockCommandReceived(PiShockCommandEvent obj)
@@ -33,18 +37,28 @@ namespace GoodVibes.Client.PiShock.EventHandlers
             switch (obj.Command)
             {
                 case PiShockCommandEnum.Shock:
-                    Task.Run(() => _piShockClient.Shock(obj.Username!, obj.ShareCode!, obj.Duration, obj.Intensity));
+                    Task.Run(() => _piShockClient.Shock(obj.ShareCode!, obj.Duration, obj.Intensity));
                     break;
                 case PiShockCommandEnum.Vibrate:
-                    Task.Run(() => _piShockClient.Vibrate(obj.Username!, obj.ShareCode!, obj.Duration, obj.Intensity));
+                    Task.Run(() => _piShockClient.Vibrate(obj.ShareCode!, obj.Duration, obj.Intensity));
                     break;
                 case PiShockCommandEnum.Beep:
-                    Task.Run(() => _piShockClient.Beep(obj.Username!, obj.ShareCode!, obj.Duration));
+                    Task.Run(() => _piShockClient.Beep(obj.ShareCode!, obj.Duration));
                     break;
                 case PiShockCommandEnum.Unknown:
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void PiShockToyAddedEventHandler(PiShockToyAddedEvent obj)
+        {
+            _piShockClient.AddToy(obj.FriendlyName!, obj.ShareCode!, obj.ToyType);
+        }
+
+        private void PiShockToyRemovedEventHandler(PiShockToyRemovedEvent obj)
+        {
+            _piShockClient.RemoveToy(obj.ShareCode!);
         }
     }
 }

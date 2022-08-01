@@ -14,6 +14,7 @@ using GoodVibes.Client.PiShock.EventHandlers;
 using GoodVibes.Client.Settings;
 using GoodVibes.Client.Settings.Enums;
 using GoodVibes.Client.Settings.Models;
+using GoodVibes.Client.Wpf.Modules.AddToyModule;
 using GoodVibes.Client.Wpf.Modules.AvatarMapperModule;
 using GoodVibes.Client.Wpf.Modules.ContentHeaderModule;
 using GoodVibes.Client.Wpf.Modules.DashboardModule;
@@ -23,6 +24,7 @@ using GoodVibes.Client.Wpf.Modules.MenuFooterModule;
 using GoodVibes.Client.Wpf.Modules.MenuHeaderModule;
 using GoodVibes.Client.Wpf.Modules.MenuModule;
 using GoodVibes.Client.Wpf.Modules.PiShockConnectModule;
+using GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule;
 using GoodVibes.Client.Wpf.Services;
 using GoodVibes.Client.Wpf.Services.Abstractions;
 using Prism.Modularity;
@@ -91,6 +93,8 @@ namespace GoodVibes.Client.Wpf
             moduleCatalog.AddModule<LovenseConnectModule>();
             moduleCatalog.AddModule<AvatarMapperModule>();
             moduleCatalog.AddModule<PiShockConnectModule>();
+            moduleCatalog.AddModule<PiShockToySettingsModule>();
+            moduleCatalog.AddModule<AddToyModule>();
 
             // Main modules need to be declared last
             moduleCatalog.AddModule<DashboardModule>();

@@ -4,6 +4,7 @@ using GoodVibes.Client.Core;
 using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.Lovense.Enums;
 using GoodVibes.Client.Wpf.Modules.LovenseToySettingsModule.Views;
+using GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule.Views;
 using Prism.Commands;
 using Prism.Ioc;
 using Prism.Regions;
@@ -40,6 +41,7 @@ namespace GoodVibes.Client.Wpf.Modules.MenuModule.ViewModels
                 ToyTypeEnum.LovenseNora => nameof(NoraSettingsView),
                 ToyTypeEnum.LovenseOsci => nameof(OsciSettingsView),
                 ToyTypeEnum.LovenseSexMachine => nameof(SexMachineSettingsView),
+                ToyTypeEnum.PiShockShocker => nameof(PiShockToySettingsView),
                 _ => ""
             };
 

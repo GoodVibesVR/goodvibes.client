@@ -1,4 +1,5 @@
-﻿using Prism.Ioc;
+﻿using GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule.Views;
+using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 
@@ -19,7 +20,7 @@ namespace GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            //containerRegistry.RegisterForNavigation<ShockerSettingsView>();
+            containerRegistry.RegisterForNavigation<PiShockToySettingsView>();
         }
     }
 }

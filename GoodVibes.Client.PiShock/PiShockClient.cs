@@ -42,17 +42,18 @@ namespace GoodVibes.Client.PiShock
                 });
         }
 
-        public void AddToy(string shareCode, ToyTypeEnum toyType)
+        public void AddToy(string friendlyName, string shareCode, ToyTypeEnum toyType)
         {
             Toys!.Add(shareCode, new Shocker()
             {
+                FriendlyName = friendlyName,
                 ShareCode = shareCode
             });
         }
 
         public void RemoveToy(string shareCode)
         {
-            Toys.Remove(shareCode);
+            Toys!.Remove(shareCode);
         }
 
         public async Task Shock(string shareCode, int duration, int intensity)

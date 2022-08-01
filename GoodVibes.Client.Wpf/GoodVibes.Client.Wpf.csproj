@@ -7,6 +7,7 @@
 		<DisableWinExeOutputInference Condition="'$(Configuration)'=='DEBUG'">true</DisableWinExeOutputInference>
 		<DisableWinExeOutputInference Condition="'$(Configuration)'=='RELEASE'">false</DisableWinExeOutputInference>
 		<ApplicationIcon>GW_Logo.ico</ApplicationIcon>
+		<AssemblyName>GoodVibes</AssemblyName>
 	</PropertyGroup>
 	<ItemGroup>
 	  <None Remove="Resources\icon_ambi.png" />

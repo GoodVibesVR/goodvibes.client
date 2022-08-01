@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="GoodVibes.Client.Wpf.Modules.AddToyModule.Views.SelectTypeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:core1="clr-namespace:GoodVibes.Client.Core;assembly=GoodVibes.Client.Core"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+        <Label x:Name="SelectToyTypeLabel" 
+               HorizontalAlignment="Left" 
+               HorizontalContentAlignment="Left"
+               Margin="10,10,0,0" 
+               Content="Select the toy type you wish to add in the dropdown above" 
+               VerticalAlignment="Top" 
+               Background="Transparent" 
+               BorderThickness="0"
+               Foreground="White" FontSize="16" FontWeight="Light" FontFamily="Calibri"/>
+    </Grid>
+</UserControl>

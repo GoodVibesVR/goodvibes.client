@@ -6,6 +6,9 @@ using GoodVibes.Client.Core;
 using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.Lovense.EventCarriers;
 using GoodVibes.Client.Lovense.Events;
+using GoodVibes.Client.Wpf.Modules.AddToyModule.Views;
+using GoodVibes.Client.Wpf.Modules.AvatarMapperModule.Views;
+using GoodVibes.Client.Wpf.Modules.DashboardModule.Views;
 using GoodVibes.Client.Wpf.Services.Abstractions;
 using Prism.Commands;
 using Prism.Events;
@@ -31,7 +34,7 @@ public class MenuViewModel : RegionViewModelBase
 
     private void NavigateToDashboard()
     {
-        _regionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
+        _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(DashboardView));
     }
 
     private DelegateCommand _navigateToGroupsCommand;
@@ -49,7 +52,7 @@ public class MenuViewModel : RegionViewModelBase
 
     private void NavigateToAvatarMappings()
     {
-        _regionManager.RequestNavigate(RegionNames.ContentRegion, "AvatarMapperView");
+        _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(AvatarMapperView));
     }
 
     private DelegateCommand _navigateToWorldMappingsCommand;
@@ -59,6 +62,15 @@ public class MenuViewModel : RegionViewModelBase
     private void NavigateToWorldMappings()
     {
         _regionManager.RequestNavigate(RegionNames.ContentRegion, "WorldMapperView");
+    }
+
+    private DelegateCommand _navigateToAddToyCommand;
+    public DelegateCommand NavigateToAddToyCommand =>
+        _navigateToAddToyCommand ??= new DelegateCommand(NavigateToAddToy);
+
+    private void NavigateToAddToy()
+    {
+        _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(AddToyView));
     }
 
     public MenuViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, ILovenseService lovenseService) :
