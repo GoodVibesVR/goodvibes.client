@@ -126,7 +126,8 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
             var commandStr = string.Empty;
             foreach (var toyCommand in ToyCommands)
             {
-                var highestValue = 0;
+                //var highestValue = 0;
+                var lastValue = 0;
                 if (toyCommand.Key == Function1 || toyCommand.Key == Function2)
                 {
                     var values = toyCommand.Value;
@@ -135,7 +136,8 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
                     if (values == null) continue;
 
                     // TODO: Add more calculation methods for different behaviors
-                    highestValue = values.Prepend(0).Max();
+                    //highestValue = values.Prepend(0).Max();
+                    lastValue = values.Last();
                 }
                 else
                 {
@@ -147,7 +149,7 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
                     commandStr += ",";
                 }
 
-                commandStr += $"{toyCommand.Key.ToString()}:{DivideByStrengthPercentage(toyCommand.Key, highestValue)}";
+                commandStr += $"{toyCommand.Key.ToString()}:{DivideByStrengthPercentage(toyCommand.Key, lastValue)}";
             }
 
             Console.WriteLine($"CommandString returned: {commandStr}");
