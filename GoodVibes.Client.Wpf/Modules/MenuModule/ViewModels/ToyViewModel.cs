@@ -3,9 +3,12 @@ using GoodVibes.Client.Common.Enums;
 using GoodVibes.Client.Core;
 using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.Lovense.Enums;
+using GoodVibes.Client.Wpf.EventCarriers;
+using GoodVibes.Client.Wpf.Events;
 using GoodVibes.Client.Wpf.Modules.LovenseToySettingsModule.Views;
 using GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule.Views;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Ioc;
 using Prism.Regions;
 
@@ -16,6 +19,20 @@ namespace GoodVibes.Client.Wpf.Modules.MenuModule.ViewModels
         private DelegateCommand _navigateToSettingsCommand;
         public DelegateCommand NavigateToSettingsCommand =>
             _navigateToSettingsCommand ??= new DelegateCommand(NavigateToSettings);
+
+        private DelegateCommand _removeToyCommand;
+
+        public DelegateCommand RemoveToyCommand =>
+            _removeToyCommand ??= new DelegateCommand(RemoveToy);
+
+        private void RemoveToy()
+        {
+            var eventAggregator = ContainerLocator.Container.Resolve<IEventAggregator>();
+            eventAggregator.GetEvent<RemoveToyEventCarrier>().Publish(new RemoveToyEvent()
+            {
+                ToyId = Id
+            });
+        }
 
         private void NavigateToSettings()
         {

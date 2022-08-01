@@ -321,7 +321,7 @@
                                 Opacity="1" 
                                 Width="30"
                                 Height="32"
-                                Command="{Binding _removeToyCommand}">
+                                Command="{Binding RemoveToyCommand}">
                                     <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
                                      Stretch="Uniform"
                                      HorizontalAlignment="Right"

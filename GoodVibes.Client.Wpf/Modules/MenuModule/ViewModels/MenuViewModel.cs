@@ -6,6 +6,8 @@ using GoodVibes.Client.Core;
 using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.Lovense.EventCarriers;
 using GoodVibes.Client.Lovense.Events;
+using GoodVibes.Client.Wpf.EventCarriers;
+using GoodVibes.Client.Wpf.Events;
 using GoodVibes.Client.Wpf.Modules.AddToyModule.Views;
 using GoodVibes.Client.Wpf.Modules.AvatarMapperModule.Views;
 using GoodVibes.Client.Wpf.Modules.DashboardModule.Views;
@@ -81,6 +83,12 @@ public class MenuViewModel : RegionViewModelBase
 
         Toys = new ObservableCollection<ToyViewModel>();
         eventAggregator.GetEvent<LovenseToyListUpdatedEventCarrier>().Subscribe(LovenseToyListUpdated);
+        eventAggregator.GetEvent<RemoveToyEventCarrier>().Subscribe(ToyRemoved);
+    }
+
+    private void ToyRemoved(RemoveToyEvent obj)
+    {
+        throw new NotImplementedException();
     }
 
     private void LovenseToyListUpdated(LovenseToyListUpdatedEvent obj)
