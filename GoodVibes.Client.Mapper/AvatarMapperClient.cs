@@ -87,13 +87,7 @@ public class AvatarMapperClient
     public void ChangeMappings(IEnumerable<MappingDto> oldMappings, IEnumerable<MappingDto> newMappings)
     {
         _mappings.Clear();
-
-        //foreach (var oldMapping in oldMappings)
-        //{
-        //    var oscAddress = buildOscAddress(oldMapping.OscAddress!);
-        //    _mappings.Remove(oscAddress);
-        //}
-
+        
         foreach (var newMapping in newMappings)
         {
             var oscAddress = buildOscAddress(newMapping.OscAddress!);
@@ -126,7 +120,7 @@ public class AvatarMapperClient
     {
         if (dto.Address == "/avatar/change")
         {
-            var avatarId = dto.Value!.ToString().Replace("/avatar/change, ", "").Replace("\"", "");
+            var avatarId = dto.Value!.Replace("/avatar/change, ", "").Replace("\"", "");
             _eventAggregator.GetEvent<AvatarChangedEventCarrier>().Publish(new AvatarChangedEvent()
             {
                 AvatarId = avatarId
@@ -136,6 +130,7 @@ public class AvatarMapperClient
 
     private void MapAndPublishIntEvent(OscIntMessageDto dto)
     {
+
     }
 
     private void MapAndPublishFloatEvent(OscFloatMessageDto messageDto)

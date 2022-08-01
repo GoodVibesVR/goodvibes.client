@@ -1,4 +1,4 @@
-﻿using GoodVibes.Client.Lovense.Enums;
+﻿using GoodVibes.Client.Common.Enums;
 
 namespace GoodVibes.Client.Mapper.Dtos;
 
@@ -9,4 +9,5 @@ public class ToyMappingDto
     public string? DisplayName => $"{Name} / {Function}";
     public string Function { get; set; }
     public bool IsChecked { get; set; }
+    public ToyTypeEnum ToyType { get; set; }
 }
