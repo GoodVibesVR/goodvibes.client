@@ -49,8 +49,60 @@
                                     Grid.Column="1"
                                 FontSize="15" 
                                 Padding="5"
-                                Content="Connect" 
-                                Command="{Binding ConnectToLovenseCommandHubCommand}"/>
+                                Command="{Binding ConnectToLovenseCommandHubCommand}">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Content" Value="Disconnected" />
+                                        <Setter Property="Background" Value="Red" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding LovenseConnected}" Value="True">
+                                                <Setter Property="Visibility" Value="Hidden" />
+                                            </DataTrigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Content" Value="Connect?" />
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type Button}">
+                                                            <Border x:Name="Border" Background="Green">
+                                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                            <Button Name="LovenseConnectedBtn"
+                                    Grid.Column="1"
+                                FontSize="15" 
+                                Padding="5"
+                                Command="{Binding ConnectToLovenseCommandHubCommand}">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Content" Value="Connected" />
+                                        <Setter Property="Background" Value="Green" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding LovenseConnected}" Value="False">
+                                                <Setter Property="Visibility" Value="Hidden" />
+                                            </DataTrigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Content" Value="Disconnect?" />
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type Button}">
+                                                            <Border x:Name="Border" Background="Red">
+                                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
                         </Grid>
                         <Grid Grid.Row="1" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
@@ -58,12 +110,64 @@
                                 <ColumnDefinition Width="100" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="PiShock" Grid.Column="0" Foreground="White" FontSize="24" />
+                            <Button Name="PiShockDsconnectedBtn"
+                                    Grid.Column="1"
+                                    FontSize="15" 
+                                    Padding="5"
+                                    Command="{Binding ConnectToPiShockCommandHubCommand}">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Content" Value="Disconnected" />
+                                        <Setter Property="Background" Value="Red" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding PiShockConnected}" Value="True">
+                                                <Setter Property="Visibility" Value="Hidden" />
+                                            </DataTrigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Content" Value="Connect?" />
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type Button}">
+                                                            <Border x:Name="Border" Background="Green">
+                                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
                             <Button Name="PiShockConnectBtn"
                                     Grid.Column="1"
                                     FontSize="15" 
                                     Padding="5"
-                                    Content="Connect" 
-                                    Command="{Binding ConnectToPiShockCommandHubCommand}"/>
+                                    Command="{Binding ConnectToPiShockCommandHubCommand}">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Content" Value="Connected" />
+                                        <Setter Property="Background" Value="Green" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding PiShockConnected}" Value="False">
+                                                <Setter Property="Visibility" Value="Hidden" />
+                                            </DataTrigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Content" Value="Disconnect?" />
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type Button}">
+                                                            <Border x:Name="Border" Background="Red">
+                                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
                         </Grid>
 
                         <!--<Grid Grid.Row="1" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Stretch">
