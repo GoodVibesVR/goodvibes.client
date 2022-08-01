@@ -24,6 +24,7 @@ namespace GoodVibes.Client.Wpf.Modules.MenuModule.ViewModels;
 public class MenuViewModel : RegionViewModelBase
 {
     private readonly IRegionManager _regionManager;
+    private readonly IEventAggregator _eventAggregator;
     private readonly ILovenseService _lovenseService;
     private readonly IPiShockService _piShockService;
 
@@ -83,6 +84,7 @@ public class MenuViewModel : RegionViewModelBase
           base(regionManager)
     {
         _regionManager = regionManager;
+        _eventAggregator = eventAggregator;
         _lovenseService = lovenseService;
         _piShockService = piShockService;
 
@@ -94,7 +96,46 @@ public class MenuViewModel : RegionViewModelBase
 
     private void ToyRemoved(RemoveToyEvent obj)
     {
-        throw new NotImplementedException();
+        var toy = Toys.FirstOrDefault(t => t.Id == obj.ToyId);
+        if (toy != null)
+        {
+            switch (toy.ToyType)
+            {
+                
+                case ToyTypeEnum.LovenseAmbi:
+                case ToyTypeEnum.LovenseCalor:
+                case ToyTypeEnum.LovenseDiamo:
+                case ToyTypeEnum.LovenseDolce:
+                case ToyTypeEnum.LovenseDomi:
+                case ToyTypeEnum.LovenseEdge:
+                case ToyTypeEnum.LovenseExomoon:
+                case ToyTypeEnum.LovenseFerri:
+                case ToyTypeEnum.LovenseGush:
+                case ToyTypeEnum.LovenseHush:
+                case ToyTypeEnum.LovenseHyphy:
+                case ToyTypeEnum.LovenseLush:
+                case ToyTypeEnum.LovenseMax:
+                case ToyTypeEnum.LovenseNora:
+                case ToyTypeEnum.LovenseOsci:
+                case ToyTypeEnum.LovenseSexMachine:
+                    _eventAggregator.GetEvent<RemoveLovenseToyEventCarrier>().Publish(new RemoveLovenseToyEvent()
+                    {
+                        ToyId = toy.Id
+                    });
+                    break;
+                case ToyTypeEnum.PiShockShocker:
+                    _eventAggregator.GetEvent<RemovePiShockToyEventCarrier>().Publish(new RemovePiShockToyEvent()
+                    {
+                        ToyId = toy.Id
+                    });
+                    break;
+                case ToyTypeEnum.Unknown:
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            Toys.Remove(toy);
+        }
     }
     private void PiShockToyListUpdated(PiShockToyListUpdatedEvent obj)
     {

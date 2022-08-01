@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using GoodVibes.Client.Lovense.Models.Abstractions;
 using GoodVibes.Client.Mapper.Dtos;
+using GoodVibes.Client.PiShock.Models.Abstractions;
 using GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels;
 
 namespace GoodVibes.Client.Wpf.Services.Abstractions;
@@ -12,6 +13,7 @@ public interface IAvatarMapperService
 
     IEnumerable<ToyFunctionViewModel> BuildToyFunctionViewModels(IEnumerable<LovenseToy> toyList);
 
+    IEnumerable<ToyFunctionViewModel> BuildToyFunctionViewModels(IEnumerable<PiShockToy> toyList);
 
     void RemoveMappingPoint(string oscAddress);
 

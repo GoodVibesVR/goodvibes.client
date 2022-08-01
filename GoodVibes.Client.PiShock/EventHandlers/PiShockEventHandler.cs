@@ -20,14 +20,14 @@ namespace GoodVibes.Client.PiShock.EventHandlers
         {
             _eventAggregator.GetEvent<PiShockCommandEventCarrier>().Subscribe(PiShockCommandReceived);
             _eventAggregator.GetEvent<PiShockToyAddedEventCarrier>().Subscribe(PiShockToyAddedEventHandler);
-            _eventAggregator.GetEvent<PiShockToyRemovedEventCarrier>().Subscribe(PiShockToyRemovedEventHandler);
+            _eventAggregator.GetEvent<RemovePiShockToyEventCarrier>().Subscribe(RemovePiSHockToyEventHandler);
         }
 
         public void Unsubscribe()
         {
             _eventAggregator.GetEvent<PiShockCommandEventCarrier>().Unsubscribe(PiShockCommandReceived);
             _eventAggregator.GetEvent<PiShockToyAddedEventCarrier>().Unsubscribe(PiShockToyAddedEventHandler);
-            _eventAggregator.GetEvent<PiShockToyRemovedEventCarrier>().Unsubscribe(PiShockToyRemovedEventHandler);
+            _eventAggregator.GetEvent<RemovePiShockToyEventCarrier>().Unsubscribe(RemovePiSHockToyEventHandler);
         }
 
         private void PiShockCommandReceived(PiShockCommandEvent obj)
@@ -53,12 +53,12 @@ namespace GoodVibes.Client.PiShock.EventHandlers
 
         private void PiShockToyAddedEventHandler(PiShockToyAddedEvent obj)
         {
-            _piShockClient.AddToy(obj.FriendlyName!, obj.ShareCode!, obj.ToyType);
+            Task.Run(() => _piShockClient.AddToy(obj.FriendlyName!, obj.ShareCode!, obj.ToyType));
         }
 
-        private void PiShockToyRemovedEventHandler(PiShockToyRemovedEvent obj)
+        private void RemovePiSHockToyEventHandler(RemovePiShockToyEvent obj)
         {
-            _piShockClient.RemoveToy(obj.ShareCode!);
+            Task.Run(() => _piShockClient.RemoveToy(obj.ToyId!));
         }
     }
 }

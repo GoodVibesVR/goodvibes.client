@@ -42,7 +42,7 @@ namespace GoodVibes.Client.PiShock
                 });
         }
 
-        public void AddToy(string friendlyName, string shareCode, ToyTypeEnum toyType)
+        public Task AddToy(string friendlyName, string shareCode, ToyTypeEnum toyType)
         {
             Toys!.Add(shareCode, new Shocker()
             {
@@ -54,11 +54,19 @@ namespace GoodVibes.Client.PiShock
             {
                 ToyList = Toys.Select(t => t.Value).ToList()
             });
+
+            return Task.CompletedTask;
         }
 
-        public void RemoveToy(string shareCode)
+        public Task RemoveToy(string toyId)
         {
-            Toys!.Remove(shareCode);
+            var toyFound = Toys!.TryGetValue(toyId, out var toy);
+            if (toyFound)
+            {
+                Toys.Remove(toyId);
+            }
+
+            return Task.CompletedTask;
         }
 
         public async Task Shock(string shareCode, int duration, int intensity)

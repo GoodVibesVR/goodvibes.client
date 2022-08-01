@@ -3,6 +3,6 @@ using Prism.Events;
 
 namespace GoodVibes.Client.PiShock.EventCarriers;
 
-public class PiShockToyRemovedEventCarrier : PubSubEvent<PiShockToyRemovedEvent>
+public class RemovePiShockToyEventCarrier : PubSubEvent<RemovePiShockToyEvent>
 {
 }

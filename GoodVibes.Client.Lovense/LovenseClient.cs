@@ -36,8 +36,7 @@ namespace GoodVibes.Client.Lovense
         public int Version { get; private set; }
         public string? Platform { get; private set; }
         public Dictionary<string, LovenseToy>? Toys { get; private set; }
-
-
+        
         public LovenseClient(ApplicationSettings applicationSettings, LovenseEventDispatcher lovenseEventDispatcher) : base()
         {
             _applicationSettings = applicationSettings;
@@ -79,6 +78,17 @@ namespace GoodVibes.Client.Lovense
             }
 
             Console.WriteLine($"Strength now changed:\nStrength1: {strength1}\nStrength2: {strength2}");
+
+            return Task.CompletedTask;
+        }
+
+        public Task RemoveToy(string toyId)
+        {
+            var toyFound = Toys!.TryGetValue(toyId, out var toy);
+            if (toyFound)
+            {
+                Toys.Remove(toyId);
+            }
 
             return Task.CompletedTask;
         }
@@ -237,7 +247,7 @@ namespace GoodVibes.Client.Lovense
                                     command.Value, 0, 0, lovenseToy.Id);
                             }
 
-                            return;
+                            continue;
                         }
 
                         var commandStr = lovenseToy.GetCommandString();

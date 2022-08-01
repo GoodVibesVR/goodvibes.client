@@ -62,6 +62,7 @@ public class AddPiShockViewModel : RegionViewModelBase
     {
         FriendlyName = string.Empty;
         ShareCode = string.Empty;
+        ErrorMessage = string.Empty;
     }
 
     private void AddPiShockHandler()

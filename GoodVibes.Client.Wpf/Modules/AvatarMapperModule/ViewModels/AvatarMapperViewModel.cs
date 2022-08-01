@@ -4,12 +4,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using GoodVibes.Client.Core.Mvvm;
-using GoodVibes.Client.Lovense.Enums;
 using GoodVibes.Client.Lovense.EventCarriers;
 using GoodVibes.Client.Lovense.Events;
 using GoodVibes.Client.Mapper.Dtos;
 using GoodVibes.Client.Mapper.EventCarriers;
 using GoodVibes.Client.Mapper.Events;
+using GoodVibes.Client.PiShock.EventCarriers;
+using GoodVibes.Client.PiShock.Events;
 using GoodVibes.Client.Vrchat.Dtos;
 using GoodVibes.Client.Wpf.EventCarriers;
 using GoodVibes.Client.Wpf.Events;
@@ -93,6 +94,7 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
             };
 
             eventAggregator.GetEvent<LovenseToyListUpdatedEventCarrier>().Subscribe(LovenseToyListUpdated);
+            eventAggregator.GetEvent<PiShockToyListUpdatedEventCarrier>().Subscribe(PiShockToyListUpdated);
             eventAggregator.GetEvent<AvatarChangedEventCarrier>().Subscribe(AvatarChanged);
             eventAggregator.GetEvent<RemoveAvatarMappingEventCarrier>().Subscribe(RemoveMappingPoint);
             eventAggregator.GetEvent<AddEmptyMappingEventCarrier>().Subscribe(AddEmptyMapping);
@@ -234,6 +236,27 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                     }
                 }
                 
+                foreach (var mappingPoint in MappingPoints)
+                {
+                    mappingPoint.AvailableToyFunctions = AvailableToyFunctions.ToArray();
+                }
+            });
+        }
+
+        private void PiShockToyListUpdated(PiShockToyListUpdatedEvent obj)
+        {
+            Application.Current.Dispatcher.Invoke((Action)delegate
+            {
+                var toyFunctions = _mapperService.BuildToyFunctionViewModels(obj.ToyList);
+                foreach (var toy in toyFunctions)
+                {
+                    var exists = AvailableToyFunctions.Any(t => t.ToyId == toy.ToyId && t.Function == toy.Function);
+                    if (!exists)
+                    {
+                        AvailableToyFunctions.Add(toy);
+                    }
+                }
+
                 foreach (var mappingPoint in MappingPoints)
                 {
                     mappingPoint.AvailableToyFunctions = AvailableToyFunctions.ToArray();

@@ -1,4 +1,5 @@
-﻿using GoodVibes.Client.Lovense.EventCarriers;
+﻿using GoodVibes.Client.Lovense.Enums;
+using GoodVibes.Client.Lovense.EventCarriers;
 using GoodVibes.Client.Lovense.Events;
 using GoodVibes.Client.Mapper.Dtos;
 using GoodVibes.Client.Mapper.Dtos.Abstractions;
@@ -145,7 +146,7 @@ public class AvatarMapperClient
         {
             _eventAggregator.GetEvent<LovenseCommandEventCarrier>().Publish(new LovenseCommandEvent
             {
-                Command = mappingDto.Function,
+                Command = (LovenseCommandEnum)Enum.Parse(typeof(LovenseCommandEnum), mappingDto.Function, true),
                 Toy = mappingDto.Id,
                 Value = messageDto.Value
             });

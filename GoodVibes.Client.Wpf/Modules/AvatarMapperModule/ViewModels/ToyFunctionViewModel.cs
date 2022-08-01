@@ -19,8 +19,8 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
             set => SetProperty(ref _name, value);
         }
 
-        private LovenseCommandEnum _function;
-        public LovenseCommandEnum Function
+        private string _function;
+        public string Function
         {
             get => _function;
             set => SetProperty(ref _function, value);
