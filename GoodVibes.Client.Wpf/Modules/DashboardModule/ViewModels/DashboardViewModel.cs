@@ -15,6 +15,20 @@ namespace GoodVibes.Client.Wpf.Modules.DashboardModule.ViewModels
         private readonly LovenseClient _lovenseClient;
         private readonly OscServer _oscServer;
 
+        private bool _lovenseConnected;
+        public bool LovenseConnected
+        {
+            get => _lovenseConnected;
+            set => SetProperty(ref _lovenseConnected, value);
+        }
+
+        private bool _piShockConnected;
+        public bool PiShockConnected
+        {
+            get => _piShockConnected;
+            set => SetProperty(ref _piShockConnected, value);
+        }
+
         private DelegateCommand _connectToLovenseCommandHubCommand;
         public DelegateCommand ConnectToLovenseCommandHubCommand =>
             _connectToLovenseCommandHubCommand ??= new DelegateCommand(ConnectToLovense);
