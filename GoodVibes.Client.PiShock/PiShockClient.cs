@@ -49,6 +49,11 @@ namespace GoodVibes.Client.PiShock
                 FriendlyName = friendlyName,
                 ShareCode = shareCode
             });
+
+            _piShockEventDispatcher.Dispatch(new PiShockToyListUpdatedEvent()
+            {
+                ToyList = Toys.Select(t => t.Value).ToList()
+            });
         }
 
         public void RemoveToy(string shareCode)

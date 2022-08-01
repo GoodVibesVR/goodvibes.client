@@ -2,10 +2,13 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using GoodVibes.Client.Common.Enums;
 using GoodVibes.Client.Core;
 using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.Lovense.EventCarriers;
 using GoodVibes.Client.Lovense.Events;
+using GoodVibes.Client.PiShock.EventCarriers;
+using GoodVibes.Client.PiShock.Events;
 using GoodVibes.Client.Wpf.EventCarriers;
 using GoodVibes.Client.Wpf.Events;
 using GoodVibes.Client.Wpf.Modules.AddToyModule.Views;
@@ -22,6 +25,7 @@ public class MenuViewModel : RegionViewModelBase
 {
     private readonly IRegionManager _regionManager;
     private readonly ILovenseService _lovenseService;
+    private readonly IPiShockService _piShockService;
 
     private ObservableCollection<ToyViewModel> _toys;
     public ObservableCollection<ToyViewModel> Toys
@@ -75,20 +79,44 @@ public class MenuViewModel : RegionViewModelBase
         _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(AddToyView));
     }
 
-    public MenuViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, ILovenseService lovenseService) :
+    public MenuViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, ILovenseService lovenseService, IPiShockService piShockService) :
           base(regionManager)
     {
         _regionManager = regionManager;
         _lovenseService = lovenseService;
+        _piShockService = piShockService;
 
         Toys = new ObservableCollection<ToyViewModel>();
         eventAggregator.GetEvent<LovenseToyListUpdatedEventCarrier>().Subscribe(LovenseToyListUpdated);
         eventAggregator.GetEvent<RemoveToyEventCarrier>().Subscribe(ToyRemoved);
+        eventAggregator.GetEvent<PiShockToyListUpdatedEventCarrier>().Subscribe(PiShockToyListUpdated);
     }
 
     private void ToyRemoved(RemoveToyEvent obj)
     {
         throw new NotImplementedException();
+    }
+    private void PiShockToyListUpdated(PiShockToyListUpdatedEvent obj)
+    {
+        Application.Current.Dispatcher.Invoke((Action)delegate
+        {
+            var tempList = Toys;
+            foreach (var piShockToy in obj.ToyList!)
+            {
+                var toy = tempList.FirstOrDefault(t => t.Id == piShockToy.ShareCode);
+                if (toy == null)
+                {
+                    Toys.Add(new ToyViewModel()
+                    {
+                        Id = piShockToy.ShareCode,
+                        DisplayName = piShockToy.FriendlyName,
+                        ToyIcon = _piShockService.GetToyIcon(piShockToy),
+                        Status = true,
+                        ToyType = ToyTypeEnum.PiShockShocker
+                    });
+                }
+            }
+        });
     }
 
     private void LovenseToyListUpdated(LovenseToyListUpdatedEvent obj)
