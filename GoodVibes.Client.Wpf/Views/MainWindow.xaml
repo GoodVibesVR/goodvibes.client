@@ -8,7 +8,9 @@
         AllowsTransparency="True"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen" Background="Transparent"
-        Loaded="Window_Loaded">
+        Loaded="Window_Loaded"
+        MinWidth="1034"
+        MinHeight="600">
     <WindowChrome.WindowChrome>
         <WindowChrome CornerRadius="0" GlassFrameThickness="0"/>
     </WindowChrome.WindowChrome>
