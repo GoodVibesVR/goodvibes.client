@@ -109,6 +109,11 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
         {
             _mapperService.RemoveMappingPoint(obj.MappingPoint.OscAddress);
             MappingPoints.Remove(obj.MappingPoint);
+
+            if (MappingPoints.Count == 0)
+            {
+                MappingPoints.Add(new MappingPointViewModel());
+            }
         }
 
         private void SelectedAvatarChanged(AvatarViewModel oldAvatarMapping, AvatarViewModel newAvatarMapping)

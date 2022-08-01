@@ -69,6 +69,30 @@ namespace GoodVibes.Client.PiShock
             return Task.CompletedTask;
         }
 
+        public Task ChangeIntensity(string toyId, int intensity)
+        {
+            if (!Toys!.TryGetValue(toyId, out var toy)) return Task.CompletedTask;
+
+            if (toy is Shocker shocker)
+            {
+                shocker.Intensity = intensity;
+            }
+
+            return Task.CompletedTask;
+        }
+
+        public Task ChangeDuration(string toyId, int duration)
+        {
+            if (!Toys!.TryGetValue(toyId, out var toy)) return Task.CompletedTask;
+
+            if (toy is Shocker shocker)
+            {
+                shocker.Duration = duration;
+            }
+
+            return Task.CompletedTask;
+        }
+
         public async Task Shock(string shareCode, int duration, int intensity)
         {
             await Connection!.InvokeAsync(PiShockCommandMethodConstants.Shock, shareCode, duration, intensity);

@@ -21,8 +21,10 @@ namespace GoodVibes.Client.PiShock.EventHandlers
             _eventAggregator.GetEvent<PiShockCommandEventCarrier>().Subscribe(PiShockCommandReceived);
             _eventAggregator.GetEvent<PiShockToyAddedEventCarrier>().Subscribe(PiShockToyAddedEventHandler);
             _eventAggregator.GetEvent<RemovePiShockToyEventCarrier>().Subscribe(RemovePiSHockToyEventHandler);
+            _eventAggregator.GetEvent<PiShockIntensityChangedEventCarrier>().Subscribe(IntensityChangedEventHandler);
+            _eventAggregator.GetEvent<PiShockDurationChangedEventCarrier>().Subscribe(DurationChangedEventHandler);
         }
-
+        
         public void Unsubscribe()
         {
             _eventAggregator.GetEvent<PiShockCommandEventCarrier>().Unsubscribe(PiShockCommandReceived);
@@ -59,6 +61,16 @@ namespace GoodVibes.Client.PiShock.EventHandlers
         private void RemovePiSHockToyEventHandler(RemovePiShockToyEvent obj)
         {
             Task.Run(() => _piShockClient.RemoveToy(obj.ToyId!));
+        }
+
+        private void IntensityChangedEventHandler(PiShockIntensityChangedEvent obj)
+        {
+            Task.Run(() => _piShockClient.ChangeIntensity(obj.ToyId!, obj.Intensity));
+        }
+
+        private void DurationChangedEventHandler(PiShockDurationChangedEvent obj)
+        {
+            Task.Run(() => _piShockClient.ChangeDuration(obj.ToyId!, obj.Duration));
         }
     }
 }
