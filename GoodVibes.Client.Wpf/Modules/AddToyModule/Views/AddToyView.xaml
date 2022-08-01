@@ -258,38 +258,44 @@
                 </LinearGradientBrush>
             </Rectangle.OpacityMask>
         </Rectangle>
-        <StackPanel HorizontalAlignment="Left" 
+        <ScrollViewer Margin="0,0,0,0"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Hidden">
+            <StackPanel>
+                <StackPanel HorizontalAlignment="Left" 
                     VerticalAlignment="Top"
                     Margin="10,50,0,0">
-            <Label x:Name="NewToyLabel" 
-                   HorizontalAlignment="Left" 
-                   HorizontalContentAlignment="Left"
-                   Margin="0,0,0,0" 
-                   Content="New Toy" 
-                   VerticalAlignment="Bottom" 
-                   Width="200" 
-                   Background="Transparent" 
-                   BorderThickness="0"
-                   Foreground="White" FontSize="24" FontWeight="SemiBold" FontFamily="Calibri"/>
-            <Border Padding="5" 
-                    CornerRadius="10"
-                    Margin="0, 5, 0, 0">
-                <Border.Background>
-                    <SolidColorBrush Color="#000" Opacity="0.25" />
-                </Border.Background>
-                <ComboBox Grid.Column="2" 
-                          Height="20" 
-                          Width="300" 
-                          ItemsSource="{Binding Path=ToyTypes}" 
-                          SelectedItem="{Binding Path=SelectedToyType}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Path=DisplayName}"></TextBlock>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </Border>
-        </StackPanel>
-        <ContentControl Panel.ZIndex="100" prism:RegionManager.RegionName="{x:Static core1:RegionNames.AddToyForm}" Opacity="1" Margin="0,120,0,0" Grid.RowSpan="2" />
+                    <Label x:Name="NewToyLabel" 
+                       HorizontalAlignment="Left" 
+                       HorizontalContentAlignment="Left"
+                       Margin="0,0,0,0" 
+                       Content="New Toy" 
+                       VerticalAlignment="Bottom" 
+                       Width="200" 
+                       Background="Transparent" 
+                       BorderThickness="0"
+                       Foreground="White" FontSize="24" FontWeight="SemiBold" FontFamily="Calibri"/>
+                    <Border Padding="5" 
+                        CornerRadius="10"
+                        Margin="0, 5, 0, 0">
+                        <Border.Background>
+                            <SolidColorBrush Color="#000" Opacity="0.25" />
+                        </Border.Background>
+                        <ComboBox Grid.Column="2" 
+                              Height="20" 
+                              Width="300" 
+                              ItemsSource="{Binding Path=ToyTypes}" 
+                              SelectedItem="{Binding Path=SelectedToyType}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=DisplayName}"></TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </Border>
+                </StackPanel>
+                <ContentControl Panel.ZIndex="100" prism:RegionManager.RegionName="{x:Static core1:RegionNames.AddToyForm}" Opacity="1" Margin="0,0,0,0" Grid.RowSpan="2" />
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>
