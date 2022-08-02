@@ -23,6 +23,15 @@
         <StackPanel HorizontalAlignment="Center" 
                     VerticalAlignment="Top"
                     Margin="0,50,0,0">
+            <Label x:Name="connectingLabel" 
+                   HorizontalAlignment="Center" 
+                   HorizontalContentAlignment="Center"
+                   Margin="0,0,0,0" 
+                   Content="Connecting..." 
+                   VerticalAlignment="Bottom" 
+                   Background="Transparent" 
+                   BorderThickness="0"
+                   Foreground="White" FontSize="18" FontWeight="Normal" FontFamily="Calibri Light"/>
             <Label x:Name="lovenseLabel" 
                    HorizontalAlignment="Center" 
                    HorizontalContentAlignment="Center"

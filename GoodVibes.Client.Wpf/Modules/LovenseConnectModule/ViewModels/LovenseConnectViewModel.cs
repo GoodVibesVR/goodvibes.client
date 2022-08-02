@@ -22,6 +22,14 @@ namespace GoodVibes.Client.Wpf.Modules.LovenseConnectModule.ViewModels
 
         private readonly LovenseClient _lovenseClient;
 
+        private bool _qrCodeReceived;
+
+        public bool QrCodeReceived
+        {
+            get => _qrCodeReceived;
+            set => SetProperty(ref _qrCodeReceived, value);
+        }
+
         private string _uniqueCode;
         public string UniqueCode
         {
@@ -57,6 +65,8 @@ namespace GoodVibes.Client.Wpf.Modules.LovenseConnectModule.ViewModels
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
+            QrCodeReceived = false;
+
             _eventAggregator.GetEvent<LovenseQrCodeReceivedEventCarrier>().Subscribe(LovenseQrCodeReceived);
             _eventAggregator.GetEvent<LovenseDeviceAccessibilityEventCarrier>().Subscribe(LovenseDeviceAccessibilityEventReceived);
             Task.Run(() => _lovenseClient.ConnectAsync());
@@ -90,6 +100,8 @@ namespace GoodVibes.Client.Wpf.Modules.LovenseConnectModule.ViewModels
                 QrSource = bitmap;
                 UniqueCode = obj.UniqueCode;
                 QrSourceOpacity = 1;
+
+                QrCodeReceived = true;
             });
         }
     }
