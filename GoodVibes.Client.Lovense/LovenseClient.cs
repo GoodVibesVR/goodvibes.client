@@ -234,6 +234,11 @@ namespace GoodVibes.Client.Lovense
 
             while (await timer.WaitForNextTickAsync())
             {
+                if (!Connected)
+                {
+                    return;
+                }
+
                 try
                 {
                     Console.WriteLine("ApiCallerTask triggered");

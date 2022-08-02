@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Windows;
 using GoodVibes.Client.Common;
 using GoodVibes.Client.Common.Extensions;
 using Prism.Ioc;
 using GoodVibes.Client.Core.Mvvm;
+using GoodVibes.Client.Lovense.EventCarriers;
+using GoodVibes.Client.Lovense.Events;
 using GoodVibes.Client.Mapper.Dtos;
+using GoodVibes.Client.PiShock.EventCarriers;
+using GoodVibes.Client.PiShock.Events;
 using GoodVibes.Client.Wpf.EventCarriers;
 using GoodVibes.Client.Wpf.Events;
 using GoodVibes.Client.Wpf.Services.Abstractions;
@@ -38,8 +43,13 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
             get => _availableToyFunctions;
             set => SetProperty(ref _availableToyFunctions, value);
         }
-    
-        public ObservableCollection<ToyFunctionViewModel> ToyMappings { get; set; }
+
+        private ObservableCollection<ToyFunctionViewModel> _toyMappings;
+        public ObservableCollection<ToyFunctionViewModel> ToyMappings
+        {
+            get => _toyMappings;
+            set => SetProperty(ref _toyMappings, value);
+        }
 
         private Visibility _hintVisible;
         public Visibility HintVisible
@@ -69,7 +79,33 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
             ToyMappings.CollectionChanged += ToyMappings_CollectionChanged;
 
             _oscAddress = string.Empty;
+
+            //_eventAggregator.GetEvent<RemoveLovenseToyEventCarrier>().Subscribe(RemoveLovenseToy);
+            //_eventAggregator.GetEvent<RemovePiShockToyEventCarrier>().Subscribe(RemovePiShockToy);
         }
+
+        //private void RemoveLovenseToy(RemoveLovenseToyEvent obj)
+        //{
+        //    RemoveToyFunctions(obj.ToyId);
+        //}
+
+        //private void RemovePiShockToy(RemovePiShockToyEvent obj)
+        //{
+        //    RemoveToyFunctions(obj.ToyId);
+        //}
+
+        //private void RemoveToyFunctions(string toyId)
+        //{
+        //    //var toyMappings = new ObservableCollection<ToyFunctionViewModel>(ToyMappings.Where(tm => tm.ToyId != toyId).ToList());
+        //    var toyFunctions = ToyMappings.Where(tm => tm.ToyId == toyId).ToList();
+        //    foreach (var toyFunction in toyFunctions)
+        //    {
+        //        ToyMappings.Remove(toyFunction);
+        //    }
+
+        //    ToyMappings = new ObservableCollection<ToyFunctionViewModel>(ToyMappings);
+        //    ToyMappings.CollectionChanged += ToyMappings_CollectionChanged;
+        //}
 
         private void ToyMappings_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -124,7 +160,7 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                     _eventAggregator.GetEvent<AddEmptyMappingEventCarrier>().Publish(new AddEmptyMappingEvent());
                     break;
             }
-            
+
             _mapperService.ChangeOrAddMappingAddress(oldAddress, newAddress);
         }
 
