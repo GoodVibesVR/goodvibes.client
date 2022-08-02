@@ -52,7 +52,7 @@ namespace GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule.ViewModels
             _vibrateCommand ??= new DelegateCommand(Vibrate);
 
         private DelegateCommand _beepCommand;
-        public DelegateCommand beepCommand =>
+        public DelegateCommand BeepCommand =>
             _beepCommand ??= new DelegateCommand(Beep);
 
         public PiShockToySettingsViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, PiShockClient piShockClient) : base(regionManager)
