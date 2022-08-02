@@ -1,7 +1,11 @@
 ﻿using System;
 using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.PiShock;
+using GoodVibes.Client.PiShock.Enums;
+using GoodVibes.Client.PiShock.EventCarriers;
+using GoodVibes.Client.PiShock.Events;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Regions;
 
 namespace GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule.ViewModels
@@ -9,6 +13,7 @@ namespace GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule.ViewModels
     public class PiShockToySettingsViewModel : RegionViewModelBase
     {
         private readonly PiShockClient _piShockClient;
+        private readonly IEventAggregator _eventAggregator;
 
         private string _toyId;
         public string ToyId
@@ -50,7 +55,7 @@ namespace GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule.ViewModels
         public DelegateCommand beepCommand =>
             _beepCommand ??= new DelegateCommand(Beep);
 
-        public PiShockToySettingsViewModel(IRegionManager regionManager, PiShockClient piShockClient) : base(regionManager)
+        public PiShockToySettingsViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, PiShockClient piShockClient) : base(regionManager)
         {
             _piShockClient = piShockClient;
         }
@@ -74,17 +79,29 @@ namespace GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule.ViewModels
 
         private void Shock()
         {
-
+            _eventAggregator.GetEvent<PiShockCommandEventCarrier>().Publish(new PiShockCommandEvent()
+            {
+                Command = PiShockCommandEnum.Shock,
+                ShareCode = ToyId
+            });
         }
 
         private void Vibrate()
         {
-
+            _eventAggregator.GetEvent<PiShockCommandEventCarrier>().Publish(new PiShockCommandEvent()
+            {
+                Command = PiShockCommandEnum.Vibrate,
+                ShareCode = ToyId
+            });
         }
 
         private void Beep()
         {
-
+            _eventAggregator.GetEvent<PiShockCommandEventCarrier>().Publish(new PiShockCommandEvent()
+            {
+                Command = PiShockCommandEnum.Beep,
+                ShareCode = ToyId
+            });
         }
     }
 }
