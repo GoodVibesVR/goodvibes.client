@@ -14,6 +14,7 @@
       <ProjectReference Include="..\GoodVibes.Client.Common\GoodVibes.Client.Common.csproj" />
       <ProjectReference Include="..\GoodVibes.Client.Events\GoodVibes.Client.Events.csproj" />
       <ProjectReference Include="..\GoodVibes.Client.Lovense\GoodVibes.Client.Lovense.csproj" />
+      <ProjectReference Include="..\GoodVibes.Client.PiShock\GoodVibes.Client.PiShock.csproj" />
     </ItemGroup>
 
 </Project>

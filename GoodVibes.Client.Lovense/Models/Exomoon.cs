@@ -6,7 +6,7 @@ namespace GoodVibes.Client.Lovense.Models;
 
 public sealed class Exomoon : LovenseToy
 {
-    public override ToyTypeEnum ToyType => ToyTypeEnum.LovenseExomoon;
+    public override ToyTypeEnum ToyType => ToyTypeEnum.Exomoon;
     public override bool Enabled { get; set; }
     public override LovenseCommandEnum Function1 { get; set; }
     public override LovenseCommandEnum Function2 { get; set; }

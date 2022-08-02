@@ -1,7 +1,6 @@
 ﻿using GoodVibes.Client.Common.Enums;
 using GoodVibes.Client.PiShock.EventDispatchers;
 using GoodVibes.Client.PiShock.Events;
-using GoodVibes.Client.PiShock.Models;
 using GoodVibes.Client.PiShock.Models.Abstractions;
 using GoodVibes.Client.Settings.Models;
 using GoodVibes.Client.SignalR;
@@ -44,10 +43,12 @@ namespace GoodVibes.Client.PiShock
 
         public Task AddToy(string friendlyName, string shareCode, ToyTypeEnum toyType)
         {
-            Toys!.Add(shareCode, new Shocker()
+            Toys!.Add(shareCode, new Models.PiShock()
             {
                 FriendlyName = friendlyName,
-                ShareCode = shareCode
+                ShareCode = shareCode,
+                Duration = 2,
+                Intensity = 50
             });
 
             _piShockEventDispatcher.Dispatch(new PiShockToyListUpdatedEvent()
@@ -69,43 +70,61 @@ namespace GoodVibes.Client.PiShock
             return Task.CompletedTask;
         }
 
-        public Task ChangeIntensity(string toyId, int intensity)
+        public Task ChangeIntensity(string toyId, float intensity)
         {
             if (!Toys!.TryGetValue(toyId, out var toy)) return Task.CompletedTask;
 
-            if (toy is Shocker shocker)
+            if (toy is Models.PiShock shocker)
             {
-                shocker.Intensity = intensity;
+                shocker.Intensity = (int)Math.Round((double)(intensity * 100));
             }
 
             return Task.CompletedTask;
         }
 
-        public Task ChangeDuration(string toyId, int duration)
+        public Task ChangeDuration(string toyId, float duration)
         {
             if (!Toys!.TryGetValue(toyId, out var toy)) return Task.CompletedTask;
 
-            if (toy is Shocker shocker)
+            if (toy is Models.PiShock shocker)
             {
-                shocker.Duration = duration;
+                shocker.Duration = (int)Math.Round((double)(duration * 10));
             }
 
             return Task.CompletedTask;
         }
 
-        public async Task Shock(string shareCode, int duration, int intensity)
+        public async Task Shock(string shareCode)
         {
-            await Connection!.InvokeAsync(PiShockCommandMethodConstants.Shock, shareCode, duration, intensity);
+            var found = Toys!.TryGetValue(shareCode, out var toy);
+            if (!found) return;
+
+            if (toy is Models.PiShock shocker)
+            {
+                await Connection!.InvokeAsync(PiShockCommandMethodConstants.Shock, shareCode, shocker.Duration, shocker.Intensity);
+            }
         }
 
-        public async Task Vibrate(string shareCode, int duration, int intensity)
+        public async Task Vibrate(string shareCode)
         {
-            await Connection!.InvokeAsync(PiShockCommandMethodConstants.Vibrate, shareCode, duration, intensity);
+            var found = Toys!.TryGetValue(shareCode, out var toy);
+            if (!found) return;
+
+            if (toy is Models.PiShock shocker)
+            {
+                await Connection!.InvokeAsync(PiShockCommandMethodConstants.Vibrate, shareCode, shocker.Duration, shocker.Intensity);
+            }
         }
 
-        public async Task Beep(string shareCode, int duration)
+        public async Task Beep(string shareCode)
         {
-            await Connection!.InvokeAsync(PiShockCommandMethodConstants.Vibrate, shareCode, duration);
+            var found = Toys!.TryGetValue(shareCode, out var toy);
+            if (!found) return;
+
+            if (toy is Models.PiShock shocker)
+            {
+                await Connection!.InvokeAsync(PiShockCommandMethodConstants.Beep, shareCode, shocker.Duration);
+            }
         }
 
         private void ReceiveConnectionAcknowledgedHandler(string messageStr)

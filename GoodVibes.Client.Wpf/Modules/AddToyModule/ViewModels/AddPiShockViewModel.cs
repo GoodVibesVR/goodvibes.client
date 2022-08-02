@@ -80,7 +80,7 @@ public class AddPiShockViewModel : RegionViewModelBase
         {
             FriendlyName = _friendlyName,
             ShareCode = _shareCode,
-            ToyType = ToyTypeEnum.PiShockShocker
+            ToyType = ToyTypeEnum.PiShock
         });
 
         var queryString = $"?toyId={_shareCode}";

@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows;
+using GoodVibes.Client.Common;
+using GoodVibes.Client.Common.Extensions;
 using Prism.Ioc;
 using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.Mapper.Dtos;
@@ -82,12 +84,13 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                             Id = mapping.ToyId,
                             Function = mapping.Function,
                             IsChecked = mapping.IsChecked,
-                            Name = mapping.Name
+                            Name = mapping.Name,
+                            ToyType = ToyTypeExtensions.GetToyTypeFromTypeString(mapping.Type)
                         });
                     }
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    foreach (var oldItem in e.OldItems)
+                    foreach (var oldItem in e.OldItems!)
                     {
                         var mapping = oldItem as ToyFunctionViewModel;
                         _mapperService.RemoveMapping(OscAddress, new ToyMappingDto()
@@ -95,7 +98,8 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                             Id = mapping.ToyId,
                             Function = mapping.Function,
                             IsChecked = mapping.IsChecked,
-                            Name = mapping.Name
+                            Name = mapping.Name,
+                            ToyType = ToyTypeExtensions.GetToyTypeFromTypeString(mapping.Type)
                         });
                     }
                     break;

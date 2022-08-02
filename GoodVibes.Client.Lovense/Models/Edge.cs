@@ -6,7 +6,7 @@ namespace GoodVibes.Client.Lovense.Models;
 
 public class Edge : LovenseToy
 {
-    public override ToyTypeEnum ToyType => ToyTypeEnum.LovenseEdge;
+    public override ToyTypeEnum ToyType => ToyTypeEnum.Edge;
     public override bool Enabled { get; set; }
     public override LovenseCommandEnum Function1 { get; set; }
     public override LovenseCommandEnum Function2 { get; set; }

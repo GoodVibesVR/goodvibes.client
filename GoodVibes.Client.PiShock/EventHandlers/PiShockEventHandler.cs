@@ -39,13 +39,13 @@ namespace GoodVibes.Client.PiShock.EventHandlers
             switch (obj.Command)
             {
                 case PiShockCommandEnum.Shock:
-                    Task.Run(() => _piShockClient.Shock(obj.ShareCode!, obj.Duration, obj.Intensity));
+                    Task.Run(() => _piShockClient.Shock(obj.ShareCode!));
                     break;
                 case PiShockCommandEnum.Vibrate:
-                    Task.Run(() => _piShockClient.Vibrate(obj.ShareCode!, obj.Duration, obj.Intensity));
+                    Task.Run(() => _piShockClient.Vibrate(obj.ShareCode!));
                     break;
                 case PiShockCommandEnum.Beep:
-                    Task.Run(() => _piShockClient.Beep(obj.ShareCode!, obj.Duration));
+                    Task.Run(() => _piShockClient.Beep(obj.ShareCode!));
                     break;
                 case PiShockCommandEnum.Unknown:
                 default:

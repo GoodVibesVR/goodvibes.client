@@ -7,7 +7,7 @@ public class ToyMappingDto
     public string? Id { get; set; }
     public string? Name { get; set; }
     public string? DisplayName => $"{Name} / {Function}";
-    public string Function { get; set; }
+    public string? Function { get; set; }
     public bool IsChecked { get; set; }
     public ToyTypeEnum ToyType { get; set; }
 }

@@ -12,7 +12,7 @@ public class PiShockService : IPiShockService
     {
         var uriPackPath = toy switch
         {
-            Shocker => "pack://application:,,,/GoodVibes;component/Resources/icon_pishock_shocker.png",
+            PiShock.Models.PiShock => "pack://application:,,,/GoodVibes;component/Resources/icon_pishock_shocker.png",
             _ => "pack://application:,,,/GoodVibes;component/Resources/icon_pishock_shocker.png"
         };
 

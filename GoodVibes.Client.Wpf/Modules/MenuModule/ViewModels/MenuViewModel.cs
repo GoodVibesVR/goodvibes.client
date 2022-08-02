@@ -102,28 +102,28 @@ public class MenuViewModel : RegionViewModelBase
             switch (toy.ToyType)
             {
                 
-                case ToyTypeEnum.LovenseAmbi:
-                case ToyTypeEnum.LovenseCalor:
-                case ToyTypeEnum.LovenseDiamo:
-                case ToyTypeEnum.LovenseDolce:
-                case ToyTypeEnum.LovenseDomi:
-                case ToyTypeEnum.LovenseEdge:
-                case ToyTypeEnum.LovenseExomoon:
-                case ToyTypeEnum.LovenseFerri:
-                case ToyTypeEnum.LovenseGush:
-                case ToyTypeEnum.LovenseHush:
-                case ToyTypeEnum.LovenseHyphy:
-                case ToyTypeEnum.LovenseLush:
-                case ToyTypeEnum.LovenseMax:
-                case ToyTypeEnum.LovenseNora:
-                case ToyTypeEnum.LovenseOsci:
-                case ToyTypeEnum.LovenseSexMachine:
+                case ToyTypeEnum.Ambi:
+                case ToyTypeEnum.Calor:
+                case ToyTypeEnum.Diamo:
+                case ToyTypeEnum.Dolce:
+                case ToyTypeEnum.Domi:
+                case ToyTypeEnum.Edge:
+                case ToyTypeEnum.Exomoon:
+                case ToyTypeEnum.Ferri:
+                case ToyTypeEnum.Gush:
+                case ToyTypeEnum.Hush:
+                case ToyTypeEnum.Hyphy:
+                case ToyTypeEnum.Lush:
+                case ToyTypeEnum.Max:
+                case ToyTypeEnum.Nora:
+                case ToyTypeEnum.Osci:
+                case ToyTypeEnum.SexMachine:
                     _eventAggregator.GetEvent<RemoveLovenseToyEventCarrier>().Publish(new RemoveLovenseToyEvent()
                     {
                         ToyId = toy.Id
                     });
                     break;
-                case ToyTypeEnum.PiShockShocker:
+                case ToyTypeEnum.PiShock:
                     _eventAggregator.GetEvent<RemovePiShockToyEventCarrier>().Publish(new RemovePiShockToyEvent()
                     {
                         ToyId = toy.Id
@@ -153,7 +153,7 @@ public class MenuViewModel : RegionViewModelBase
                         DisplayName = piShockToy.FriendlyName,
                         ToyIcon = _piShockService.GetToyIcon(piShockToy),
                         Status = true,
-                        ToyType = ToyTypeEnum.PiShockShocker
+                        ToyType = ToyTypeEnum.PiShock
                     });
                 }
             }
