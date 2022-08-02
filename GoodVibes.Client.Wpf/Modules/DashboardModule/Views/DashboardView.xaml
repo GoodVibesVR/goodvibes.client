@@ -144,8 +144,6 @@
                         </Grid>
                     </Grid>
                 </Border>
-                <StackPanel Grid.Column="1">
-                </StackPanel>
             </Grid>
         </StackPanel>
     </Grid>
