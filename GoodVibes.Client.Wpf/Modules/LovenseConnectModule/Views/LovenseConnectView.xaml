@@ -4,6 +4,9 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:core1="clr-namespace:GoodVibes.Client.Core;assembly=GoodVibes.Client.Core"
              prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Rectangle>
             <Rectangle.Fill>
@@ -31,8 +34,19 @@
                    VerticalAlignment="Bottom" 
                    Background="Transparent" 
                    BorderThickness="0"
-                   Foreground="White" FontSize="18" FontWeight="Normal" FontFamily="Calibri Light"/>
-            <Label x:Name="lovenseLabel" 
+                   Foreground="White" FontSize="18" FontWeight="Normal" FontFamily="Calibri Light">
+                <Label.Resources>
+                    <Style TargetType="{x:Type Label}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding QrCodeReceived}" Value="true">
+                                <Setter Property="Visibility" Value="Hidden" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Resources>
+            </Label>
+            <StackPanel Visibility="{Binding QrCodeReceived, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Label x:Name="lovenseLabel" 
                    HorizontalAlignment="Center" 
                    HorizontalContentAlignment="Center"
                    Margin="0,0,0,0" 
@@ -41,22 +55,23 @@
                    Background="Transparent" 
                    BorderThickness="0"
                    Foreground="White" FontSize="18" FontWeight="Normal" FontFamily="Calibri Light"/>
-            <Label x:Name="uniqueCodeLabel" 
-                   HorizontalAlignment="Center" 
-                   HorizontalContentAlignment="Center"
-                   Margin="0,-10,0,0" 
-                   Content="{Binding UniqueCode}" 
-                   VerticalAlignment="Bottom" 
-                   Background="Transparent" 
-                   BorderThickness="0"
-                   Foreground="#CF3084" FontSize="30" FontWeight="ExtraBold" FontFamily="Calibri Light"/>
-            <Grid Width="300"
-                  Height="300"
-                  Opacity="{Binding QrSourceOpacity}">
-                <Grid.Background>
-                    <ImageBrush ImageSource="{Binding QrSource}"/>
-                </Grid.Background>
-            </Grid>
+                <Label x:Name="uniqueCodeLabel" 
+                       HorizontalAlignment="Center" 
+                       HorizontalContentAlignment="Center"
+                       Margin="0,-10,0,0" 
+                       Content="{Binding UniqueCode}" 
+                       VerticalAlignment="Bottom" 
+                       Background="Transparent" 
+                       BorderThickness="0"
+                       Foreground="#CF3084" FontSize="30" FontWeight="ExtraBold" FontFamily="Calibri Light"/>
+                <Grid Width="300"
+                      Height="300"
+                      Opacity="{Binding QrSourceOpacity}">
+                    <Grid.Background>
+                        <ImageBrush ImageSource="{Binding QrSource}"/>
+                    </Grid.Background>
+                </Grid>
+            </StackPanel>
         </StackPanel>
 
             <!--<Image Source="{Binding image, Source={Binding QrCode}}" 
