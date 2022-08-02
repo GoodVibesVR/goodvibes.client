@@ -8,6 +8,7 @@ using GoodVibes.Client.Lovense.Events;
 using GoodVibes.Client.Lovense.Models;
 using GoodVibes.Client.Lovense.Models.Abstractions;
 using GoodVibes.Client.Lovense.Responses;
+using GoodVibes.Client.Settings;
 using GoodVibes.Client.Settings.Models;
 using GoodVibes.Client.SignalR;
 using GoodVibes.Client.SignalR.Abstractions;
@@ -36,12 +37,18 @@ namespace GoodVibes.Client.Lovense
         public int Version { get; private set; }
         public string? Platform { get; private set; }
         public Dictionary<string, LovenseToy>? Toys { get; private set; }
-        
+
+        //public LovenseClient(ApplicationSettings applicationSettings, LovenseEventDispatcher lovenseEventDispatcher, CacheManager<GoodVibesCache> applicationCache) : base()
         public LovenseClient(ApplicationSettings applicationSettings, LovenseEventDispatcher lovenseEventDispatcher) : base()
         {
             _applicationSettings = applicationSettings;
             _lovenseEventDispatcher = lovenseEventDispatcher;
 
+            //var cache = applicationCache.LoadSettings();
+            //if (cache!.LovenseCache != null)
+            //{
+                
+            //}
             Toys = new Dictionary<string, LovenseToy>();
         }
 

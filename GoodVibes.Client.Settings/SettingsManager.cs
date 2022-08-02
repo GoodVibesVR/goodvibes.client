@@ -3,11 +3,11 @@ using Newtonsoft.Json;
 
 namespace GoodVibes.Client.Settings
 {
-    public class SettingsManager<T> where T : class
+    public class CacheManager<T> where T : class
     {
         private readonly string _filePath;
 
-        public SettingsManager(string fileName, SettingsLocationEnum settingsLocation = SettingsLocationEnum.AppData)
+        public CacheManager(string fileName, SettingsLocationEnum settingsLocation = SettingsLocationEnum.AppData)
         {
             _filePath = GetLocalFilePath(settingsLocation, fileName);
         }
@@ -18,7 +18,11 @@ namespace GoodVibes.Client.Settings
             switch (settingsLocation)
             {
                 case SettingsLocationEnum.AppData:
-                    path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                    path = @$"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\GoodVibes";
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
                     break;
                 case SettingsLocationEnum.ApplicationDirectory:
                     path = AppDomain.CurrentDomain.BaseDirectory;

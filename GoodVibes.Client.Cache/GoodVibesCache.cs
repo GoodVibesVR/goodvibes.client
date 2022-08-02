@@ -1,11 +1,7 @@
-﻿namespace GoodVibes.Client.Settings.Models
-{
-    public class ApplicationSettings
-    {
-        public string? GoodVibesRoot { get; set; }
-        public SignalRSettings? SignalRSettings { get; set; }
-    }
+﻿using GoodVibes.Client.Lovense.Models.Abstractions;
 
+namespace GoodVibes.Client.Cache
+{
     public class GoodVibesCache
     {
         public LovenseCache? LovenseCache { get; set; }
@@ -15,7 +11,7 @@
 
     public class LovenseCache
     {
-
+        public List<LovenseToy>? Toys { get; set; }
     }
 
     public class PiShockCache

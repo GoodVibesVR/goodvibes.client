@@ -50,10 +50,20 @@ namespace GoodVibes.Client.Wpf
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             // Settings
-            var applicationSettingsManager = new SettingsManager<ApplicationSettings>("applicationSettings.json",
+            var applicationSettingsManager = new CacheManager<ApplicationSettings>("applicationSettings.json",
                 SettingsLocationEnum.ApplicationDirectory);
             var applicationSettings = applicationSettingsManager.LoadSettings();
             containerRegistry.RegisterSingleton<ApplicationSettings>(_ => applicationSettings);
+
+            var applicationCache = new CacheManager<GoodVibesCache>("GoodVibes.json");
+            var goodVibesCache = applicationCache.LoadSettings();
+            if (goodVibesCache == null)
+            {
+                goodVibesCache = new GoodVibesCache();
+                applicationCache.SaveSettings(goodVibesCache);
+            }
+
+            containerRegistry.RegisterSingleton<CacheManager<GoodVibesCache>>(_ => applicationCache);
 
             // TODO: Add AvatarSettings, ToySettings, MappingProfile etc
 
