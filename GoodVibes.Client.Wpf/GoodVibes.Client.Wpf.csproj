@@ -45,6 +45,7 @@
 	  <None Remove="Resources\image_nora.png" />
 	  <None Remove="Resources\image_osci.png" />
 	  <None Remove="Resources\image_sexmachine.png" />
+	  <None Remove="Resources\pishock_logo.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Content Include="GW_Logo.ico" />
@@ -101,6 +102,7 @@
 	  <Resource Include="Resources\image_nora.png" />
 	  <Resource Include="Resources\image_osci.png" />
 	  <Resource Include="Resources\image_sexmachine.png" />
+	  <Resource Include="Resources\pishock_logo.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Compile Update="Properties\Resources.Designer.cs">
