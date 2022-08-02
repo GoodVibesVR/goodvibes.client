@@ -57,6 +57,7 @@ namespace GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule.ViewModels
 
         public PiShockToySettingsViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, PiShockClient piShockClient) : base(regionManager)
         {
+            _eventAggregator = eventAggregator;
             _piShockClient = piShockClient;
         }
 
