@@ -172,6 +172,9 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                 HintVisible = Visibility.Hidden
             }));
 
+            // Also add empty
+            newMappings.Add(new MappingPointViewModel());
+
             MappingPoints = newMappings;
         }
 
