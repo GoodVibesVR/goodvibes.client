@@ -27,5 +27,20 @@ namespace GoodVibes.Client.SignalR.Abstractions
                 throw;
             }
         }
+
+        public async Task DisconnectAsync(bool disconnect)
+        {
+            if (!disconnect) return;
+
+            try
+            {
+                await Connection!.StopAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Unable to disconnect from SignalR hub.", e);
+                throw;
+            }
+        }
     }
 }

@@ -61,6 +61,16 @@ namespace GoodVibes.Client.Lovense
             // TODO: Make a connection checker task
         }
 
+        public async Task DisconnectAsync()
+        {
+            Console.WriteLine($"Lovense DisconnectAsync called...");
+
+            Connected = false;
+            await DisconnectAsync(true);
+
+            _lovenseEventDispatcher.Dispatch(new LovenseDisconnectedEvent());
+        }
+
         public Task SendCommand(LovenseCommandEnum command, float value, int seconds, string toy)
         {
             if (!Connected || !Toys!.TryGetValue(toy, out var toyObj)) return Task.CompletedTask;

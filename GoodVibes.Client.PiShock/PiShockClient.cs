@@ -17,6 +17,7 @@ namespace GoodVibes.Client.PiShock
 
         public Dictionary<string, PiShockToy>? Toys { get; }
 
+        public bool Connected { get; set; }
 
         public PiShockClient(ApplicationSettings applicationSettings, PiShockEventDispatcher piShockEventDispatcher)
         {
@@ -24,6 +25,7 @@ namespace GoodVibes.Client.PiShock
             _piShockEventDispatcher = piShockEventDispatcher;
 
             Toys = new Dictionary<string, PiShockToy>();
+            Connected = false;
         }
 
         public async Task ConnectAsync()
@@ -39,6 +41,18 @@ namespace GoodVibes.Client.PiShock
                     Connection!.On<string>(PiShockCommandMethodConstants.VibrateResponse, ReceiveVibrateResponseHandler);
                     Connection!.On<string>(PiShockCommandMethodConstants.BeepResponse, ReceiveBeepResponseHandler);
                 });
+
+            Connected = true;
+        }
+
+        public async Task DisconnectAsync()
+        {
+            Console.WriteLine($"PiShock DisconnectAsync called...");
+
+            Connected = false;
+            await DisconnectAsync(true);
+
+            _piShockEventDispatcher.Dispatch(new PiShockDisconnectedEvent());
         }
 
         public Task AddToy(string friendlyName, string shareCode, ToyTypeEnum toyType)
@@ -72,6 +86,7 @@ namespace GoodVibes.Client.PiShock
 
         public Task ChangeIntensity(string toyId, float intensity)
         {
+            if (!Connected) return Task.CompletedTask;
             if (!Toys!.TryGetValue(toyId, out var toy)) return Task.CompletedTask;
 
             if (toy is Models.PiShock shocker)
@@ -84,6 +99,7 @@ namespace GoodVibes.Client.PiShock
 
         public Task ChangeDuration(string toyId, float duration)
         {
+            if (!Connected) return Task.CompletedTask;
             if (!Toys!.TryGetValue(toyId, out var toy)) return Task.CompletedTask;
 
             if (toy is Models.PiShock shocker)
@@ -96,6 +112,7 @@ namespace GoodVibes.Client.PiShock
 
         public async Task Shock(string shareCode)
         {
+            if (!Connected) return;
             var found = Toys!.TryGetValue(shareCode, out var toy);
             if (!found) return;
 
@@ -107,6 +124,7 @@ namespace GoodVibes.Client.PiShock
 
         public async Task Vibrate(string shareCode)
         {
+            if (!Connected) return;
             var found = Toys!.TryGetValue(shareCode, out var toy);
             if (!found) return;
 
@@ -118,6 +136,7 @@ namespace GoodVibes.Client.PiShock
 
         public async Task Beep(string shareCode)
         {
+            if (!Connected) return;
             var found = Toys!.TryGetValue(shareCode, out var toy);
             if (!found) return;
 

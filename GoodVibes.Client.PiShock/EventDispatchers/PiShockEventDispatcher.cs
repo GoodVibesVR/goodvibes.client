@@ -6,7 +6,9 @@ using Prism.Events;
 
 namespace GoodVibes.Client.PiShock.EventDispatchers
 {
-    public class PiShockEventDispatcher : IDispatchEvent<PiShockConnectionAckEvent>, IDispatchEvent<ReceiveShockResponseEvent>, IDispatchEvent<ReceiveVibrateResponseEvent>, IDispatchEvent<ReceiveBeepResponseEvent>, IDispatchEvent<PiShockToyListUpdatedEvent>
+    public class PiShockEventDispatcher : IDispatchEvent<PiShockConnectionAckEvent>, IDispatchEvent<ReceiveShockResponseEvent>, 
+        IDispatchEvent<ReceiveVibrateResponseEvent>, IDispatchEvent<ReceiveBeepResponseEvent>, IDispatchEvent<PiShockToyListUpdatedEvent>,
+        IDispatchEvent<PiShockDisconnectedEvent>
     {
         private readonly IEventAggregator _eventAggregator;
 
@@ -48,6 +50,13 @@ namespace GoodVibes.Client.PiShock.EventDispatchers
             Console.WriteLine($"PiShock ToyList updated: {JsonConvert.SerializeObject(e)}");
 
             _eventAggregator.GetEvent<PiShockToyListUpdatedEventCarrier>().Publish(e);
+        }
+
+        public void Dispatch(PiShockDisconnectedEvent e)
+        {
+            Console.WriteLine("PiShock disconnected event received");
+
+            _eventAggregator.GetEvent<PiShockDisconnectedEventCarrier>().Publish(e);
         }
     }
 }
