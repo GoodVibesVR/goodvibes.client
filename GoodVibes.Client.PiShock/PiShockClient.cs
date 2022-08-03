@@ -43,6 +43,7 @@ namespace GoodVibes.Client.PiShock
                 });
 
             Connected = true;
+            await Task.Run(HealthCheckTask).ConfigureAwait(false);
         }
 
         public async Task DisconnectAsync()
@@ -169,6 +170,27 @@ namespace GoodVibes.Client.PiShock
         private void ReceiveBeepResponseHandler(string messageStr)
         {
             _piShockEventDispatcher.Dispatch(JsonConvert.DeserializeObject<ReceiveBeepResponseEvent>(messageStr)!);
+        }
+
+        private async Task HealthCheckTask()
+        {
+            while (!Connected)
+            {
+                Thread.Sleep(100);
+            }
+
+            Console.WriteLine("PiShock - HealthCheck Task is starting");
+            var timer = new PeriodicTimer(TimeSpan.FromMinutes(1));
+
+            while (await timer.WaitForNextTickAsync())
+            {
+                if (!Connected)
+                {
+                    return;
+                }
+
+                await Connection!.InvokeAsync(PiShockCommandMethodConstants.Ping);
+            }
         }
     }
 }

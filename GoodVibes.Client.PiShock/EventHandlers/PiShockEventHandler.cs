@@ -24,6 +24,8 @@ namespace GoodVibes.Client.PiShock.EventHandlers
             _eventAggregator.GetEvent<PiShockIntensityChangedEventCarrier>().Subscribe(IntensityChangedEventHandler);
             _eventAggregator.GetEvent<PiShockDurationChangedEventCarrier>().Subscribe(DurationChangedEventHandler);
             _eventAggregator.GetEvent<DisconnectPiShockCommandEventCarrier>().Subscribe(DisconnectPiShockCommandEventHandler);
+            _eventAggregator.GetEvent<PiShockSettingsDurationChangedEventCarrier>().Subscribe(PiShockSettingsDurationChangedEventHandler);
+            _eventAggregator.GetEvent<PiShockSettingsIntensityChangedEventCarrier>().Subscribe(PiShockSettingsIntensityChangedEventHandler);
         }
 
         public void Unsubscribe()
@@ -34,6 +36,8 @@ namespace GoodVibes.Client.PiShock.EventHandlers
             _eventAggregator.GetEvent<PiShockIntensityChangedEventCarrier>().Unsubscribe(IntensityChangedEventHandler);
             _eventAggregator.GetEvent<PiShockDurationChangedEventCarrier>().Unsubscribe(DurationChangedEventHandler);
             _eventAggregator.GetEvent<DisconnectPiShockCommandEventCarrier>().Unsubscribe(DisconnectPiShockCommandEventHandler);
+            _eventAggregator.GetEvent<PiShockSettingsDurationChangedEventCarrier>().Unsubscribe(PiShockSettingsDurationChangedEventHandler);
+            _eventAggregator.GetEvent<PiShockSettingsIntensityChangedEventCarrier>().Unsubscribe(PiShockSettingsIntensityChangedEventHandler);
         }
 
         private void PiShockCommandReceived(PiShockCommandEvent obj)
@@ -72,7 +76,17 @@ namespace GoodVibes.Client.PiShock.EventHandlers
             Task.Run(() => _piShockClient.ChangeIntensity(obj.ToyId!, obj.Intensity));
         }
 
+        private void PiShockSettingsIntensityChangedEventHandler(PiShockIntensityChangedEvent obj)
+        {
+            Task.Run(() => _piShockClient.ChangeIntensity(obj.ToyId!, obj.Intensity));
+        }
+
         private void DurationChangedEventHandler(PiShockDurationChangedEvent obj)
+        {
+            Task.Run(() => _piShockClient.ChangeDuration(obj.ToyId!, obj.Duration));
+        }
+
+        private void PiShockSettingsDurationChangedEventHandler(PiShockDurationChangedEvent obj)
         {
             Task.Run(() => _piShockClient.ChangeDuration(obj.ToyId!, obj.Duration));
         }

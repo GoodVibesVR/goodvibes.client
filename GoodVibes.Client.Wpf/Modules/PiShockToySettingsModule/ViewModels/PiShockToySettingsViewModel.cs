@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.PiShock;
 using GoodVibes.Client.PiShock.Enums;
@@ -14,6 +15,8 @@ namespace GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule.ViewModels
     {
         private readonly PiShockClient _piShockClient;
         private readonly IEventAggregator _eventAggregator;
+
+        private bool _eventLocked;
 
         private string _toyId;
         public string ToyId
@@ -33,14 +36,30 @@ namespace GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule.ViewModels
         public int Duration
         {
             get => _duration;
-            set => SetProperty(ref _duration, value);
+            set
+            {
+                SetDuration(value);
+                SetProperty(ref _duration, value);
+            }
         }
 
         private int _intensity;
         public int Intensity
         {
             get => _intensity;
-            set => SetProperty(ref _intensity, value);
+            set
+            {
+                SetIntensity(value);
+                SetProperty(ref _intensity, value);
+            }
+        }
+
+        private int _intensityGauge;
+
+        public int IntensityGauge
+        {
+            get => _intensityGauge;
+            set => SetProperty(ref _intensityGauge, value);
         }
 
         private DelegateCommand _shockCommand;
@@ -59,6 +78,9 @@ namespace GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule.ViewModels
         {
             _eventAggregator = eventAggregator;
             _piShockClient = piShockClient;
+
+            _eventAggregator.GetEvent<PiShockDurationChangedEventCarrier>().Subscribe(DurationChangedEventHandler);
+            _eventAggregator.GetEvent<PiShockIntensityChangedEventCarrier>().Subscribe(IntensityChangedEventHandler);
         }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
@@ -72,10 +94,15 @@ namespace GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule.ViewModels
             }
 
             if (toy is not PiShock.Models.PiShock shocker) return;
+
+            _eventLocked = true;
+
             ToyId = shocker.ShareCode;
             DisplayName = shocker.FriendlyName;
             Duration = shocker.Duration;
             Intensity = shocker.Intensity;
+            
+            _eventLocked = false;
         }
 
         private void Shock()
@@ -102,6 +129,48 @@ namespace GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule.ViewModels
             {
                 Command = PiShockCommandEnum.Beep,
                 ShareCode = ToyId
+            });
+        }
+
+        private void SetDuration(int value)
+        {
+            if (_eventLocked) return;
+            _eventAggregator.GetEvent<PiShockSettingsDurationChangedEventCarrier>().Publish(new PiShockDurationChangedEvent()
+            {
+                ToyId = ToyId,
+                Duration = (float)Duration / 10
+            });
+        }
+
+        private void SetIntensity(int value)
+        {
+            IntensityGauge = (int)Math.Round(value * 1.8);
+
+            if (_eventLocked) return;
+            _eventAggregator.GetEvent<PiShockSettingsIntensityChangedEventCarrier>().Publish(new PiShockIntensityChangedEvent()
+            {
+                ToyId = ToyId,
+                Intensity = (float)Intensity / 100
+            });
+        }
+
+        private void DurationChangedEventHandler(PiShockDurationChangedEvent obj)
+        {
+            Application.Current.Dispatcher.Invoke((Action)delegate
+            {
+                _eventLocked = true;
+                Duration = (int)Math.Round(obj.Duration * 10);
+                _eventLocked = false;
+            });
+        }
+
+        private void IntensityChangedEventHandler(PiShockIntensityChangedEvent obj)
+        {
+            Application.Current.Dispatcher.Invoke((Action)delegate
+            {
+                _eventLocked = true;
+                Intensity = (int)Math.Round(obj.Intensity * 100);
+                _eventLocked = false;
             });
         }
     }

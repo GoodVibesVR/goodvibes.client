@@ -183,7 +183,7 @@
 
                     <Canvas Width="340" Height="180">
                         <Slider Template="{StaticResource ResourceKey=gauge}" HorizontalAlignment="Center" LayoutTransform="{StaticResource windowScaleTransform}"
-                Minimum="0" Maximum="180" Value="{Binding Path=Value,ElementName=sl}" 
+                Minimum="0" Maximum="180" Value="{Binding Path=IntensityGauge}" 
                 TextBlock.FontSize="20">
                         </Slider>
                         <Rectangle Width="128" Height="128" Canvas.Left="110" Canvas.Top="60">
@@ -200,7 +200,7 @@
                            FontSize="26"/>
                     <Slider Style="{StaticResource Horizontal_Slider_Pink}" 
                                         x:Name="sl"
-                                        Maximum="180" 
+                                        Maximum="100" 
                                         VerticalAlignment="Center" 
                                         Width="180" 
                                         Margin="5,0,5,0"
