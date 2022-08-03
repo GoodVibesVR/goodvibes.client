@@ -1,6 +1,7 @@
 ﻿using GoodVibes.Client.Common.Enums;
 using GoodVibes.Client.Lovense.Dtos;
 using GoodVibes.Client.Lovense.Enums;
+using Newtonsoft.Json;
 
 namespace GoodVibes.Client.Lovense.Models.Abstractions
 {
@@ -9,30 +10,39 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
         public virtual string? Id { get; set; }
         public virtual string? Nickname { get; set; }
         public virtual string? Name { get; set; }
-        public virtual bool? Status { get; set; }
         public virtual string? Version { get; set; }
         public virtual int? Battery { get; set; }
         public string? DisplayName =>
             string.IsNullOrEmpty(Nickname) ? CombinedName : $"{Nickname} ({CombinedName})";
-        public int Function1MaxStrengthPercentage { get; private set; }
-        public int Function2MaxStrengthPercentage { get; private set; }
+        public int Function1MaxStrengthPercentage { get; set; }
+        public int Function2MaxStrengthPercentage { get; set; }
 
         public abstract ToyTypeEnum ToyType { get; }
-        public abstract bool Enabled { get; set; } // TODO: This need to be set in properties
+        public abstract bool Enabled { get; set; }
         public abstract LovenseCommandEnum Function1 { get; set; }
         public abstract LovenseCommandEnum Function2 { get; set; }
+
+        [JsonIgnore]
+        public virtual bool? Status { get; set; }
+
+        [JsonIgnore]
         public abstract LovenseCommandEnum[] ToyFunctions { get; }
 
+        [JsonIgnore]
         public Dictionary<LovenseCommandEnum, List<int>> ToyCommands { get; set; }
+        
+        [JsonIgnore]
         private string CombinedName => string.IsNullOrEmpty(Version) ? Name! : $"{Name} {Version}";
+        
+        [JsonIgnore]
         private int Function1LastValue { get; set; }
+
+        [JsonIgnore]
         private int Function2LastValue { get; set; }
 
         protected LovenseToy()
         {
             ToyCommands = new Dictionary<LovenseCommandEnum, List<int>>();
-            Function1MaxStrengthPercentage = 100;
-            Function2MaxStrengthPercentage = 100;
         }
 
         public int ConvertPercentageByCommand(LovenseCommandEnum command, float percentage)

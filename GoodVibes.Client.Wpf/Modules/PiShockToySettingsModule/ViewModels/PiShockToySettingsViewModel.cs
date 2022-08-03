@@ -105,6 +105,11 @@ namespace GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule.ViewModels
             _eventLocked = false;
         }
 
+        public override void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            _eventAggregator.GetEvent<SavePiShockCacheEventCarrier>().Publish(new SavePiShockCacheEvent());
+        }
+
         private void Shock()
         {
             _eventAggregator.GetEvent<PiShockCommandEventCarrier>().Publish(new PiShockCommandEvent()
@@ -156,6 +161,8 @@ namespace GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule.ViewModels
 
         private void DurationChangedEventHandler(PiShockDurationChangedEvent obj)
         {
+            if (ToyId != obj.ToyId) return;
+
             Application.Current.Dispatcher.Invoke((Action)delegate
             {
                 _eventLocked = true;
@@ -166,6 +173,8 @@ namespace GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule.ViewModels
 
         private void IntensityChangedEventHandler(PiShockIntensityChangedEvent obj)
         {
+            if (ToyId != obj.ToyId) return;
+
             Application.Current.Dispatcher.Invoke((Action)delegate
             {
                 _eventLocked = true;

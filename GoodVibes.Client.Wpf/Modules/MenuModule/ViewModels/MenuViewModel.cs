@@ -200,6 +200,31 @@ public class MenuViewModel : RegionViewModelBase
 
     public override void OnNavigatedTo(NavigationContext navigationContext)
     {
-        //do something
+        var existingLovenseToys = _lovenseService.GetToys();
+        foreach (var lovenseToy in existingLovenseToys)
+        {
+            Toys.Add(new ToyViewModel()
+            {
+                Id = lovenseToy.Id,
+                Battery = lovenseToy.Battery,
+                DisplayName = lovenseToy.DisplayName,
+                ToyIcon = _lovenseService.GetToyIcon(lovenseToy),
+                ToyType = lovenseToy.ToyType,
+                Status = lovenseToy.Status
+            });
+        }
+
+        var existingPiShockToys = _piShockService.GetToys();
+        foreach (var piShockToy in existingPiShockToys)
+        {
+            Toys.Add(new ToyViewModel()
+            {
+                Id = piShockToy.ShareCode,
+                DisplayName = piShockToy.FriendlyName,
+                ToyIcon = _piShockService.GetToyIcon(piShockToy),
+                Status = true,
+                ToyType = ToyTypeEnum.PiShock
+            });
+        }
     }
 }

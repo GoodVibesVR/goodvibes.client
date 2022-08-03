@@ -3,12 +3,16 @@ using Prism.Ioc;
 using System.Windows;
 using GoodVibes.Client.ApiCaller;
 using GoodVibes.Client.ApiCaller.Abstractions;
+using GoodVibes.Client.Cache;
+using GoodVibes.Client.Cache.Models;
 using GoodVibes.Client.Lovense;
+using GoodVibes.Client.Lovense.Cache;
 using GoodVibes.Client.Lovense.EventDispatchers;
 using GoodVibes.Client.Lovense.EventHandler;
 using GoodVibes.Client.Mapper;
 using GoodVibes.Client.Osc;
 using GoodVibes.Client.PiShock;
+using GoodVibes.Client.PiShock.Cache;
 using GoodVibes.Client.PiShock.EventDispatchers;
 using GoodVibes.Client.PiShock.EventHandlers;
 using GoodVibes.Client.Settings;
@@ -50,22 +54,15 @@ namespace GoodVibes.Client.Wpf
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             // Settings
-            var applicationSettingsManager = new CacheManager<ApplicationSettings>("applicationSettings.json",
+            var applicationSettingsManager = new SettingsManager<ApplicationSettings>("applicationSettings.json",
                 SettingsLocationEnum.ApplicationDirectory);
             var applicationSettings = applicationSettingsManager.LoadSettings();
             containerRegistry.RegisterSingleton<ApplicationSettings>(_ => applicationSettings);
 
-            var applicationCache = new CacheManager<GoodVibesCache>("GoodVibes.json");
-            var goodVibesCache = applicationCache.LoadSettings();
-            if (goodVibesCache == null)
-            {
-                goodVibesCache = new GoodVibesCache();
-                applicationCache.SaveSettings(goodVibesCache);
-            }
-
-            containerRegistry.RegisterSingleton<CacheManager<GoodVibesCache>>(_ => applicationCache);
-
-            // TODO: Add AvatarSettings, ToySettings, MappingProfile etc
+            // Local cache manager
+            containerRegistry.RegisterSingleton<GoodVibesCacheManager<LovenseCache>>();
+            containerRegistry.RegisterSingleton<GoodVibesCacheManager<PiShockCache>>();
+            containerRegistry.RegisterSingleton<GoodVibesCacheManager<AvatarMapperCache>>();
 
             // Services
             containerRegistry.RegisterSingleton<IMessageService, MessageService>();

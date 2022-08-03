@@ -1,4 +1,5 @@
-﻿using GoodVibes.Client.Lovense.EventHandler;
+﻿using GoodVibes.Client.Cache;
+using GoodVibes.Client.Lovense.EventHandler;
 using GoodVibes.Client.PiShock.EventHandlers;
 using GoodVibes.Client.Settings.Models;
 using Prism.Mvvm;
@@ -17,8 +18,10 @@ namespace GoodVibes.Client.Wpf.ViewModels
             set => SetProperty(ref _title, value);
         }
 
-        public MainWindowViewModel(ApplicationSettings appSettings, LovenseEventHandler lovenseEventHandler, PiShockEventHandler piShockEventHandler)
+        public MainWindowViewModel(ApplicationSettings appSettings, LovenseEventHandler lovenseEventHandler, 
+            PiShockEventHandler piShockEventHandler)
         {
+
             _lovenseEventHandler = lovenseEventHandler;
             _lovenseEventHandler.Subscribe();
 

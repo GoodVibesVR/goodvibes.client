@@ -17,7 +17,7 @@ public class AvatarMapperClient
 
     private readonly Dictionary<string, List<ToyMappingDto>> _mappings;
 
-    public AvatarMapperClient(IEventAggregator eventAggregator, 
+    public AvatarMapperClient(IEventAggregator eventAggregator,
         LovenseCommandDispatcher lovenseCommandDispatcher, PiShockCommandDispatcher piShockCommandDispatcher)
     {
         _eventAggregator = eventAggregator;
@@ -93,9 +93,12 @@ public class AvatarMapperClient
     public void ChangeMappings(IEnumerable<MappingDto> oldMappings, IEnumerable<MappingDto> newMappings)
     {
         _mappings.Clear();
-        
+
         foreach (var newMapping in newMappings)
         {
+            if (string.IsNullOrEmpty(newMapping.OscAddress))
+                continue;
+
             var oscAddress = buildOscAddress(newMapping.OscAddress!);
             _mappings.Add(oscAddress, newMapping.ToyMappings!);
         }

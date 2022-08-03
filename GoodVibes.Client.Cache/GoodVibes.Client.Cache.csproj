@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GoodVibes.Client.Lovense\GoodVibes.Client.Lovense.csproj" />
-    <ProjectReference Include="..\GoodVibes.Client.PiShock\GoodVibes.Client.PiShock.csproj" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
   </ItemGroup>
 
 </Project>

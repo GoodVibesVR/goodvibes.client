@@ -57,6 +57,7 @@
 		<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\GoodVibes.Client.Cache\GoodVibes.Client.Cache.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.Common\GoodVibes.Client.Common.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.Core\GoodVibes.Client.Core.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.Lovense\GoodVibes.Client.Lovense.csproj" />

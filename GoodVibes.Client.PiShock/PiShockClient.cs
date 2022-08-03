@@ -1,4 +1,6 @@
-﻿using GoodVibes.Client.Common.Enums;
+﻿using GoodVibes.Client.Cache;
+using GoodVibes.Client.Common.Enums;
+using GoodVibes.Client.PiShock.Cache;
 using GoodVibes.Client.PiShock.EventDispatchers;
 using GoodVibes.Client.PiShock.Events;
 using GoodVibes.Client.PiShock.Models.Abstractions;
@@ -14,18 +16,35 @@ namespace GoodVibes.Client.PiShock
     {
         private readonly ApplicationSettings _applicationSettings;
         private readonly PiShockEventDispatcher _piShockEventDispatcher;
+        private readonly GoodVibesCacheManager<PiShockCache> _cacheManager;
 
-        public Dictionary<string, PiShockToy>? Toys { get; }
+        public Dictionary<string, PiShockToy> Toys { get; }
 
         public bool Connected { get; set; }
 
-        public PiShockClient(ApplicationSettings applicationSettings, PiShockEventDispatcher piShockEventDispatcher)
+        public PiShockClient(ApplicationSettings applicationSettings, PiShockEventDispatcher piShockEventDispatcher, GoodVibesCacheManager<PiShockCache> cacheManager)
         {
             _applicationSettings = applicationSettings;
             _piShockEventDispatcher = piShockEventDispatcher;
+            _cacheManager = cacheManager;
 
-            Toys = new Dictionary<string, PiShockToy>();
+            Toys = SetupToyList();
             Connected = false;
+        }
+
+        private Dictionary<string, PiShockToy> SetupToyList()
+        {
+            var toysDict = new Dictionary<string, PiShockToy>();
+            var piShockCache = _cacheManager.GetCache();
+            if (piShockCache.Toys.Count < 1) return toysDict;
+
+            var toys = piShockCache.Toys;
+            foreach (var piShockToy in toys)
+            {
+                toysDict.Add(piShockToy.ShareCode!, piShockToy);
+            }
+            
+            return toysDict;
         }
 
         public async Task ConnectAsync()
@@ -66,6 +85,8 @@ namespace GoodVibes.Client.PiShock
                 Intensity = 50
             });
 
+            SaveCache();
+
             _piShockEventDispatcher.Dispatch(new PiShockToyListUpdatedEvent()
             {
                 ToyList = Toys.Select(t => t.Value).ToList()
@@ -82,12 +103,13 @@ namespace GoodVibes.Client.PiShock
                 Toys.Remove(toyId);
             }
 
+            SaveCache();
+
             return Task.CompletedTask;
         }
 
         public Task ChangeIntensity(string toyId, float intensity)
         {
-            if (!Connected) return Task.CompletedTask;
             if (!Toys!.TryGetValue(toyId, out var toy)) return Task.CompletedTask;
 
             if (toy is Models.PiShock shocker)
@@ -95,18 +117,21 @@ namespace GoodVibes.Client.PiShock
                 shocker.Intensity = (int)Math.Round((double)(intensity * 100));
             }
 
+            SaveCache();
+
             return Task.CompletedTask;
         }
 
         public Task ChangeDuration(string toyId, float duration)
         {
-            if (!Connected) return Task.CompletedTask;
             if (!Toys!.TryGetValue(toyId, out var toy)) return Task.CompletedTask;
 
             if (toy is Models.PiShock shocker)
             {
                 shocker.Duration = (int)Math.Round((double)(duration * 10));
             }
+
+            SaveCache();
 
             return Task.CompletedTask;
         }
@@ -191,6 +216,14 @@ namespace GoodVibes.Client.PiShock
 
                 await Connection!.InvokeAsync(PiShockCommandMethodConstants.Ping);
             }
+        }
+
+        public void SaveCache()
+        {
+            _cacheManager.SaveCache(new PiShockCache()
+            {
+                Toys = Toys!.Select(t => t.Value).ToList()
+            });
         }
     }
 }

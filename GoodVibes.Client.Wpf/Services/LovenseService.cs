@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Media.Imaging;
+using GoodVibes.Client.Lovense;
 using GoodVibes.Client.Lovense.Models;
 using GoodVibes.Client.Lovense.Models.Abstractions;
 using GoodVibes.Client.Wpf.Services.Abstractions;
@@ -8,6 +11,13 @@ namespace GoodVibes.Client.Wpf.Services;
 
 public class LovenseService : ILovenseService
 {
+    private readonly LovenseClient _lovenseClient;
+
+    public LovenseService(LovenseClient lovenseClient)
+    {
+        _lovenseClient = lovenseClient;
+    }
+
     public BitmapImage GetToyIcon(LovenseToy toy)
     {
         var uriPackPath = toy switch
@@ -32,5 +42,10 @@ public class LovenseService : ILovenseService
         };
 
         return new BitmapImage(new Uri(uriPackPath));
+    }
+
+    public IEnumerable<LovenseToy> GetToys()
+    {
+        return _lovenseClient.Toys.Select(t => t.Value);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using GoodVibes.Client.Core.Mvvm;
-using GoodVibes.Client.Lovense.Enums;
 
 namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
 {

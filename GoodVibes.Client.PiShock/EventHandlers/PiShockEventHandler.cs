@@ -26,6 +26,7 @@ namespace GoodVibes.Client.PiShock.EventHandlers
             _eventAggregator.GetEvent<DisconnectPiShockCommandEventCarrier>().Subscribe(DisconnectPiShockCommandEventHandler);
             _eventAggregator.GetEvent<PiShockSettingsDurationChangedEventCarrier>().Subscribe(PiShockSettingsDurationChangedEventHandler);
             _eventAggregator.GetEvent<PiShockSettingsIntensityChangedEventCarrier>().Subscribe(PiShockSettingsIntensityChangedEventHandler);
+            _eventAggregator.GetEvent<SavePiShockCacheEventCarrier>().Subscribe(PiShockSaveCacheEventHandler);
         }
 
         public void Unsubscribe()
@@ -38,6 +39,7 @@ namespace GoodVibes.Client.PiShock.EventHandlers
             _eventAggregator.GetEvent<DisconnectPiShockCommandEventCarrier>().Unsubscribe(DisconnectPiShockCommandEventHandler);
             _eventAggregator.GetEvent<PiShockSettingsDurationChangedEventCarrier>().Unsubscribe(PiShockSettingsDurationChangedEventHandler);
             _eventAggregator.GetEvent<PiShockSettingsIntensityChangedEventCarrier>().Unsubscribe(PiShockSettingsIntensityChangedEventHandler);
+            _eventAggregator.GetEvent<SavePiShockCacheEventCarrier>().Unsubscribe(PiShockSaveCacheEventHandler);
         }
 
         private void PiShockCommandReceived(PiShockCommandEvent obj)
@@ -94,6 +96,11 @@ namespace GoodVibes.Client.PiShock.EventHandlers
         private void DisconnectPiShockCommandEventHandler(DisconnectPiShockCommandEvent obj)
         {
             Task.Run(() => _piShockClient.DisconnectAsync());
+        }
+
+        private void PiShockSaveCacheEventHandler(SavePiShockCacheEvent obj)
+        {
+            _piShockClient.SaveCache();
         }
     }
 }

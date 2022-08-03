@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GoodVibes.Client.ApiCaller\GoodVibes.Client.ApiCaller.csproj" />
+    <ProjectReference Include="..\GoodVibes.Client.Cache\GoodVibes.Client.Cache.csproj" />
     <ProjectReference Include="..\GoodVibes.Client.Common\GoodVibes.Client.Common.csproj" />
     <ProjectReference Include="..\GoodVibes.Client.Events\GoodVibes.Client.Events.csproj" />
     <ProjectReference Include="..\GoodVibes.Client.Settings\GoodVibes.Client.Settings.csproj" />

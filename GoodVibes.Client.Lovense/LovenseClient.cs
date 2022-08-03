@@ -1,6 +1,8 @@
 ﻿using System.Text;
 using GoodVibes.Client.ApiCaller;
 using GoodVibes.Client.ApiCaller.Abstractions;
+using GoodVibes.Client.Cache;
+using GoodVibes.Client.Lovense.Cache;
 using GoodVibes.Client.Lovense.Dtos;
 using GoodVibes.Client.Lovense.Enums;
 using GoodVibes.Client.Lovense.EventDispatchers;
@@ -8,7 +10,6 @@ using GoodVibes.Client.Lovense.Events;
 using GoodVibes.Client.Lovense.Models;
 using GoodVibes.Client.Lovense.Models.Abstractions;
 using GoodVibes.Client.Lovense.Responses;
-using GoodVibes.Client.Settings;
 using GoodVibes.Client.Settings.Models;
 using GoodVibes.Client.SignalR;
 using GoodVibes.Client.SignalR.Abstractions;
@@ -21,6 +22,7 @@ namespace GoodVibes.Client.Lovense
     {
         private readonly ApplicationSettings _applicationSettings;
         private readonly LovenseEventDispatcher _lovenseEventDispatcher;
+        private readonly GoodVibesCacheManager<LovenseCache> _cacheManager;
 
         private ILovenseApiClient? _lovenseApiClient;
         private bool Connected { get; set; }
@@ -36,20 +38,34 @@ namespace GoodVibes.Client.Lovense
         public string? HttpsPort { get; private set; }
         public int Version { get; private set; }
         public string? Platform { get; private set; }
-        public Dictionary<string, LovenseToy>? Toys { get; private set; }
+        public Dictionary<string, LovenseToy> Toys { get; private set; }
 
-        //public LovenseClient(ApplicationSettings applicationSettings, LovenseEventDispatcher lovenseEventDispatcher, CacheManager<GoodVibesCache> applicationCache) : base()
-        public LovenseClient(ApplicationSettings applicationSettings, LovenseEventDispatcher lovenseEventDispatcher) : base()
+        public LovenseClient(ApplicationSettings applicationSettings, LovenseEventDispatcher lovenseEventDispatcher, GoodVibesCacheManager<LovenseCache> cacheManager) : base()
         {
             _applicationSettings = applicationSettings;
             _lovenseEventDispatcher = lovenseEventDispatcher;
+            _cacheManager = cacheManager;
 
-            //var cache = applicationCache.LoadSettings();
-            //if (cache!.LovenseCache != null)
-            //{
-                
-            //}
-            Toys = new Dictionary<string, LovenseToy>();
+            Toys = SetupToyList();
+        }
+
+        private Dictionary<string, LovenseToy> SetupToyList()
+        {
+            var toysDict = new Dictionary<string, LovenseToy>();
+            var lovenseCache = _cacheManager.GetCache();
+            if (lovenseCache.Toys.Count < 1) return toysDict;
+
+            var toys = lovenseCache.Toys;
+            foreach (var lovenseToy in toys)
+            {
+                toysDict.Add(lovenseToy.Id!, lovenseToy);
+            }
+
+            _lovenseEventDispatcher.Dispatch(new LovenseToyListUpdatedEvent()
+            {
+                ToyList = toysDict.Select(t => t.Value).ToList()
+            });
+            return toysDict;
         }
 
         public async Task ConnectAsync()
@@ -94,6 +110,7 @@ namespace GoodVibes.Client.Lovense
                 toy.SetStrengthPercentage(strength1, strength2);
             }
 
+            SaveToysToCache(Toys, true);
             Console.WriteLine($"Strength now changed:\nStrength1: {strength1}\nStrength2: {strength2}");
 
             return Task.CompletedTask;
@@ -102,12 +119,24 @@ namespace GoodVibes.Client.Lovense
         public Task RemoveToy(string toyId)
         {
             var toyFound = Toys!.TryGetValue(toyId, out var toy);
-            if (toyFound)
-            {
-                Toys.Remove(toyId);
-            }
+            if (!toyFound) return Task.CompletedTask;
+
+            Toys.Remove(toyId);
+            SaveToysToCache(Toys, true);
 
             return Task.CompletedTask;
+        }
+
+        private void SaveToysToCache(Dictionary<string, LovenseToy> toys, bool ignoreCheck = false)
+        {
+            var equal = toys.OrderBy(t => t.Key).SequenceEqual(Toys.OrderBy(t => t.Key));
+            if (!equal || ignoreCheck)
+            {
+                _cacheManager.SaveCache(new LovenseCache()
+                {
+                    Toys = toys.Select(t => t.Value).ToList()
+                });
+            }
         }
 
         private void ReceiveCallbackHandler(string messageStr)
@@ -119,7 +148,10 @@ namespace GoodVibes.Client.Lovense
             _lovenseApiClient = !deviceAvailable ? null
                 : new ApiClient($"http://{callback.Domain}:{callback.HttpPort}");
 
-            Toys = Task.Run(() => BuildLovenseToys(callback.Toys!)).Result;
+            var toys = Task.Run(() => BuildLovenseToys(callback.Toys!)).Result;
+            SaveToysToCache(toys);
+
+            Toys = toys;
             Uid = callback.Uid;
             AppVersion = callback.AppVersion;
             WssPort = callback.WssPort;
@@ -198,6 +230,8 @@ namespace GoodVibes.Client.Lovense
                         toy.Nickname = toyDto.Nickname;
                         toy.Name = toyDto.Name;
                         toy.Status = toyDto.Status == 1;
+                        toy.Function1MaxStrengthPercentage = 100;
+                        toy.Function2MaxStrengthPercentage = 100;
                         toy.Battery = detailedToy?.Battery ?? null;
                         toy.Version = detailedToy?.Version ?? null;
                     }
