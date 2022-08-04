@@ -11,7 +11,7 @@ GoodVibes implements the [Lovense Standard API](https://developer.lovense.com/#s
 
 As of *2022-08-04* GoodVibes supports all available Lovense toys
 
-_With the current limitations on Lovense side using your phone requires your phone to be connected to a wifi accessible from the computer running GoodVibes._
+_With the current limitations on Lovense side using your phone, it requires your phone to be connected to a wifi accessible from the computer running GoodVibes._
 
 ### PiShock
 GoodVibes implements the [PiShock API](https://apidocs.pishock.com/) to enable control to your PiShock toys.
