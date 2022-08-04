@@ -25,7 +25,11 @@ _If you're not a developer I'd recommend you to download the selfcontained zip_
 * You're now ready to vibe!
 
 ## Help and support
-Are you having issues, just want to support the project with ideas or just want to hang out? Please head over to our [Discord](https://discord.gg/R2tTCB7MNC).
+Are you having issues? 
+Just want to support or contribute the project? 
+Just want to hang out? 
+
+Please head over to our [Discord](https://discord.gg/R2tTCB7MNC).
 
 ## Flow diagram
 Our application design allows us to make many kinds of integrations. Below is a few sequence diagrams over how integrations can look.
