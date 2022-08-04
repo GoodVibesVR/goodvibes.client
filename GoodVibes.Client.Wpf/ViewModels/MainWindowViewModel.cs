@@ -1,5 +1,4 @@
-﻿using GoodVibes.Client.Cache;
-using GoodVibes.Client.Lovense.EventHandler;
+﻿using GoodVibes.Client.Lovense.EventHandler;
 using GoodVibes.Client.PiShock.EventHandlers;
 using GoodVibes.Client.Settings.Models;
 using Prism.Mvvm;
@@ -11,7 +10,7 @@ namespace GoodVibes.Client.Wpf.ViewModels
         private readonly LovenseEventHandler _lovenseEventHandler;
         private readonly PiShockEventHandler _piShockEventHandler;
 
-        private string _title = "GoodVibes 1.0-alpha1";
+        private string _title = "GoodVibes 1.0-alpha1.1";
         public string Title
         {
             get => _title;
