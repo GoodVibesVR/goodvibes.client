@@ -26,8 +26,8 @@ _If you're not a developer I'd recommend you to download the selfcontained zip_
 
 ## Help and support
 Are you having issues? 
-Just want to support or contribute the project? 
-Just want to hang out? 
+Want to support or contribute the project? 
+Want to hang out? 
 
 Please head over to our [Discord](https://discord.gg/R2tTCB7MNC).
 
