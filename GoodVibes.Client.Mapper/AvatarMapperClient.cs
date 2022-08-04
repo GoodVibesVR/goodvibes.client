@@ -1,5 +1,6 @@
-﻿using GoodVibes.Client.Lovense.EventCarriers;
-using GoodVibes.Client.Lovense.Events;
+﻿using GoodVibes.Client.Common.Enums;
+using GoodVibes.Client.Common.Extensions;
+using GoodVibes.Client.Mapper.CommandDispatchers;
 using GoodVibes.Client.Mapper.Dtos;
 using GoodVibes.Client.Mapper.Dtos.Abstractions;
 using GoodVibes.Client.Mapper.EventCarriers;
@@ -11,12 +12,18 @@ namespace GoodVibes.Client.Mapper;
 public class AvatarMapperClient
 {
     private readonly IEventAggregator _eventAggregator;
+    private readonly LovenseCommandDispatcher _lovenseCommandDispatcher;
+    private readonly PiShockCommandDispatcher _piShockCommandDispatcher;
 
     private readonly Dictionary<string, List<ToyMappingDto>> _mappings;
 
-    public AvatarMapperClient(IEventAggregator eventAggregator)
+    public AvatarMapperClient(IEventAggregator eventAggregator,
+        LovenseCommandDispatcher lovenseCommandDispatcher, PiShockCommandDispatcher piShockCommandDispatcher)
     {
         _eventAggregator = eventAggregator;
+        _lovenseCommandDispatcher = lovenseCommandDispatcher;
+        _piShockCommandDispatcher = piShockCommandDispatcher;
+
         _mappings = new Dictionary<string, List<ToyMappingDto>>();
     }
 
@@ -85,14 +92,13 @@ public class AvatarMapperClient
 
     public void ChangeMappings(IEnumerable<MappingDto> oldMappings, IEnumerable<MappingDto> newMappings)
     {
-        foreach (var oldMapping in oldMappings)
-        {
-            var oscAddress = buildOscAddress(oldMapping.OscAddress!);
-            _mappings.Remove(oscAddress);
-        }
+        _mappings.Clear();
 
         foreach (var newMapping in newMappings)
         {
+            if (string.IsNullOrEmpty(newMapping.OscAddress))
+                continue;
+
             var oscAddress = buildOscAddress(newMapping.OscAddress!);
             _mappings.Add(oscAddress, newMapping.ToyMappings!);
         }
@@ -103,27 +109,27 @@ public class AvatarMapperClient
         switch (message)
         {
             case OscBoolMessageDto dto:
-                MapAndPublishBoolEvent(dto);
+                MapAndDispatchBoolEvent(dto);
                 break;
             case OscFloatMessageDto dto:
-                MapAndPublishFloatEvent(dto);
+                MapAndDispatchFloatEvent(dto);
                 break;
             case OscIntMessageDto dto:
-                MapAndPublishIntEvent(dto);
+                MapAndDispatchIntEvent(dto);
                 break;
             case OscStringMessageDto dto:
-                MapAndPublishStringEvent(dto);
+                MapAndDispatchStringEvent(dto);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
     }
 
-    private void MapAndPublishStringEvent(OscStringMessageDto dto)
+    private void MapAndDispatchStringEvent(OscStringMessageDto dto)
     {
         if (dto.Address == "/avatar/change")
         {
-            var avatarId = dto.Value!.ToString().Replace("/avatar/change, ", "").Replace("\"", "");
+            var avatarId = dto.Value!.Replace("/avatar/change, ", "").Replace("\"", "");
             _eventAggregator.GetEvent<AvatarChangedEventCarrier>().Publish(new AvatarChangedEvent()
             {
                 AvatarId = avatarId
@@ -131,27 +137,66 @@ public class AvatarMapperClient
         }
     }
 
-    private void MapAndPublishIntEvent(OscIntMessageDto dto)
-    {
-    }
-
-    private void MapAndPublishFloatEvent(OscFloatMessageDto messageDto)
+    private void MapAndDispatchIntEvent(OscIntMessageDto messageDto)
     {
         if (!_mappings.TryGetValue(buildOscAddress(messageDto.Address!), out var mappingDtos)) return;
 
         foreach (var mappingDto in mappingDtos)
         {
-            _eventAggregator.GetEvent<LovenseCommandEventCarrier>().Publish(new LovenseCommandEvent
+            switch (ToyTypeExtensions.GetToySupplierFromToyType(mappingDto.ToyType))
             {
-                Command = mappingDto.Function,
-                Toy = mappingDto.Id,
-                Value = messageDto.Value
-            });
+                case ToySupplierEnum.Lovense:
+                    _lovenseCommandDispatcher.DispatchIntCommand(mappingDto, messageDto.Value);
+                    break;
+                case ToySupplierEnum.PiShock:
+                    _piShockCommandDispatcher.DispatchIntCommand(mappingDto, messageDto.Value);
+                    break;
+                case ToySupplierEnum.Unknown:
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 
-    private void MapAndPublishBoolEvent(OscBoolMessageDto message)
+    private void MapAndDispatchFloatEvent(OscFloatMessageDto messageDto)
     {
+        if (!_mappings.TryGetValue(buildOscAddress(messageDto.Address!), out var mappingDtos)) return;
 
+        foreach (var mappingDto in mappingDtos)
+        {
+            switch (ToyTypeExtensions.GetToySupplierFromToyType(mappingDto.ToyType))
+            {
+                case ToySupplierEnum.Lovense:
+                    _lovenseCommandDispatcher.DispatchFloatCommand(mappingDto, messageDto.Value);
+                    break;
+                case ToySupplierEnum.PiShock:
+                    _piShockCommandDispatcher.DispatchFloatCommand(mappingDto, messageDto.Value);
+                    break;
+                case ToySupplierEnum.Unknown:
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+    }
+
+    private void MapAndDispatchBoolEvent(OscBoolMessageDto messageDto)
+    {
+        if (!_mappings.TryGetValue(buildOscAddress(messageDto.Address!), out var mappingDtos)) return;
+
+        foreach (var mappingDto in mappingDtos)
+        {
+            switch (ToyTypeExtensions.GetToySupplierFromToyType(mappingDto.ToyType))
+            {
+                case ToySupplierEnum.Lovense:
+                    _lovenseCommandDispatcher.DispatchBoolCommand(mappingDto, messageDto.Value);
+                    break;
+                case ToySupplierEnum.PiShock:
+                    _piShockCommandDispatcher.DispatchBoolCommand(mappingDto, messageDto.Value);
+                    break;
+                case ToySupplierEnum.Unknown:
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
     }
 }

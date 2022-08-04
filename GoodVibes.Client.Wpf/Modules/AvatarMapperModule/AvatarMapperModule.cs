@@ -15,13 +15,10 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            //_regionManager.RequestNavigate(RegionNames.ContentRegion, "LushSettingsView");
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            //ViewModelLocationProvider.Register<LushSettingsView, LovenseToySettingsViewModel>();
-
             containerRegistry.RegisterForNavigation<Views.AvatarMapperView>();
         }
     }

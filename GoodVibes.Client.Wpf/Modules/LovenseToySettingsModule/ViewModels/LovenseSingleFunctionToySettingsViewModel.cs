@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using GoodVibes.Client.Core.Mvvm;
+﻿using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.Lovense;
 using GoodVibes.Client.Lovense.Enums;
 using GoodVibes.Client.Lovense.EventCarriers;
@@ -95,8 +92,6 @@ namespace GoodVibes.Client.Wpf.Modules.LovenseToySettingsModule.ViewModels
                 Strength1Percentage = (int)value,
                 Strength2Percentage = 0
             });
-
-            Console.WriteLine($"Strength changed to: {value}");
         }
     }
 }

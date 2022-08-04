@@ -7,5 +7,6 @@
         public const string MenuFooterRegion = "MenuFooterRegion";
         public const string MenuRegion = "MenuRegion";
         public const string ContentRegion = "ContentRegion";
+        public const string AddToyForm = "AddToyForm";
     }
 }

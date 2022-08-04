@@ -18,7 +18,6 @@ namespace GoodVibes.Client.Wpf.Modules.LovenseToySettingsModule
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            //_regionManager.RequestNavigate(RegionNames.ContentRegion, "LushSettingsView");
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)

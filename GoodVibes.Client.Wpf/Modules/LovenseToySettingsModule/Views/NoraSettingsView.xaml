@@ -177,7 +177,7 @@
                     <Rectangle Width="300"
                        Height="300">
                         <Rectangle.Fill>
-                            <ImageBrush ImageSource="/GoodVibes.Client.Wpf;component/Resources/image_nora.png"/>
+                            <ImageBrush ImageSource="/GoodVibes;component/Resources/image_nora.png"/>
                         </Rectangle.Fill>
                     </Rectangle>
                 </Grid>

@@ -1,5 +1,7 @@
-﻿using GoodVibes.Client.Lovense.Dtos;
+﻿using GoodVibes.Client.Common.Enums;
+using GoodVibes.Client.Lovense.Dtos;
 using GoodVibes.Client.Lovense.Enums;
+using Newtonsoft.Json;
 
 namespace GoodVibes.Client.Lovense.Models.Abstractions
 {
@@ -8,30 +10,39 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
         public virtual string? Id { get; set; }
         public virtual string? Nickname { get; set; }
         public virtual string? Name { get; set; }
-        public virtual bool? Status { get; set; }
         public virtual string? Version { get; set; }
         public virtual int? Battery { get; set; }
         public string? DisplayName =>
             string.IsNullOrEmpty(Nickname) ? CombinedName : $"{Nickname} ({CombinedName})";
-        public int Function1MaxStrengthPercentage { get; private set; }
-        public int Function2MaxStrengthPercentage { get; private set; }
+        public int Function1MaxStrengthPercentage { get; set; }
+        public int Function2MaxStrengthPercentage { get; set; }
 
-        public abstract LovenseToyEnum ToyType { get; }
-        public abstract bool Enabled { get; set; } // TODO: This need to be set in properties
+        public abstract ToyTypeEnum ToyType { get; }
+        public abstract bool Enabled { get; set; }
         public abstract LovenseCommandEnum Function1 { get; set; }
         public abstract LovenseCommandEnum Function2 { get; set; }
+
+        [JsonIgnore]
+        public virtual bool? Status { get; set; }
+
+        [JsonIgnore]
         public abstract LovenseCommandEnum[] ToyFunctions { get; }
 
+        [JsonIgnore]
         public Dictionary<LovenseCommandEnum, List<int>> ToyCommands { get; set; }
+        
+        [JsonIgnore]
         private string CombinedName => string.IsNullOrEmpty(Version) ? Name! : $"{Name} {Version}";
+        
+        [JsonIgnore]
         private int Function1LastValue { get; set; }
+
+        [JsonIgnore]
         private int Function2LastValue { get; set; }
 
         protected LovenseToy()
         {
             ToyCommands = new Dictionary<LovenseCommandEnum, List<int>>();
-            Function1MaxStrengthPercentage = 100;
-            Function2MaxStrengthPercentage = 100;
         }
 
         public int ConvertPercentageByCommand(LovenseCommandEnum command, float percentage)
@@ -125,13 +136,18 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
             var commandStr = string.Empty;
             foreach (var toyCommand in ToyCommands)
             {
-                var highestValue = 0;
+                //var highestValue = 0;
+                var lastValue = 0;
                 if (toyCommand.Key == Function1 || toyCommand.Key == Function2)
                 {
                     var values = toyCommand.Value;
-                    
+
+                    // It seems like this, if you're quick is actually null.
+                    if (values == null) continue;
+
                     // TODO: Add more calculation methods for different behaviors
-                    highestValue = values.Prepend(0).Max();
+                    //highestValue = values.Prepend(0).Max();
+                    lastValue = values.Last();
                 }
                 else
                 {
@@ -143,7 +159,7 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
                     commandStr += ",";
                 }
 
-                commandStr += $"{toyCommand.Key.ToString()}:{DivideByStrengthPercentage(toyCommand.Key, highestValue)}";
+                commandStr += $"{toyCommand.Key.ToString()}:{DivideByStrengthPercentage(toyCommand.Key, lastValue)}";
             }
 
             Console.WriteLine($"CommandString returned: {commandStr}");

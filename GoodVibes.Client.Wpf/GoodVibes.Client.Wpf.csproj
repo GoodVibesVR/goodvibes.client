@@ -7,8 +7,12 @@
 		<DisableWinExeOutputInference Condition="'$(Configuration)'=='DEBUG'">true</DisableWinExeOutputInference>
 		<DisableWinExeOutputInference Condition="'$(Configuration)'=='RELEASE'">false</DisableWinExeOutputInference>
 		<ApplicationIcon>GW_Logo.ico</ApplicationIcon>
+		<AssemblyName>GoodVibes</AssemblyName>
 	</PropertyGroup>
 	<ItemGroup>
+	  <None Remove="Resources\button_pishock_beep.png" />
+	  <None Remove="Resources\button_pishock_shock.png" />
+	  <None Remove="Resources\button_pishock_vibrate.png" />
 	  <None Remove="Resources\icon_ambi.png" />
 	  <None Remove="Resources\icon_blast.png" />
 	  <None Remove="Resources\icon_calor.png" />
@@ -25,6 +29,7 @@
 	  <None Remove="Resources\icon_max.png" />
 	  <None Remove="Resources\icon_nora.png" />
 	  <None Remove="Resources\icon_osci.png" />
+	  <None Remove="Resources\icon_pishock_shocker.png" />
 	  <None Remove="Resources\image_ambi.png" />
 	  <None Remove="Resources\image_calor.png" />
 	  <None Remove="Resources\image_diamo.png" />
@@ -40,6 +45,7 @@
 	  <None Remove="Resources\image_nora.png" />
 	  <None Remove="Resources\image_osci.png" />
 	  <None Remove="Resources\image_sexmachine.png" />
+	  <None Remove="Resources\pishock_logo.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Content Include="GW_Logo.ico" />
@@ -51,13 +57,20 @@
 		<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\GoodVibes.Client.Cache\GoodVibes.Client.Cache.csproj" />
+		<ProjectReference Include="..\GoodVibes.Client.Common\GoodVibes.Client.Common.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.Core\GoodVibes.Client.Core.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.Lovense\GoodVibes.Client.Lovense.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.Osc\GoodVibes.Client.Osc.csproj" />
+		<ProjectReference Include="..\GoodVibes.Client.PiShock\GoodVibes.Client.PiShock.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.Settings\GoodVibes.Client.Settings.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.SignalR\GoodVibes.Client.SignalR.csproj" />
+		<ProjectReference Include="..\GoodVibes.Client.Vrchat\GoodVibes.Client.Vrchat.csproj" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Resource Include="Resources\button_pishock_beep.png" />
+	  <Resource Include="Resources\button_pishock_shock.png" />
+	  <Resource Include="Resources\button_pishock_vibrate.png" />
 	  <Resource Include="Resources\icon_ambi.png" />
 	  <Resource Include="Resources\icon_blast.png" />
 	  <Resource Include="Resources\icon_calor.png" />
@@ -74,6 +87,7 @@
 	  <Resource Include="Resources\icon_max.png" />
 	  <Resource Include="Resources\icon_nora.png" />
 	  <Resource Include="Resources\icon_osci.png" />
+	  <Resource Include="Resources\icon_pishock_shocker.png" />
 	  <Resource Include="Resources\image_ambi.png" />
 	  <Resource Include="Resources\image_calor.png" />
 	  <Resource Include="Resources\image_diamo.png" />
@@ -89,6 +103,7 @@
 	  <Resource Include="Resources\image_nora.png" />
 	  <Resource Include="Resources\image_osci.png" />
 	  <Resource Include="Resources\image_sexmachine.png" />
+	  <Resource Include="Resources\pishock_logo.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Compile Update="Properties\Resources.Designer.cs">

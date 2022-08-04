@@ -1,11 +1,12 @@
-﻿using GoodVibes.Client.Lovense.Enums;
+﻿using GoodVibes.Client.Common.Enums;
+using GoodVibes.Client.Lovense.Enums;
 using GoodVibes.Client.Lovense.Models.Abstractions;
 
 namespace GoodVibes.Client.Lovense.Models;
 
 public class Edge : LovenseToy
 {
-    public override LovenseToyEnum ToyType => LovenseToyEnum.Edge;
+    public override ToyTypeEnum ToyType => ToyTypeEnum.Edge;
     public override bool Enabled { get; set; }
     public override LovenseCommandEnum Function1 { get; set; }
     public override LovenseCommandEnum Function2 { get; set; }

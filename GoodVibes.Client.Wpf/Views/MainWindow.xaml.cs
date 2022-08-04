@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
@@ -18,11 +20,19 @@ namespace GoodVibes.Client.Wpf.Views
         {
             InitializeComponent();
             Console.WriteLine("Hello from MainWindow cstor");
+
+            Closing += OnWindowClosing;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             EnableBlur();
+        }
+
+        public void OnWindowClosing(object sender, CancelEventArgs e)
+        {
+            Application.Current.Shutdown();
+            Process.GetCurrentProcess().Kill();
         }
 
         internal void EnableBlur()

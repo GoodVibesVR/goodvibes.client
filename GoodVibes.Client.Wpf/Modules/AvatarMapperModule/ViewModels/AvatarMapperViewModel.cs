@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using GoodVibes.Client.Cache;
+using GoodVibes.Client.Cache.Models;
 using GoodVibes.Client.Core.Mvvm;
-using GoodVibes.Client.Lovense.Enums;
 using GoodVibes.Client.Lovense.EventCarriers;
 using GoodVibes.Client.Lovense.Events;
-using GoodVibes.Client.Mapper;
-using GoodVibes.Client.Mapper.Dtos;
 using GoodVibes.Client.Mapper.EventCarriers;
 using GoodVibes.Client.Mapper.Events;
+using GoodVibes.Client.PiShock.EventCarriers;
+using GoodVibes.Client.PiShock.Events;
+using GoodVibes.Client.Vrchat.Dtos;
 using GoodVibes.Client.Wpf.EventCarriers;
 using GoodVibes.Client.Wpf.Events;
+using GoodVibes.Client.Wpf.Services;
 using GoodVibes.Client.Wpf.Services.Abstractions;
 using Prism.Commands;
 using Prism.Events;
@@ -23,11 +26,18 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
     internal class AvatarMapperViewModel : RegionViewModelBase
     {
         private readonly IDialogService _dialogService;
-        private readonly AvatarMapperClient _avatarMapper;
+        private readonly IAvatarMapperService _mapperService;
+        private readonly ILovenseService _lovenseService;
+        private readonly IPiShockService _piShockService;
 
-        private Dictionary<string, ObservableCollection<MappingPointViewModel>> _avatarMappingPoints;
+        private readonly OscProfileConverterService _oscProfileService;
+        private readonly GoodVibesCacheManager<AvatarMapperCache> _cacheManager;
 
-        public ObservableCollection<AvatarMappingDto> Avatars { get; set; }
+        private readonly Dictionary<string, ObservableCollection<MappingPointViewModel>> _avatarMappingPoints;
+
+        public ObservableCollection<AvatarViewModel> Avatars { get; set; }
+        public ObservableCollection<ToyFunctionViewModel> AvailableToyFunctions { get; set; }
+
         private ObservableCollection<MappingPointViewModel> _mappingPoints;
         public ObservableCollection<MappingPointViewModel> MappingPoints
         {
@@ -39,13 +49,8 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
             }
         }
 
-        public ObservableCollection<ToyViewModel> AvailableToyFunctions { get; set; }
-
-        //public ObservableCollection<ToyMappingDto> Toys { get; set; }
-        //public ObservableCollection<ToyMappingDto> SelectedToys { get; set; }
-
-        private AvatarMappingDto _selectedAvatar;
-        public AvatarMappingDto SelectedAvatar
+        private AvatarViewModel _selectedAvatar;
+        public AvatarViewModel SelectedAvatar
         {
             get => _selectedAvatar;
             set
@@ -53,13 +58,6 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                 SelectedAvatarChanged(_selectedAvatar, value);
                 SetProperty(ref _selectedAvatar, value);
             }
-        }
-
-        private Dictionary<string, List<ToyMappingDto>> _mappings;
-        public Dictionary<string, List<ToyMappingDto>> Mappings
-        {
-            get => _mappings;
-            set => SetProperty(ref _mappings, value);
         }
 
         private DelegateCommand _openImportDialog;
@@ -77,43 +75,150 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                 MappingPoints.Remove(argument as MappingPointViewModel);
             });
 
-        public AvatarMapperViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, IDialogService dialogService, AvatarMapperClient avatarMapper) : base(regionManager)
+        public AvatarMapperViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, IDialogService dialogService,
+            IAvatarMapperService mapperService, ILovenseService lovenseService, IPiShockService piShockService, 
+            OscProfileConverterService oscProfileService, GoodVibesCacheManager<AvatarMapperCache> cacheManager) : base(regionManager)
         {
             _dialogService = dialogService;
-            _avatarMapper = avatarMapper;
+            _mapperService = mapperService;
+            _oscProfileService = oscProfileService;
+            _lovenseService = lovenseService;
+            _piShockService = piShockService;
+            _cacheManager = cacheManager;
 
             _avatarMappingPoints = new Dictionary<string, ObservableCollection<MappingPointViewModel>>();
-            AvailableToyFunctions = new ObservableCollection<ToyViewModel>();
-            Avatars = new ObservableCollection<AvatarMappingDto>(); // TODO: Fix this
+            Avatars = new ObservableCollection<AvatarViewModel>();
+            MappingPoints = new ObservableCollection<MappingPointViewModel>() { new() };
 
-            MappingPoints = new ObservableCollection<MappingPointViewModel>()
-            {
-                new MappingPointViewModel()
-            };
+            BuildAvatarMappingPoints();
+            BuildAvailableToyFunctions();
 
             eventAggregator.GetEvent<LovenseToyListUpdatedEventCarrier>().Subscribe(LovenseToyListUpdated);
+            eventAggregator.GetEvent<PiShockToyListUpdatedEventCarrier>().Subscribe(PiShockToyListUpdated);
             eventAggregator.GetEvent<AvatarChangedEventCarrier>().Subscribe(AvatarChanged);
             eventAggregator.GetEvent<RemoveAvatarMappingEventCarrier>().Subscribe(RemoveMappingPoint);
             eventAggregator.GetEvent<AddEmptyMappingEventCarrier>().Subscribe(AddEmptyMapping);
+
+            eventAggregator.GetEvent<RemoveLovenseToyEventCarrier>().Subscribe(RemoveLovenseToy);
+            eventAggregator.GetEvent<RemovePiShockToyEventCarrier>().Subscribe(RemovePiShockToy);
+        }
+
+        private void BuildAvatarMappingPoints()
+        {
+            var cache = _cacheManager.GetCache();
+            foreach (var avatarCache in cache.AvatarMapper)
+            {
+                var avatarId = avatarCache.Key;
+                var name = avatarCache.Value.Name;
+                var oscMappings = avatarCache.Value.OscMappings;
+                var mappingPoints = new List<MappingPointViewModel>();
+                foreach (var oscMapping in oscMappings)
+                {
+                    var oscAddress = oscMapping.Key;
+                    var test = oscMapping.Value;
+                    var mappedFunctions = test.Select(m => new ToyFunctionViewModel()
+                    {
+                        Function = m.Function,
+                        Name = m.Name,
+                        ToyId = m.ToyId,
+                        Type = m.Type
+                    });
+                    var mappingPoint = new MappingPointViewModel()
+                    {
+                        BeingImported = true,
+                        AvatarId = avatarId,
+                        OscAddress = oscAddress,
+                        HintVisible = string.IsNullOrEmpty(oscAddress) ? Visibility.Visible : Visibility.Hidden
+                    };
+
+                    foreach (var mappedFunction in mappedFunctions)
+                    {
+                        mappingPoint.AddToyFunction(mappedFunction);
+                    }
+
+                    mappingPoint.BeingImported = false;
+                    mappingPoints.Add(mappingPoint);
+                }
+
+                if (!mappingPoints.Any(mp => string.IsNullOrEmpty(mp.OscAddress)))
+                {
+                    mappingPoints.Add(new MappingPointViewModel()
+                    {
+                        AvatarId = avatarId
+                    });
+                }
+
+                _avatarMappingPoints.Add(avatarId, new ObservableCollection<MappingPointViewModel>(mappingPoints));
+
+                Avatars.Add(new AvatarViewModel()
+                {
+                    AvatarId = avatarId,
+                    Name = name
+                });
+            }
+        }
+
+        private void BuildAvailableToyFunctions()
+        {
+            AvailableToyFunctions = new ObservableCollection<ToyFunctionViewModel>();
+
+            var lovenseToys = _lovenseService.GetToys();
+            var lovenseToyFunctions = _mapperService.BuildToyFunctionViewModels(lovenseToys);
+            BuildToyFunctions(lovenseToyFunctions);
+
+            var piShockToys = _piShockService.GetToys();
+            var piShockToyFunctions = _mapperService.BuildToyFunctionViewModels(piShockToys);
+            BuildToyFunctions(piShockToyFunctions);
+        }
+
+        private void RemoveLovenseToy(RemoveLovenseToyEvent obj)
+        {
+            RemoveToyFunctions(obj.ToyId);
+        }
+
+        private void RemovePiShockToy(RemovePiShockToyEvent obj)
+        {
+            RemoveToyFunctions(obj.ToyId);
+        }
+
+        private void RemoveToyFunctions(string toyId)
+        {
+            var availableFunctions = AvailableToyFunctions
+                .Where(f => f.ToyId == toyId).ToList();
+            foreach (var function in availableFunctions)
+            {
+                AvailableToyFunctions.Remove(function);
+            }
+
+            foreach (var mappingPoint in MappingPoints)
+            {
+                mappingPoint.AvailableToyFunctions = AvailableToyFunctions.ToArray();
+            }
         }
 
         private void AddEmptyMapping(AddEmptyMappingEvent obj)
         {
-            MappingPoints.Add(new MappingPointViewModel());
+            MappingPoints.Add(new MappingPointViewModel()
+            {
+                AvatarId = SelectedAvatar?.AvatarId
+            });
         }
 
         private void RemoveMappingPoint(RemoveAvatarMappingEvent obj)
         {
-            _avatarMapper.RemoveMapping(obj.MappingPoint.OscAddress);
+            _mapperService.RemoveMappingPoint(obj.MappingPoint.OscAddress);
             MappingPoints.Remove(obj.MappingPoint);
+
+            if (MappingPoints.Count == 0)
+            {
+                MappingPoints.Add(new MappingPointViewModel()
+                {
+                    AvatarId = SelectedAvatar.AvatarId
+                });
+            }
         }
 
-        private void SelectedAvatar_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            Console.WriteLine("Selected avatar changed");
-        }
-
-        private void SelectedAvatarChanged(AvatarMappingDto oldAvatarMapping, AvatarMappingDto newAvatarMapping)
+        private void SelectedAvatarChanged(AvatarViewModel oldAvatarMapping, AvatarViewModel newAvatarMapping)
         {
             if (oldAvatarMapping != null)
             {
@@ -132,6 +237,10 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
             var newMappingExists = _avatarMappingPoints.TryGetValue(newAvatarMapping.AvatarId!, out var newAvatarMappingPoints);
             if (newMappingExists)
             {
+                foreach (var newAvatarMappingPoint in newAvatarMappingPoints)
+                {
+                    newAvatarMappingPoint.AvailableToyFunctions = AvailableToyFunctions.ToArray();
+                }
                 MappingPoints = newAvatarMappingPoints;
             }
             else
@@ -140,6 +249,7 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                 {
                     new MappingPointViewModel()
                     {
+                        AvatarId = SelectedAvatar?.AvatarId,
                         OscAddress = string.Empty,
                         AvailableToyFunctions = AvailableToyFunctions.ToArray()
                     }
@@ -147,36 +257,58 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
             }
         }
 
-        private void ChangeMapperMappings(ObservableCollection<MappingPointViewModel> oldMappings, ObservableCollection<MappingPointViewModel> newMappings)
+        private void AddOscProfileMappingPoints(OscProfileDto oscProfile)
         {
-            var oldMappingDtos = oldMappings == null
-                ? new List<MappingDto>()
-                : oldMappings.Select(mappingPointViewModel => new MappingDto()
-                {
-                    OscAddress = mappingPointViewModel.OscAddress,
-                    ToyMappings = mappingPointViewModel.ToyMappings.Select(tm => new ToyMappingDto()
-                        { Id = tm.ToyId, Function = tm.Function, IsChecked = tm.IsChecked, Name = tm.Name }).ToList()
-                });
-
-            var newMappingDtos = newMappings.Select(mappingPointViewModel => new MappingDto()
+            if (oscProfile.Id == null)
             {
-                OscAddress = mappingPointViewModel.OscAddress,
-                ToyMappings = mappingPointViewModel.ToyMappings.Select(tm => new ToyMappingDto()
-                    { Id = tm.ToyId, Function = tm.Function, IsChecked = tm.IsChecked, Name = tm.Name }).ToList()
+                // TODO: Show warning of invalid profile
+                return;
+            }
+
+            ChangeAvatar(new AvatarViewModel()
+            {
+                AvatarId = oscProfile.Id,
+                Name = oscProfile.Name
             });
 
-            _avatarMapper.ChangeMappings(oldMappingDtos, newMappingDtos);
+            var oldMappings = MappingPoints.ToList();
+            foreach (var oldMapping in oldMappings)
+            {
+                oldMapping.RemoveMapping();
+            }
+
+            var newMappings = new ObservableCollection<MappingPointViewModel>();
+            newMappings.AddRange(oscProfile.Parameters!.Where(p => p.Output != null).Select(p => new MappingPointViewModel()
+            {
+                AvatarId = oscProfile.Id,
+                OscAddress = p.Output.Address!.Replace("/avatar/parameters/", ""),
+                AvailableToyFunctions = AvailableToyFunctions.ToArray(),
+                HintVisible = Visibility.Hidden
+            }));
+
+            // Also add empty
+            newMappings.Add(new MappingPointViewModel()
+            {
+                AvatarId = SelectedAvatar.AvatarId
+            });
+
+            MappingPoints = newMappings;
+        }
+
+        private void ChangeMapperMappings(IReadOnlyCollection<MappingPointViewModel> oldMappings, IEnumerable<MappingPointViewModel> newMappings)
+        {
+            _mapperService.ChangeMappings(oldMappings, newMappings);
         }
 
         private void ImportProfile()
         {
             var jsonProfile = _dialogService.OpenJsonFileDialog();
             if (string.IsNullOrEmpty(jsonProfile))
-            {
                 return;
-            }
 
-            // TODO: Do things
+            // TODO: OscProfile or GoodVibes Profile?
+            var oscProfile = _oscProfileService.DeserializeOscProfile(jsonProfile);
+            AddOscProfileMappingPoints(oscProfile);
         }
 
         private void ExportProfile()
@@ -190,75 +322,89 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
             {
                 Console.WriteLine("AvatarChanged event received");
 
-                var avatarDto = new AvatarMappingDto()
+                var avatarDto = new AvatarViewModel()
                 {
                     AvatarId = obj.AvatarId
                 };
 
-                var exists = Avatars.Any(a => a.AvatarId == obj.AvatarId);
-                if (!exists)
-                {
-                    Console.WriteLine($"Adding new avatar with ID {obj.AvatarId} to Avatar list");
-                    Avatars.Add(avatarDto);
-                }
-
-                SelectedAvatar = avatarDto;
+                ChangeAvatar(avatarDto);
             });
+        }
+
+        private void ChangeAvatar(AvatarViewModel avatar)
+        {
+            if (SelectedAvatar != null && SelectedAvatar.AvatarId == avatar.AvatarId)
+            {
+                var cache = _cacheManager.GetCache();
+                var dropDownAvatar = Avatars.First(a => a.AvatarId == avatar.AvatarId);
+                dropDownAvatar.Name = avatar.Name;
+
+                SelectedAvatar.Name = avatar.Name;
+
+
+                var cachedAvatar = cache.AvatarMapper[avatar.AvatarId];
+                cachedAvatar.Name = avatar.Name;
+                _cacheManager.SaveCache(cache);
+
+                return;
+            }
+
+            var existingAvatar = Avatars.FirstOrDefault(a => a.AvatarId == avatar.AvatarId);
+            if (existingAvatar == null)
+            {
+                Console.WriteLine($"Adding new avatar with ID {avatar.AvatarId} to Avatar list");
+
+                var cache = _cacheManager.GetCache();
+                cache.AvatarMapper.Add(avatar.AvatarId, new AvatarCache()
+                {
+                    Name = avatar.Name,
+                    OscMappings = new Dictionary<string, List<MappedFunctionsCache>>()
+                });
+                _cacheManager.SaveCache(cache);
+
+                Avatars.Add(avatar);
+            }
+            else
+            {
+                avatar = existingAvatar;
+            }
+
+            SelectedAvatar = avatar;
         }
 
         private void LovenseToyListUpdated(LovenseToyListUpdatedEvent obj)
         {
             Application.Current.Dispatcher.Invoke((Action)delegate
             {
-                var tempList = AvailableToyFunctions;
-                var tempList2 = new List<ToyViewModel>();
-                foreach (var lovenseToy in obj.ToyList!)
-                {
-                    if (lovenseToy.Status == false || !lovenseToy.Enabled)
-                    {
-                        continue;
-                    }
-                    if (lovenseToy.Function1 != LovenseCommandEnum.None)
-                    {
-                        tempList2.Add(new ToyViewModel()
-                        {
-                            Name = lovenseToy.DisplayName,
-                            Function = lovenseToy.Function1,
-                            ToyId = lovenseToy.Id!
-                        });
-                    }
-                    if (lovenseToy.Function2 != LovenseCommandEnum.None)
-                    {
-                        tempList2.Add(new ToyViewModel()
-                        {
-                            Name = lovenseToy.DisplayName,
-                            Function = lovenseToy.Function2,
-                            ToyId = lovenseToy.Id!
-                        });
-                    }
-                }
-                
-                foreach (var toy in tempList2.ToList())
-                {
-                    var exists = tempList.Any(t => t.ToyId == toy.ToyId && t.Function == toy.Function);
-                    if (!exists)
-                    {
-                        AvailableToyFunctions.Add(toy);
-                    }
-
-                    // TODO: Actually remove as well.
-                }
-
-                // TODO: Add to avatar mappingPoints as well
-                foreach (var mappingPoint in MappingPoints)
-                {
-                    mappingPoint.AvailableToyFunctions = AvailableToyFunctions.ToArray();
-                }
-
-                // TODO: We need to handle mapped toy types as well as IDs here... or?
-                //var disconnectedToys = tempList.Where(t => obj.ToyList.All(x => x.Id != t.Id));
-                //var test = tempList.Except(Toys);
+                var toyFunctions = _mapperService.BuildToyFunctionViewModels(obj.ToyList);
+                BuildToyFunctions(toyFunctions);
             });
+        }
+
+        private void PiShockToyListUpdated(PiShockToyListUpdatedEvent obj)
+        {
+            Application.Current.Dispatcher.Invoke((Action)delegate
+            {
+                var toyFunctions = _mapperService.BuildToyFunctionViewModels(obj.ToyList);
+                BuildToyFunctions(toyFunctions);
+            });
+        }
+
+        private void BuildToyFunctions(IEnumerable<ToyFunctionViewModel> toyFunctions)
+        {
+            foreach (var toy in toyFunctions)
+            {
+                var exists = AvailableToyFunctions.Any(t => t.ToyId == toy.ToyId && t.Function == toy.Function);
+                if (!exists)
+                {
+                    AvailableToyFunctions.Add(toy);
+                }
+            }
+
+            foreach (var mappingPoint in MappingPoints)
+            {
+                mappingPoint.AvailableToyFunctions = AvailableToyFunctions.ToArray();
+            }
         }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)

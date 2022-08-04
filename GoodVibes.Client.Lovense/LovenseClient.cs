@@ -1,6 +1,8 @@
 ﻿using System.Text;
 using GoodVibes.Client.ApiCaller;
 using GoodVibes.Client.ApiCaller.Abstractions;
+using GoodVibes.Client.Cache;
+using GoodVibes.Client.Lovense.Cache;
 using GoodVibes.Client.Lovense.Dtos;
 using GoodVibes.Client.Lovense.Enums;
 using GoodVibes.Client.Lovense.EventDispatchers;
@@ -20,6 +22,7 @@ namespace GoodVibes.Client.Lovense
     {
         private readonly ApplicationSettings _applicationSettings;
         private readonly LovenseEventDispatcher _lovenseEventDispatcher;
+        private readonly GoodVibesCacheManager<LovenseCache> _cacheManager;
 
         private ILovenseApiClient? _lovenseApiClient;
         private bool Connected { get; set; }
@@ -35,31 +38,60 @@ namespace GoodVibes.Client.Lovense
         public string? HttpsPort { get; private set; }
         public int Version { get; private set; }
         public string? Platform { get; private set; }
-        public Dictionary<string, LovenseToy>? Toys { get; private set; }
+        public Dictionary<string, LovenseToy> Toys { get; private set; }
 
-
-        public LovenseClient(ApplicationSettings applicationSettings, LovenseEventDispatcher lovenseEventDispatcher) : base()
+        public LovenseClient(ApplicationSettings applicationSettings, LovenseEventDispatcher lovenseEventDispatcher, GoodVibesCacheManager<LovenseCache> cacheManager) : base()
         {
             _applicationSettings = applicationSettings;
             _lovenseEventDispatcher = lovenseEventDispatcher;
+            _cacheManager = cacheManager;
 
-            Toys = new Dictionary<string, LovenseToy>();
+            Toys = SetupToyList();
+        }
+
+        private Dictionary<string, LovenseToy> SetupToyList()
+        {
+            var toysDict = new Dictionary<string, LovenseToy>();
+            var lovenseCache = _cacheManager.GetCache();
+            if (lovenseCache.Toys.Count < 1) return toysDict;
+
+            var toys = lovenseCache.Toys;
+            foreach (var lovenseToy in toys)
+            {
+                toysDict.Add(lovenseToy.Id!, lovenseToy);
+            }
+
+            _lovenseEventDispatcher.Dispatch(new LovenseToyListUpdatedEvent()
+            {
+                ToyList = toysDict.Select(t => t.Value).ToList()
+            });
+            return toysDict;
         }
 
         public async Task ConnectAsync()
         {
-            Console.WriteLine($"ConnectAsync called...");
+            Console.WriteLine($"Lovense ConnectAsync called...");
 
             await ConnectAsync(
                 $"{_applicationSettings.GoodVibesRoot}{_applicationSettings.SignalRSettings!.CommandHubPath}", () =>
                 {
-                    Connection!.On<string>(CommandMethodConstants.ReceiveCallback, ReceiveCallbackHandler);
-                    Connection!.On<string>(CommandMethodConstants.ReceiveQrCode, ReceiveQrCodeHandler);
+                    Connection!.On<string>(LovenseCommandMethodConstants.ReceiveCallback, ReceiveCallbackHandler);
+                    Connection!.On<string>(LovenseCommandMethodConstants.ReceiveQrCode, ReceiveQrCodeHandler);
                 });
             
             Console.WriteLine("Starting ApiCallerTask");
-            Task.Run(ApiCallerTask).ConfigureAwait(false);
+            await Task.Run(ApiCallerTask).ConfigureAwait(false);
             // TODO: Make a connection checker task
+        }
+
+        public async Task DisconnectAsync()
+        {
+            Console.WriteLine($"Lovense DisconnectAsync called...");
+
+            Connected = false;
+            await DisconnectAsync(true);
+
+            _lovenseEventDispatcher.Dispatch(new LovenseDisconnectedEvent());
         }
 
         public Task SendCommand(LovenseCommandEnum command, float value, int seconds, string toy)
@@ -78,9 +110,33 @@ namespace GoodVibes.Client.Lovense
                 toy.SetStrengthPercentage(strength1, strength2);
             }
 
+            SaveToysToCache(Toys, true);
             Console.WriteLine($"Strength now changed:\nStrength1: {strength1}\nStrength2: {strength2}");
 
             return Task.CompletedTask;
+        }
+
+        public Task RemoveToy(string toyId)
+        {
+            var toyFound = Toys!.TryGetValue(toyId, out var toy);
+            if (!toyFound) return Task.CompletedTask;
+
+            Toys.Remove(toyId);
+            SaveToysToCache(Toys, true);
+
+            return Task.CompletedTask;
+        }
+
+        private void SaveToysToCache(Dictionary<string, LovenseToy> toys, bool ignoreCheck = false)
+        {
+            var equal = toys.OrderBy(t => t.Key).SequenceEqual(Toys.OrderBy(t => t.Key));
+            if (!equal || ignoreCheck)
+            {
+                _cacheManager.SaveCache(new LovenseCache()
+                {
+                    Toys = toys.Select(t => t.Value).ToList()
+                });
+            }
         }
 
         private void ReceiveCallbackHandler(string messageStr)
@@ -92,7 +148,10 @@ namespace GoodVibes.Client.Lovense
             _lovenseApiClient = !deviceAvailable ? null
                 : new ApiClient($"http://{callback.Domain}:{callback.HttpPort}");
 
-            Toys = Task.Run(() => BuildLovenseToys(callback.Toys!)).Result;
+            var toys = Task.Run(() => BuildLovenseToys(callback.Toys!)).Result;
+            SaveToysToCache(toys);
+
+            Toys = toys;
             Uid = callback.Uid;
             AppVersion = callback.AppVersion;
             WssPort = callback.WssPort;
@@ -163,6 +222,7 @@ namespace GoodVibes.Client.Lovense
                             ToyTypeConstants.Osci => new Osci(),
                             ToyTypeConstants.SexMachine => new SexMachine(),
                             ToyTypeConstants.Exomoon => new Exomoon(),
+                            // ReSharper disable once NotResolvedInText
                             _ => throw new ArgumentOutOfRangeException("Unsupported toy")
                         };
 
@@ -170,6 +230,8 @@ namespace GoodVibes.Client.Lovense
                         toy.Nickname = toyDto.Nickname;
                         toy.Name = toyDto.Name;
                         toy.Status = toyDto.Status == 1;
+                        toy.Function1MaxStrengthPercentage = 100;
+                        toy.Function2MaxStrengthPercentage = 100;
                         toy.Battery = detailedToy?.Battery ?? null;
                         toy.Version = detailedToy?.Version ?? null;
                     }
@@ -213,56 +275,74 @@ namespace GoodVibes.Client.Lovense
 
             while (await timer.WaitForNextTickAsync())
             {
-                Console.WriteLine("ApiCallerTask triggered");
-
-                foreach (var lovenseToy in Toys!)
+                if (!Connected)
                 {
-                    if (lovenseToy.Value.Status == false)
-                        continue;
+                    return;
+                }
 
-                    if (_lovenseApiClient == null)
+                try
+                {
+                    Console.WriteLine("ApiCallerTask triggered");
+
+                    // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+                    foreach (var (_, lovenseToy) in Toys!)
                     {
-                        var commandList = lovenseToy.Value.GetCommandList();
-                        if (commandList.Any())
+                        if (lovenseToy.Status == false)
+                            continue;
+
+                        if (_lovenseApiClient == null)
                         {
-                            lovenseToy.Value.ClearCommandList();
+                            var commandList = lovenseToy.GetCommandList();
+                            if (commandList.Any())
+                            {
+                                lovenseToy.ClearCommandList();
+                            }
+                            foreach (var command in commandList)
+                            {
+                                await Connection!.InvokeAsync(LovenseCommandMethodConstants.SendCommand, command.Command,
+                                    command.Value, 0, 0, lovenseToy.Id);
+                            }
+
+                            continue;
                         }
-                        foreach (var command in commandList)
+
+                        var commandStr = lovenseToy.GetCommandString();
+                        if (string.IsNullOrEmpty(commandStr)) continue;
+                        lovenseToy.ClearCommandList();
+
+                        var requestBody = JsonConvert.SerializeObject(new
                         {
-                            await Connection!.InvokeAsync(CommandMethodConstants.SendCommand, command.Command,
-                                command.Value, 0, 0, lovenseToy.Value.Id);
+                            command = "Function",
+                            action = commandStr,
+                            stopPrevious = 0,
+                            timeSec = 0,
+                            apiVer = 1,
+                            toy = lovenseToy.Id
+                        });
+
+                        try
+                        {
+                            Console.WriteLine($"Request body being sent: {requestBody}");
+                            await DoLocalCommandCall(requestBody);
                         }
-
-                        return;
-                    }
-
-                    var commandStr = lovenseToy.Value.GetCommandString();
-                    if (string.IsNullOrEmpty(commandStr)) continue;
-                    lovenseToy.Value.ClearCommandList();
-
-                    var requestBody = JsonConvert.SerializeObject(new
-                    {
-                        command = "Function",
-                        action = commandStr,
-                        stopPrevious = 0,
-                        timeSec = 0,
-                        apiVer = 1,
-                        toy = lovenseToy.Value.Id
-                    });
-
-                    try
-                    {
-                        Console.WriteLine($"Request body being sent: {requestBody}");
-                        var response = await _lovenseApiClient.PostAsync<WebCommandResponse>("/command", new StringContent(requestBody, Encoding.UTF8, "application/json"));
-                        Console.WriteLine($"API Response: {JsonConvert.SerializeObject(response)}");
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                        throw;
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                        }
                     }
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
             }
+        }
+
+        private async Task DoLocalCommandCall(string requestBody)
+        {
+            if (_lovenseApiClient == null) return;
+            var response = await _lovenseApiClient.PostAsync<WebCommandResponse>("/command", new StringContent(requestBody, Encoding.UTF8, "application/json"));
+            Console.WriteLine($"API Response: {JsonConvert.SerializeObject(response)}");
         }
 
         private async Task<Dictionary<string, DetailedToyDto>?> GetDetailedToyList()
@@ -287,7 +367,6 @@ namespace GoodVibes.Client.Lovense
                 Console.WriteLine(e);
                 return null;
             }
-
         }
     }
 }

@@ -321,7 +321,7 @@
                                 Opacity="1" 
                                 Width="30"
                                 Height="32"
-                                Command="{Binding _removeToyCommand}">
+                                Command="{Binding RemoveToyCommand}">
                                     <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
                                      Stretch="Uniform"
                                      HorizontalAlignment="Right"
@@ -370,7 +370,7 @@
                     Opacity="1" 
                     
                     Margin="0, 10, 0, 0"
-                    Command="{Binding OpenDiscordCommand}">
+                    Command="{Binding NavigateToAddToyCommand}">
                     <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
                         <Canvas Name="svg170" Width="200" Height="37">
                             <Canvas.RenderTransform>

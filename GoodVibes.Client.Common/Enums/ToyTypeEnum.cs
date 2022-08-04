@@ -1,6 +1,6 @@
-﻿namespace GoodVibes.Client.Lovense.Enums;
+﻿namespace GoodVibes.Client.Common.Enums;
 
-public enum LovenseToyEnum
+public enum ToyTypeEnum
 {
     Unknown = 0,
     Ambi = 10,
@@ -18,5 +18,6 @@ public enum LovenseToyEnum
     Max = 22,
     Nora = 23,
     Osci = 24,
-    SexMachine = 25
+    SexMachine = 25,
+    PiShock = 50
 }

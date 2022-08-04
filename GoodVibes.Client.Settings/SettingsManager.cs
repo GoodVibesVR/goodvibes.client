@@ -18,7 +18,11 @@ namespace GoodVibes.Client.Settings
             switch (settingsLocation)
             {
                 case SettingsLocationEnum.AppData:
-                    path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                    path = @$"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\GoodVibes";
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
                     break;
                 case SettingsLocationEnum.ApplicationDirectory:
                     path = AppDomain.CurrentDomain.BaseDirectory;

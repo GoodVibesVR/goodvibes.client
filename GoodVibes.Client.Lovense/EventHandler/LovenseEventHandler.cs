@@ -19,12 +19,16 @@ namespace GoodVibes.Client.Lovense.EventHandler
         {
             _eventAggregator.GetEvent<LovenseCommandEventCarrier>().Subscribe(LovenseCommandReceived);
             _eventAggregator.GetEvent<LovenseStrengthChangedEventCarrier>().Subscribe(LovenseStrengthChangedReceived);
+            _eventAggregator.GetEvent<RemoveLovenseToyEventCarrier>().Subscribe(RemoveLovenseToyReceived);
+            _eventAggregator.GetEvent<DisconnectLovenseCommandEventCarrier>().Subscribe(DisconnectLovenseCommandReceived);
         }
 
         public void Unsubscribe()
         {
             _eventAggregator.GetEvent<LovenseCommandEventCarrier>().Unsubscribe(LovenseCommandReceived);
             _eventAggregator.GetEvent<LovenseStrengthChangedEventCarrier>().Unsubscribe(LovenseStrengthChangedReceived);
+            _eventAggregator.GetEvent<RemoveLovenseToyEventCarrier>().Unsubscribe(RemoveLovenseToyReceived);
+            _eventAggregator.GetEvent<DisconnectLovenseCommandEventCarrier>().Unsubscribe(DisconnectLovenseCommandReceived);
         }
 
         private void LovenseCommandReceived(LovenseCommandEvent obj)
@@ -35,6 +39,16 @@ namespace GoodVibes.Client.Lovense.EventHandler
         private void LovenseStrengthChangedReceived(LovenseStrengthChangedEvent obj)
         {
             Task.Run(() => _lovenseClient.SetStrength(obj.ToyId!, obj.Strength1Percentage, obj.Strength2Percentage));
+        }
+
+        private void RemoveLovenseToyReceived(RemoveLovenseToyEvent obj)
+        {
+            Task.Run(() => _lovenseClient.RemoveToy(obj.ToyId!));
+        }
+
+        private void DisconnectLovenseCommandReceived(DisconnectLovenseCommandEvent obj)
+        {
+            Task.Run(() => _lovenseClient.DisconnectAsync());
         }
     }
 }

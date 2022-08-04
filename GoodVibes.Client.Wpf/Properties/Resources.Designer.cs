@@ -63,6 +63,36 @@ namespace GoodVibes.Client.Wpf.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap button_pishock_beep {
+            get {
+                object obj = ResourceManager.GetObject("button_pishock_beep", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap button_pishock_shock {
+            get {
+                object obj = ResourceManager.GetObject("button_pishock_shock", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap button_pishock_vibrate {
+            get {
+                object obj = ResourceManager.GetObject("button_pishock_vibrate", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icon_ambi {
             get {
                 object obj = ResourceManager.GetObject("icon_ambi", resourceCulture);
@@ -223,6 +253,16 @@ namespace GoodVibes.Client.Wpf.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icon_pishock_shocker {
+            get {
+                object obj = ResourceManager.GetObject("icon_pishock_shocker", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap image_ambi {
             get {
                 object obj = ResourceManager.GetObject("image_ambi", resourceCulture);
@@ -366,6 +406,16 @@ namespace GoodVibes.Client.Wpf.Properties {
         internal static System.Drawing.Bitmap image_sexmachine {
             get {
                 object obj = ResourceManager.GetObject("image_sexmachine", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pishock_logo {
+            get {
+                object obj = ResourceManager.GetObject("pishock_logo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

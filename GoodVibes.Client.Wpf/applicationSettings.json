@@ -3,6 +3,7 @@
   "GoodVibesRoot": "https://goodvibes.gg",
   "SignalRSettings": {
     "CommandHubPath": "/commandHub",
-    "SyncHubPath": "/syncHub"
+    "SyncHubPath": "/syncHub",
+    "PiShockHubPath": "/piShockCommandHub"
   }
 }
