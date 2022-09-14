@@ -37,6 +37,7 @@
 	  <None Remove="Resources\image_dolce.png" />
 	  <None Remove="Resources\image_domi.png" />
 	  <None Remove="Resources\image_edge.png" />
+	  <None Remove="Resources\image_exomoon.png" />
 	  <None Remove="Resources\image_ferri.png" />
 	  <None Remove="Resources\image_gush.png" />
 	  <None Remove="Resources\image_hush.png" />
@@ -46,6 +47,7 @@
 	  <None Remove="Resources\image_nora.png" />
 	  <None Remove="Resources\image_osci.png" />
 	  <None Remove="Resources\image_sexmachine.png" />
+	  <None Remove="Resources\image_terera.png" />
 	  <None Remove="Resources\pishock_logo.png" />
 	</ItemGroup>
 	<ItemGroup>
@@ -96,6 +98,7 @@
 	  <Resource Include="Resources\image_dolce.png" />
 	  <Resource Include="Resources\image_domi.png" />
 	  <Resource Include="Resources\image_edge.png" />
+	  <Resource Include="Resources\image_exomoon.png" />
 	  <Resource Include="Resources\image_ferri.png" />
 	  <Resource Include="Resources\image_gush.png" />
 	  <Resource Include="Resources\image_hush.png" />
@@ -105,6 +108,7 @@
 	  <Resource Include="Resources\image_nora.png" />
 	  <Resource Include="Resources\image_osci.png" />
 	  <Resource Include="Resources\image_sexmachine.png" />
+	  <Resource Include="Resources\image_terera.png" />
 	  <Resource Include="Resources\pishock_logo.png" />
 	</ItemGroup>
 	<ItemGroup>
