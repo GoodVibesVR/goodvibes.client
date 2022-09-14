@@ -19,5 +19,6 @@ public enum ToyTypeEnum
     Nora = 23,
     Osci = 24,
     SexMachine = 25,
+    Tenera = 26,
     PiShock = 50
 }

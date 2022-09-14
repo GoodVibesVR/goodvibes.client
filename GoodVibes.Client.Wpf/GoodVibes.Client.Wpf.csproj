@@ -30,6 +30,7 @@
 	  <None Remove="Resources\icon_nora.png" />
 	  <None Remove="Resources\icon_osci.png" />
 	  <None Remove="Resources\icon_pishock_shocker.png" />
+	  <None Remove="Resources\icon_tenera.png" />
 	  <None Remove="Resources\image_ambi.png" />
 	  <None Remove="Resources\image_calor.png" />
 	  <None Remove="Resources\image_diamo.png" />
@@ -88,6 +89,7 @@
 	  <Resource Include="Resources\icon_nora.png" />
 	  <Resource Include="Resources\icon_osci.png" />
 	  <Resource Include="Resources\icon_pishock_shocker.png" />
+	  <Resource Include="Resources\icon_tenera.png" />
 	  <Resource Include="Resources\image_ambi.png" />
 	  <Resource Include="Resources\image_calor.png" />
 	  <Resource Include="Resources\image_diamo.png" />
