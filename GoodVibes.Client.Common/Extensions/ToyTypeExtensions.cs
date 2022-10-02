@@ -29,6 +29,7 @@ namespace GoodVibes.Client.Common.Extensions
                 case ToyTypeEnum.Nora:
                 case ToyTypeEnum.Osci:
                 case ToyTypeEnum.SexMachine:
+                case ToyTypeEnum.Tenera:
                     return ToySupplierEnum.Lovense;
                 case ToyTypeEnum.PiShock:
                     return ToySupplierEnum.PiShock;
