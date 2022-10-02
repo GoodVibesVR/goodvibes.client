@@ -1,5 +1,5 @@
 {
-  //"GoodVibesRoot": "http://localhost:5161/commandHub",
+  //"GoodVibesRoot": "https://beta.goodvibes.gg",
   "GoodVibesRoot": "https://goodvibes.gg",
   "SignalRSettings": {
     "CommandHubPath": "/commandHub",

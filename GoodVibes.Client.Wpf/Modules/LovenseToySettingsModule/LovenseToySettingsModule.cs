@@ -35,6 +35,7 @@ namespace GoodVibes.Client.Wpf.Modules.LovenseToySettingsModule
             ViewModelLocationProvider.Register<OsciSettingsView, LovenseSingleFunctionToySettingsViewModel>();
             ViewModelLocationProvider.Register<SexMachineSettingsView, LovenseSingleFunctionToySettingsViewModel>();
             ViewModelLocationProvider.Register<ExomoonSettingsView, LovenseSingleFunctionToySettingsViewModel>();
+            ViewModelLocationProvider.Register<TeneraSettingsView, LovenseSingleFunctionToySettingsViewModel>();
 
             containerRegistry.RegisterForNavigation<LushSettingsView>();
             containerRegistry.RegisterForNavigation<AmbiSettingsView>();
@@ -48,6 +49,7 @@ namespace GoodVibes.Client.Wpf.Modules.LovenseToySettingsModule
             containerRegistry.RegisterForNavigation<OsciSettingsView>();
             containerRegistry.RegisterForNavigation<SexMachineSettingsView>();
             containerRegistry.RegisterForNavigation<ExomoonSettingsView>();
+            containerRegistry.RegisterForNavigation<TeneraSettingsView>();
             
             // Multifunction views
             ViewModelLocationProvider.Register<NoraSettingsView, LovenseMultiFunctionToySettingsViewModel>();

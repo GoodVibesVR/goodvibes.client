@@ -30,6 +30,7 @@ public class LovenseService : ILovenseService
             Edge => "pack://application:,,,/GoodVibes;component/Resources/icon_edge.png",
             Exomoon => "pack://application:,,,/GoodVibes;component/Resources/icon_exomoon.png",
             Ferri => "pack://application:,,,/GoodVibes;component/Resources/icon_ferri.png",
+            Tenera => "pack://application:,,,/GoodVibes;component/Resources/icon_tenera.png",
             Gush => "pack://application:,,,/GoodVibes;component/Resources/icon_gush.png",
             Hush => "pack://application:,,,/GoodVibes;component/Resources/icon_hush.png",
             Hyphy => "pack://application:,,,/GoodVibes;component/Resources/icon_hyphy.png",

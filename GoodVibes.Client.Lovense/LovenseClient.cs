@@ -222,6 +222,7 @@ namespace GoodVibes.Client.Lovense
                             ToyTypeConstants.Osci => new Osci(),
                             ToyTypeConstants.SexMachine => new SexMachine(),
                             ToyTypeConstants.Exomoon => new Exomoon(),
+                            ToyTypeConstants.Tenera => new Tenera(),
                             // ReSharper disable once NotResolvedInText
                             _ => throw new ArgumentOutOfRangeException("Unsupported toy")
                         };

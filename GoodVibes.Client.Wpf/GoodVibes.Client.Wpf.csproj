@@ -30,12 +30,14 @@
 	  <None Remove="Resources\icon_nora.png" />
 	  <None Remove="Resources\icon_osci.png" />
 	  <None Remove="Resources\icon_pishock_shocker.png" />
+	  <None Remove="Resources\icon_tenera.png" />
 	  <None Remove="Resources\image_ambi.png" />
 	  <None Remove="Resources\image_calor.png" />
 	  <None Remove="Resources\image_diamo.png" />
 	  <None Remove="Resources\image_dolce.png" />
 	  <None Remove="Resources\image_domi.png" />
 	  <None Remove="Resources\image_edge.png" />
+	  <None Remove="Resources\image_exomoon.png" />
 	  <None Remove="Resources\image_ferri.png" />
 	  <None Remove="Resources\image_gush.png" />
 	  <None Remove="Resources\image_hush.png" />
@@ -45,6 +47,7 @@
 	  <None Remove="Resources\image_nora.png" />
 	  <None Remove="Resources\image_osci.png" />
 	  <None Remove="Resources\image_sexmachine.png" />
+	  <None Remove="Resources\image_terera.png" />
 	  <None Remove="Resources\pishock_logo.png" />
 	</ItemGroup>
 	<ItemGroup>
@@ -88,12 +91,14 @@
 	  <Resource Include="Resources\icon_nora.png" />
 	  <Resource Include="Resources\icon_osci.png" />
 	  <Resource Include="Resources\icon_pishock_shocker.png" />
+	  <Resource Include="Resources\icon_tenera.png" />
 	  <Resource Include="Resources\image_ambi.png" />
 	  <Resource Include="Resources\image_calor.png" />
 	  <Resource Include="Resources\image_diamo.png" />
 	  <Resource Include="Resources\image_dolce.png" />
 	  <Resource Include="Resources\image_domi.png" />
 	  <Resource Include="Resources\image_edge.png" />
+	  <Resource Include="Resources\image_exomoon.png" />
 	  <Resource Include="Resources\image_ferri.png" />
 	  <Resource Include="Resources\image_gush.png" />
 	  <Resource Include="Resources\image_hush.png" />
@@ -103,6 +108,7 @@
 	  <Resource Include="Resources\image_nora.png" />
 	  <Resource Include="Resources\image_osci.png" />
 	  <Resource Include="Resources\image_sexmachine.png" />
+	  <Resource Include="Resources\image_terera.png" />
 	  <Resource Include="Resources\pishock_logo.png" />
 	</ItemGroup>
 	<ItemGroup>

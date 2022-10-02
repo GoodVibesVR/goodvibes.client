@@ -263,6 +263,16 @@ namespace GoodVibes.Client.Wpf.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icon_tenera {
+            get {
+                object obj = ResourceManager.GetObject("icon_tenera", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap image_ambi {
             get {
                 object obj = ResourceManager.GetObject("image_ambi", resourceCulture);
@@ -316,6 +326,16 @@ namespace GoodVibes.Client.Wpf.Properties {
         internal static System.Drawing.Bitmap image_edge {
             get {
                 object obj = ResourceManager.GetObject("image_edge", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap image_exomoon {
+            get {
+                object obj = ResourceManager.GetObject("image_exomoon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -406,6 +426,16 @@ namespace GoodVibes.Client.Wpf.Properties {
         internal static System.Drawing.Bitmap image_sexmachine {
             get {
                 object obj = ResourceManager.GetObject("image_sexmachine", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap image_terera {
+            get {
+                object obj = ResourceManager.GetObject("image_terera", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
