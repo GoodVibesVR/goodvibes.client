@@ -141,7 +141,7 @@ namespace GoodVibes.Client.Lovense
 
         private void ReceiveCallbackHandler(string messageStr)
         {
-            Console.WriteLine($"{DateTime.Now} - onReceiveMessage: {messageStr}");
+            Console.WriteLine($"onReceiveMessage: {messageStr}");
             var callback = JsonConvert.DeserializeObject<LovenseCallbackReceivedDto>(messageStr)!;
 
             var deviceAvailable = !string.IsNullOrEmpty(callback.Domain);
@@ -286,7 +286,7 @@ namespace GoodVibes.Client.Lovense
 
                 try
                 {
-                    //Console.WriteLine("ApiCallerTask triggered");
+                    Console.WriteLine("ApiCallerTask triggered");
 
                     // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
                     foreach (var (_, lovenseToy) in Toys!)
