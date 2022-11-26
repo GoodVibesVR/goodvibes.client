@@ -141,7 +141,7 @@ namespace GoodVibes.Client.Lovense
 
         private void ReceiveCallbackHandler(string messageStr)
         {
-            Console.WriteLine($"onReceiveMessage: {messageStr}");
+            Console.WriteLine($"{DateTime.Now} - onReceiveMessage: {messageStr}");
             var callback = JsonConvert.DeserializeObject<LovenseCallbackReceivedDto>(messageStr)!;
 
             var deviceAvailable = !string.IsNullOrEmpty(callback.Domain);
@@ -223,7 +223,10 @@ namespace GoodVibes.Client.Lovense
                             ToyTypeConstants.SexMachine => new SexMachine(),
                             ToyTypeConstants.Exomoon => new Exomoon(),
                             ToyTypeConstants.Tenera => new Tenera(),
-                            // ReSharper disable once NotResolvedInText
+                            ToyTypeConstants.Flexer => new Flexer(),
+                            ToyTypeConstants.Gravity => new Gravity(),
+                            ToyTypeConstants.Gemini => new Gemini(),
+                                // ReSharper disable once NotResolvedInText
                             _ => throw new ArgumentOutOfRangeException("Unsupported toy")
                         };
 
@@ -283,7 +286,7 @@ namespace GoodVibes.Client.Lovense
 
                 try
                 {
-                    Console.WriteLine("ApiCallerTask triggered");
+                    //Console.WriteLine("ApiCallerTask triggered");
 
                     // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
                     foreach (var (_, lovenseToy) in Toys!)

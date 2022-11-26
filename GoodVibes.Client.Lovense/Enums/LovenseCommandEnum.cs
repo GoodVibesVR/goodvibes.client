@@ -48,5 +48,23 @@ public enum LovenseCommandEnum
     /// v:Strength (Between 0 and 3)
     /// /// t:Toy's ID (optional)
     /// </summary>
-    Pump = 15
+    Pump = 15,
+
+    /// <summary>
+    /// Alternative to Pump (Max)?
+    /// v:Strength (Between 0 and 20)
+    /// </summary>
+    Suction = 16,
+
+    /// <summary>
+    /// Starts the thrusting motion (Gravity)
+    /// v:Strength (Between 0 and 10)
+    /// </summary>
+    Thrusting = 17,
+
+    /// <summary>
+    /// Starts the fingering motion (Flexer)
+    /// v:Strength (Between 0 and 10)
+    /// </summary>
+    Fingering = 18
 }

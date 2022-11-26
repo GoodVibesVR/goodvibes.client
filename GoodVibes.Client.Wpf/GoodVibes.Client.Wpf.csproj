@@ -22,6 +22,9 @@
 	  <None Remove="Resources\icon_edge.png" />
 	  <None Remove="Resources\icon_exomoon.png" />
 	  <None Remove="Resources\icon_ferri.png" />
+	  <None Remove="Resources\icon_flexer.png" />
+	  <None Remove="Resources\icon_gemini.png" />
+	  <None Remove="Resources\icon_gravity.png" />
 	  <None Remove="Resources\icon_gush.png" />
 	  <None Remove="Resources\icon_hush.png" />
 	  <None Remove="Resources\icon_hyphy.png" />
@@ -83,6 +86,9 @@
 	  <Resource Include="Resources\icon_edge.png" />
 	  <Resource Include="Resources\icon_exomoon.png" />
 	  <Resource Include="Resources\icon_ferri.png" />
+	  <Resource Include="Resources\icon_flexer.png" />
+	  <Resource Include="Resources\icon_gemini.png" />
+	  <Resource Include="Resources\icon_gravity.png" />
 	  <Resource Include="Resources\icon_gush.png" />
 	  <Resource Include="Resources\icon_hush.png" />
 	  <Resource Include="Resources\icon_hyphy.png" />

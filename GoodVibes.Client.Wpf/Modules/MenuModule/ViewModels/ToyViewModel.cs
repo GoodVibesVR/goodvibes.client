@@ -59,6 +59,9 @@ namespace GoodVibes.Client.Wpf.Modules.MenuModule.ViewModels
                 ToyTypeEnum.Osci => nameof(OsciSettingsView),
                 ToyTypeEnum.SexMachine => nameof(SexMachineSettingsView),
                 ToyTypeEnum.Tenera => nameof(TeneraSettingsView),
+                ToyTypeEnum.Flexer => nameof(FlexerSettingsView),
+                ToyTypeEnum.Gravity => nameof(GravitySettingsView),
+                ToyTypeEnum.Gemini => nameof(GeminiSettingsView),
                 ToyTypeEnum.PiShock => nameof(PiShockToySettingsView),
                 _ => ""
             };
