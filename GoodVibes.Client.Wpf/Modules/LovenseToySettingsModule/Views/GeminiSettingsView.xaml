@@ -113,7 +113,7 @@
                     <Rectangle Width="300"
                        Height="300">
                         <Rectangle.Fill>
-                            <ImageBrush ImageSource="/GoodVibes;component/Resources/image_lush.png"/>
+                            <ImageBrush ImageSource="/GoodVibes;component/Resources/image_gemini.png"/>
                         </Rectangle.Fill>
                     </Rectangle>
                 </Grid>
