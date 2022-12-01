@@ -36,6 +36,7 @@ namespace GoodVibes.Client.Wpf.Modules.LovenseToySettingsModule
             ViewModelLocationProvider.Register<SexMachineSettingsView, LovenseSingleFunctionToySettingsViewModel>();
             ViewModelLocationProvider.Register<ExomoonSettingsView, LovenseSingleFunctionToySettingsViewModel>();
             ViewModelLocationProvider.Register<TeneraSettingsView, LovenseSingleFunctionToySettingsViewModel>();
+            ViewModelLocationProvider.Register<GeminiSettingsView, LovenseSingleFunctionToySettingsViewModel>();
 
             containerRegistry.RegisterForNavigation<LushSettingsView>();
             containerRegistry.RegisterForNavigation<AmbiSettingsView>();
@@ -50,17 +51,22 @@ namespace GoodVibes.Client.Wpf.Modules.LovenseToySettingsModule
             containerRegistry.RegisterForNavigation<SexMachineSettingsView>();
             containerRegistry.RegisterForNavigation<ExomoonSettingsView>();
             containerRegistry.RegisterForNavigation<TeneraSettingsView>();
+            containerRegistry.RegisterForNavigation<GeminiSettingsView>();
             
             // Multifunction views
             ViewModelLocationProvider.Register<NoraSettingsView, LovenseMultiFunctionToySettingsViewModel>();
             ViewModelLocationProvider.Register<DolceSettingsView, LovenseMultiFunctionToySettingsViewModel>();
             ViewModelLocationProvider.Register<EdgeSettingsView, LovenseMultiFunctionToySettingsViewModel>();
             ViewModelLocationProvider.Register<MaxSettingsView, LovenseMultiFunctionToySettingsViewModel>();
-            
+            ViewModelLocationProvider.Register<FlexerSettingsView, LovenseMultiFunctionToySettingsViewModel>();
+            ViewModelLocationProvider.Register<GravitySettingsView, LovenseMultiFunctionToySettingsViewModel>();
+
             containerRegistry.RegisterForNavigation<NoraSettingsView>();
             containerRegistry.RegisterForNavigation<DolceSettingsView>();
             containerRegistry.RegisterForNavigation<EdgeSettingsView>();
             containerRegistry.RegisterForNavigation<MaxSettingsView>();
+            containerRegistry.RegisterForNavigation<FlexerSettingsView>();
+            containerRegistry.RegisterForNavigation<GravitySettingsView>();
         }
     }
 }

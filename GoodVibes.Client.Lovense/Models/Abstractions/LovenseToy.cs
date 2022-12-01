@@ -56,6 +56,12 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
                 case LovenseCommandEnum.Rotate:
                 case LovenseCommandEnum.RotateAntiClockwise:
                     return ConvertRotatePercentage(percentage);
+                case LovenseCommandEnum.Fingering:
+                    return ConvertFingeringPercentage(percentage);
+                case LovenseCommandEnum.Thrusting:
+                    return ConvertThrustingPercentage(percentage);
+                case LovenseCommandEnum.Suction:
+                    return ConvertSuctionPercentage(percentage);
                 case LovenseCommandEnum.Pump:
                     return ConvertPumpPercentage(percentage);
                 case LovenseCommandEnum.None:
@@ -72,6 +78,21 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
         private int ConvertRotatePercentage(float percentage)
         {
             return (int)Math.Round((double)(percentage / 5) * 100);
+        }
+
+        private int ConvertSuctionPercentage(float percentage)
+        {
+            return (int)Math.Round((double)(percentage / 5) * 100);
+        }
+
+        private int ConvertThrustingPercentage(float percentage)
+        {
+            return (int)Math.Round((double)(percentage / 10) * 100);
+        }
+
+        private int ConvertFingeringPercentage(float percentage)
+        {
+            return (int)Math.Round((double)(percentage / 10) * 100);
         }
 
         private int ConvertPumpPercentage(float percentage)

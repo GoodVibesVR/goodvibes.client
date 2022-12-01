@@ -67,7 +67,7 @@ public class AddPiShockViewModel : RegionViewModelBase
 
     private void AddPiShockHandler()
     {
-        if (_friendlyName == string.Empty || _shareCode == string.Empty)
+        if (string.IsNullOrEmpty(_friendlyName) || string.IsNullOrEmpty(_shareCode))
             return;
 
         if (_piShockClient.Toys!.TryGetValue(_shareCode, out var shocker))

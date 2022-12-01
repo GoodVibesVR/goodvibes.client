@@ -19,4 +19,7 @@ public static class ToyTypeConstants
     public const string SexMachine = "xmachine";
     public const string Exomoon = "exomoon";
     public const string Tenera = "tenera";
+    public const string Flexer = "flexer";
+    public const string Gravity = "gravity";
+    public const string Gemini = "gemini";
 }

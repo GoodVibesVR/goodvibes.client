@@ -20,5 +20,8 @@ public enum ToyTypeEnum
     Osci = 24,
     SexMachine = 25,
     Tenera = 26,
+    Flexer = 27,
+    Gravity = 28,
+    Gemini = 29,
     PiShock = 50
 }

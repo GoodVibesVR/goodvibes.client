@@ -38,6 +38,9 @@ public class LovenseService : ILovenseService
             Max => "pack://application:,,,/GoodVibes;component/Resources/icon_max.png",
             Nora => "pack://application:,,,/GoodVibes;component/Resources/icon_nora.png",
             Osci => "pack://application:,,,/GoodVibes;component/Resources/icon_osci.png",
+            Flexer => "pack://application:,,,/GoodVibes;component/Resources/icon_flexer.png",
+            Gravity => "pack://application:,,,/GoodVibes;component/Resources/icon_gravity.png",
+            Gemini => "pack://application:,,,/GoodVibes;component/Resources/icon_gemini.png",
             SexMachine => "pack://application:,,,/GoodVibes;component/Resources/icon_blast.png",
             _ => "pack://application:,,,/GoodVibes;component/Resources/icon_lush.png"
         };
