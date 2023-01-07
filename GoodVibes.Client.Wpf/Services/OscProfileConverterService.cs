@@ -6,9 +6,9 @@ namespace GoodVibes.Client.Wpf.Services;
 
 public class OscProfileConverterService : IOscProfileConverterService
 {
-    public OscProfileDto DeserializeOscProfile(string profileJson)
+    public VrcOscProfileDto DeserializeOscProfile(string profileJson)
     {
-        var profile = JsonConvert.DeserializeObject<OscProfileDto>(profileJson);
+        var profile = JsonConvert.DeserializeObject<VrcOscProfileDto>(profileJson);
         return profile;
     }
 }
