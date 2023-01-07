@@ -100,6 +100,13 @@ public class AvatarMapperService : IAvatarMapperService
             toyFunctions.Add(new ToyFunctionViewModel()
             {
                 Name = piShockToy.FriendlyName,
+                Function = PiShockCommandEnum.MiniShock.ToString(),
+                ToyId = piShockToy.ShareCode,
+                Type = piShockToy.GetType().Name
+            });
+            toyFunctions.Add(new ToyFunctionViewModel()
+            {
+                Name = piShockToy.FriendlyName,
                 Function = PiShockCommandEnum.Vibrate.ToString(),
                 ToyId = piShockToy.ShareCode,
                 Type = piShockToy.GetType().Name

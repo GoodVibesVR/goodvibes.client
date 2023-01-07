@@ -148,6 +148,18 @@ namespace GoodVibes.Client.PiShock
             }
         }
 
+        public async Task MiniShock(string shareCode)
+        {
+            if (!Connected) return;
+            var found = Toys!.TryGetValue(shareCode, out var toy);
+            if (!found) return;
+
+            if (toy is Models.PiShock shocker)
+            {
+                await Connection!.InvokeAsync(PiShockCommandMethodConstants.Shock, shareCode, shocker.Duration * 100, shocker.Intensity);
+            }
+        }
+
         public async Task Vibrate(string shareCode)
         {
             if (!Connected) return;

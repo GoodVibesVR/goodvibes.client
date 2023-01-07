@@ -32,6 +32,13 @@ public class PiShockCommandDispatcher
                     ShareCode = toyMapping.Id
                 });
                 break;
+            case PiShockCommandEnum.MiniShock:
+                _eventAggregator.GetEvent<PiShockCommandEventCarrier>().Publish(new PiShockCommandEvent()
+                {
+                    Command = PiShockCommandEnum.MiniShock,
+                    ShareCode = toyMapping.Id
+                });
+                break;
             case PiShockCommandEnum.Vibrate:
                 _eventAggregator.GetEvent<PiShockCommandEventCarrier>().Publish(new PiShockCommandEvent()
                 {

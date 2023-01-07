@@ -51,6 +51,9 @@ namespace GoodVibes.Client.PiShock.EventHandlers
                 case PiShockCommandEnum.Shock:
                     Task.Run(() => _piShockClient.Shock(obj.ShareCode!));
                     break;
+                case PiShockCommandEnum.MiniShock:
+                    Task.Run(() => _piShockClient.MiniShock(obj.ShareCode!));
+                    break;
                 case PiShockCommandEnum.Vibrate:
                     Task.Run(() => _piShockClient.Vibrate(obj.ShareCode!));
                     break;

@@ -1,23 +1,26 @@
 ﻿using GoodVibes.Client.Mapper;
+using GoodVibes.Client.Settings.Models;
 using Rug.Osc.Core;
 
 namespace GoodVibes.Client.Osc
 {
     public class OscServer
     {
+        private readonly ApplicationSettings _applicationSettings;
         private readonly AvatarMapperClient _avatarMapper;
 
         private OscReceiver _receiver = null!;
         private Thread _thread = null!;
 
-        public OscServer(AvatarMapperClient avatarMapper)
+        public OscServer(ApplicationSettings applicationSettings, AvatarMapperClient avatarMapper)
         {
+            _applicationSettings = applicationSettings;
             _avatarMapper = avatarMapper;
         }
 
         public Task ConnectAsync()
         {
-            var port = 9001;
+            var port = _applicationSettings?.OscSettings?.ServerPort ?? 9001;
             _receiver = new OscReceiver(port);
 
             _thread = new Thread(ListenLoop);
