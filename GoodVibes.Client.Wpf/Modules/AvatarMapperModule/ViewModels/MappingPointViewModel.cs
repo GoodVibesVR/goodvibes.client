@@ -198,6 +198,16 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                 RemoveFromCache();
             }
 
+            if (string.IsNullOrEmpty(newAddress) && !string.IsNullOrEmpty(oldAddress))
+            {
+                _eventAggregator.GetEvent<RemoveAvatarMappingEventCarrier>().Publish(new RemoveAvatarMappingEvent()
+                {
+                    MappingPoint = this
+                });
+
+                return;
+            }
+
             switch (oldAddress)
             {
                 case null:
@@ -208,7 +218,18 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
                     break;
             }
 
-            _mapperService.ChangeOrAddMappingAddress(oldAddress, newAddress);
+            try
+            {
+                _mapperService.ChangeOrAddMappingAddress(oldAddress, newAddress);
+            }
+            catch (ArgumentException ae)
+            {
+                Console.WriteLine($"Argument exception was thrown while changing OSC address. Removing row. Exception:\n{ae}");
+                _eventAggregator.GetEvent<RemoveAvatarMappingEventCarrier>().Publish(new RemoveAvatarMappingEvent()
+                {
+                    MappingPoint = this
+                });
+            }
         }
 
         public void RemoveMapping()
