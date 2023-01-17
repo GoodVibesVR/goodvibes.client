@@ -1,8 +1,10 @@
 ﻿using GoodVibes.Client.Cache;
 using GoodVibes.Client.Common.Enums;
+using GoodVibes.Client.Common.Extensions;
 using GoodVibes.Client.PiShock.Cache;
 using GoodVibes.Client.PiShock.EventDispatchers;
 using GoodVibes.Client.PiShock.Events;
+using GoodVibes.Client.PiShock.Models;
 using GoodVibes.Client.PiShock.Models.Abstractions;
 using GoodVibes.Client.Settings.Models;
 using GoodVibes.Client.SignalR;
@@ -41,7 +43,10 @@ namespace GoodVibes.Client.PiShock
             var toys = piShockCache.Toys;
             foreach (var piShockToy in toys)
             {
-                toysDict.Add(piShockToy.ShareCode!, piShockToy);
+                if (piShockToy is Models.PiShock piShock)
+                {
+                    toysDict.Add(piShock.ShareCode!, piShockToy);
+                }
             }
             
             return toysDict;
@@ -59,6 +64,17 @@ namespace GoodVibes.Client.PiShock
                     Connection!.On<string>(PiShockCommandMethodConstants.ShockResponse, ReceiveShockResponseHandler);
                     Connection!.On<string>(PiShockCommandMethodConstants.VibrateResponse, ReceiveVibrateResponseHandler);
                     Connection!.On<string>(PiShockCommandMethodConstants.BeepResponse, ReceiveBeepResponseHandler);
+                    Connection!.On<string>(PiShockCommandMethodConstants.GetPiVaultStatusResponse, ReceivePiVaultStatusResponseHandler);
+                    Connection!.On<string>(PiShockCommandMethodConstants.GetApiKeyPermissionsResponse, ReceiveApiKeyPermissionsResponseHandler);
+                    Connection!.On<string>(PiShockCommandMethodConstants.SetUnlockTimeResponse, ReceiveSetUnlockTimeResponseHandler);
+                    Connection!.On<string>(PiShockCommandMethodConstants.ClearCurrentSessionResponse, ReceiveClearCurrentSessionResponseHandler);
+                    Connection!.On<string>(PiShockCommandMethodConstants.UnlockPiVaultResponse, ReceiveUnlockPiVaultResponseHandler);
+                    Connection!.On<string>(PiShockCommandMethodConstants.AddMinutesToSessionResponse, ReceiveAddMinutesToSessionResponseHandler);
+                    Connection!.On<string>(PiShockCommandMethodConstants.RetractMinutesFromSessionResponse, ReceiveRetractMinutesFromSessionResponseHandler);
+                    Connection!.On<string>(PiShockCommandMethodConstants.AddHoursToSessionResponse, ReceiveAddHoursToSessionResponseHandler);
+                    Connection!.On<string>(PiShockCommandMethodConstants.RetractHoursFromSessionResponse, ReceiveRetractHoursFromSessionResponseHandler);
+                    Connection!.On<string>(PiShockCommandMethodConstants.AddDaysToSessionResponse, ReceiveAddDaysToSessionResponseHandler);
+                    Connection!.On<string>(PiShockCommandMethodConstants.RetractDaysFromSessionResponse, ReceiveRetractDaysFromSessionResponseHandler);
                 });
 
             Connected = true;
@@ -93,6 +109,11 @@ namespace GoodVibes.Client.PiShock
             });
 
             return Task.CompletedTask;
+        }
+
+        public async Task TestApiKeyPermissions(Guid apiKey)
+        {
+            await Connection!.InvokeAsync(PiShockCommandMethodConstants.GetApiKeyPermissions, apiKey);
         }
 
         public Task RemoveToy(string toyId)
@@ -207,6 +228,120 @@ namespace GoodVibes.Client.PiShock
         private void ReceiveBeepResponseHandler(string messageStr)
         {
             _piShockEventDispatcher.Dispatch(JsonConvert.DeserializeObject<ReceiveBeepResponseEvent>(messageStr)!);
+        }
+
+        private void ReceivePiVaultStatusResponseHandler(string messageStr)
+        {
+            var successfulResponse = messageStr.TryParseJson<ReceivePiVaultLockBoxStatusResponseEvent>(out var piVaultStatusResponseEvent);
+            if (!successfulResponse)
+            {
+                _piShockEventDispatcher.Dispatch(JsonConvert.DeserializeObject<ReceivePiVaultLockBoxStatusResponseErrorEvent>(messageStr)!);
+            }
+
+            var piVaultFound = Toys.TryGetValue(piVaultStatusResponseEvent.ApiKey.ToString(), out var piVaultToy);
+            if (!piVaultFound)
+            {
+                piVaultToy = new PiVault()
+                {
+                    Id = piVaultStatusResponseEvent.Id,
+                    ApiKey = piVaultStatusResponseEvent.ApiKey
+                };
+                Toys.Add(piVaultStatusResponseEvent.ApiKey.ToString(), piVaultToy);
+
+                _piShockEventDispatcher.Dispatch(new PiShockToyListUpdatedEvent()
+                {
+                    ToyList = Toys.Select(t => t.Value).ToList()
+                });
+            }
+
+            if (piVaultToy is not PiVault piVault) return;
+            piVault.Online = piVaultStatusResponseEvent.Online;
+            piVault.Name = piVaultStatusResponseEvent.Name;
+            piVault.KeyHoldersCount = piVaultStatusResponseEvent.KeyHoldersCount;
+            piVault.Username = piVaultStatusResponseEvent.Username;
+            piVault.TimesForced = piVaultStatusResponseEvent.TimesForced;
+            piVault.SelfLocking = piVaultStatusResponseEvent.SelfLocking;
+            piVault.MaxMinutesOverall = piVaultStatusResponseEvent.MaxMinutesOverall;
+            piVault.MaxMinutesSelfBondage = piVaultStatusResponseEvent.MaxMinutesSelfBondage;
+            piVault.NormallyUnlocked = piVaultStatusResponseEvent.NormallyUnlocked;
+            piVault.TimeZone = piVaultStatusResponseEvent.TimeZone;
+            piVault.HygieneActive = piVaultStatusResponseEvent.HygieneActive;
+            piVault.UsingEmlalock = piVaultStatusResponseEvent.UsingEmlalock;
+            piVault.UsingChaster = piVaultStatusResponseEvent.UsingChaster;
+            piVault.CanUnlock = piVaultStatusResponseEvent.CanUnlock;
+            piVault.HygieneSettings = piVaultStatusResponseEvent.HygieneSettings != null ? new HygieneSettings()
+            {
+                Active = piVaultStatusResponseEvent.HygieneSettings.Active,
+                CronExpression = piVaultStatusResponseEvent.HygieneSettings.CronExpression,
+                Days = piVaultStatusResponseEvent.HygieneSettings.Days,
+                Hours = piVaultStatusResponseEvent.HygieneSettings.Hours,
+                Minutes = piVaultStatusResponseEvent.HygieneSettings.Minutes,
+                Duration = piVaultStatusResponseEvent.HygieneSettings.Duration
+            } : null;
+            piVault.LastPolled = piVaultStatusResponseEvent.LastPolled;
+            piVault.LastUnlocked = piVaultStatusResponseEvent.LastUnlocked;
+            piVault.LastOpened = piVaultStatusResponseEvent.LastOpened;
+            piVault.LastClosed = piVaultStatusResponseEvent.LastClosed;
+            piVault.LockedSince = piVaultStatusResponseEvent.LockedSince;
+            piVault.LockedUntil = piVaultStatusResponseEvent.LockedUntil;
+
+            _piShockEventDispatcher.Dispatch(piVaultStatusResponseEvent);
+        }
+
+        private void ReceiveApiKeyPermissionsResponseHandler(string messageStr)
+        {
+            var successfulResponse = messageStr.TryParseJson<ReceivePiVaultApiKeyPermissionsResponseEvent>(out var piVaultApiKeyPermissionsResponseEvent);
+            if (!successfulResponse)
+            {
+                _piShockEventDispatcher.Dispatch(JsonConvert.DeserializeObject<ReceivePiVaultApiKeyPermissionsResponseErrorEvent>(messageStr)!);
+            }
+
+            _piShockEventDispatcher.Dispatch(piVaultApiKeyPermissionsResponseEvent);
+        }
+
+        private void ReceiveSetUnlockTimeResponseHandler(string messageStr)
+        {
+            _piShockEventDispatcher.Dispatch(JsonConvert.DeserializeObject<ReceiveSetUnlockTimeResponseEvent>(messageStr)!);
+        }
+
+        private void ReceiveClearCurrentSessionResponseHandler(string messageStr)
+        {
+            _piShockEventDispatcher.Dispatch(JsonConvert.DeserializeObject<ReceiveClearCurrentSessionResponseEvent>(messageStr)!);
+        }
+
+        private void ReceiveUnlockPiVaultResponseHandler(string messageStr)
+        {
+            _piShockEventDispatcher.Dispatch(JsonConvert.DeserializeObject<ReceiveUnlockPiVaultResponseEvent>(messageStr)!);
+        }
+
+        private void ReceiveAddMinutesToSessionResponseHandler(string messageStr)
+        {
+            _piShockEventDispatcher.Dispatch(JsonConvert.DeserializeObject<ReceiveAddMinutesToSessionResponseEvent>(messageStr)!);
+        }
+
+        private void ReceiveRetractMinutesFromSessionResponseHandler(string messageStr)
+        {
+            _piShockEventDispatcher.Dispatch(JsonConvert.DeserializeObject<ReceiveRetractMinutesFromSessionResponseEvent>(messageStr)!);
+        }
+
+        private void ReceiveAddHoursToSessionResponseHandler(string messageStr)
+        {
+            _piShockEventDispatcher.Dispatch(JsonConvert.DeserializeObject<ReceiveAddHoursToSessionResponseEvent>(messageStr)!);
+        }
+
+        private void ReceiveRetractHoursFromSessionResponseHandler(string messageStr)
+        {
+            _piShockEventDispatcher.Dispatch(JsonConvert.DeserializeObject<ReceiveRetractHoursFromSessionResponseEvent>(messageStr)!);
+        }
+
+        private void ReceiveAddDaysToSessionResponseHandler(string messageStr)
+        {
+            _piShockEventDispatcher.Dispatch(JsonConvert.DeserializeObject<ReceiveAddDaysToSessionResponseEvent>(messageStr)!);
+        }
+
+        private void ReceiveRetractDaysFromSessionResponseHandler(string messageStr)
+        {
+            _piShockEventDispatcher.Dispatch(JsonConvert.DeserializeObject<ReceiveRetractDaysFromSessionResponseEvent>(messageStr)!);
         }
 
         private async Task HealthCheckTask()

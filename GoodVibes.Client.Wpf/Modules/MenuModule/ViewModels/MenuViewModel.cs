@@ -148,17 +148,20 @@ public class MenuViewModel : RegionViewModelBase
             var tempList = Toys;
             foreach (var piShockToy in obj.ToyList!)
             {
-                var toy = tempList.FirstOrDefault(t => t.Id == piShockToy.ShareCode);
-                if (toy == null)
+                if (piShockToy is PiShock.Models.PiShock piShock)
                 {
-                    Toys.Add(new ToyViewModel()
+                    var toy = tempList.FirstOrDefault(t => t.Id == piShock.ShareCode);
+                    if (toy == null)
                     {
-                        Id = piShockToy.ShareCode,
-                        DisplayName = piShockToy.FriendlyName,
-                        ToyIcon = _piShockService.GetToyIcon(piShockToy),
-                        Status = true,
-                        ToyType = ToyTypeEnum.PiShock
-                    });
+                        Toys.Add(new ToyViewModel()
+                        {
+                            Id = piShock.ShareCode,
+                            DisplayName = piShock.FriendlyName,
+                            ToyIcon = _piShockService.GetToyIcon(piShock),
+                            Status = true,
+                            ToyType = ToyTypeEnum.PiShock
+                        });
+                    }
                 }
             }
         });
@@ -221,14 +224,17 @@ public class MenuViewModel : RegionViewModelBase
         var existingPiShockToys = _piShockService.GetToys();
         foreach (var piShockToy in existingPiShockToys)
         {
-            Toys.Add(new ToyViewModel()
+            if (piShockToy is PiShock.Models.PiShock piShock)
             {
-                Id = piShockToy.ShareCode,
-                DisplayName = piShockToy.FriendlyName,
-                ToyIcon = _piShockService.GetToyIcon(piShockToy),
-                Status = true,
-                ToyType = ToyTypeEnum.PiShock
-            });
+                Toys.Add(new ToyViewModel()
+                {
+                    Id = piShock.ShareCode,
+                    DisplayName = piShock.FriendlyName,
+                    ToyIcon = _piShockService.GetToyIcon(piShock),
+                    Status = true,
+                    ToyType = ToyTypeEnum.PiShock
+                });
+            }
         }
     }
 }

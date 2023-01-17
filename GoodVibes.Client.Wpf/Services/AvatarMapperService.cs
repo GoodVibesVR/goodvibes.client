@@ -91,48 +91,51 @@ public class AvatarMapperService : IAvatarMapperService
         var toyFunctions = new List<ToyFunctionViewModel>();
         foreach (var piShockToy in toyList)
         {
-            toyFunctions.Add(new ToyFunctionViewModel()
+            if (piShockToy is PiShock.Models.PiShock piShock)
             {
-                Name = piShockToy.FriendlyName,
-                Function = PiShockCommandEnum.Shock.ToString(),
-                ToyId = piShockToy.ShareCode,
-                Type = piShockToy.GetType().Name
-            });
-            toyFunctions.Add(new ToyFunctionViewModel()
-            {
-                Name = piShockToy.FriendlyName,
-                Function = PiShockCommandEnum.MiniShock.ToString(),
-                ToyId = piShockToy.ShareCode,
-                Type = piShockToy.GetType().Name
-            });
-            toyFunctions.Add(new ToyFunctionViewModel()
-            {
-                Name = piShockToy.FriendlyName,
-                Function = PiShockCommandEnum.Vibrate.ToString(),
-                ToyId = piShockToy.ShareCode,
-                Type = piShockToy.GetType().Name
-            });
-            toyFunctions.Add(new ToyFunctionViewModel()
-            {
-                Name = piShockToy.FriendlyName,
-                Function = PiShockCommandEnum.Beep.ToString(),
-                ToyId = piShockToy.ShareCode,
-                Type = piShockToy.GetType().Name
-            });
-            toyFunctions.Add(new ToyFunctionViewModel()
-            {
-                Name = piShockToy.FriendlyName,
-                Function = PiShockMappableFunctionsConstant.Intensity,
-                ToyId = piShockToy.ShareCode,
-                Type = piShockToy.GetType().Name
-            });
-            toyFunctions.Add(new ToyFunctionViewModel()
-            {
-                Name = piShockToy.FriendlyName,
-                Function = PiShockMappableFunctionsConstant.Duration,
-                ToyId = piShockToy.ShareCode,
-                Type = piShockToy.GetType().Name
-            });
+                toyFunctions.Add(new ToyFunctionViewModel()
+                {
+                    Name = piShock.FriendlyName,
+                    Function = PiShockCommandEnum.Shock.ToString(),
+                    ToyId = piShock.ShareCode,
+                    Type = piShock.GetType().Name
+                });
+                toyFunctions.Add(new ToyFunctionViewModel()
+                {
+                    Name = piShock.FriendlyName,
+                    Function = PiShockCommandEnum.MiniShock.ToString(),
+                    ToyId = piShock.ShareCode,
+                    Type = piShock.GetType().Name
+                });
+                toyFunctions.Add(new ToyFunctionViewModel()
+                {
+                    Name = piShock.FriendlyName,
+                    Function = PiShockCommandEnum.Vibrate.ToString(),
+                    ToyId = piShock.ShareCode,
+                    Type = piShock.GetType().Name
+                });
+                toyFunctions.Add(new ToyFunctionViewModel()
+                {
+                    Name = piShock.FriendlyName,
+                    Function = PiShockCommandEnum.Beep.ToString(),
+                    ToyId = piShock.ShareCode,
+                    Type = piShock.GetType().Name
+                });
+                toyFunctions.Add(new ToyFunctionViewModel()
+                {
+                    Name = piShock.FriendlyName,
+                    Function = PiShockMappableFunctionsConstant.Intensity,
+                    ToyId = piShock.ShareCode,
+                    Type = piShock.GetType().Name
+                });
+                toyFunctions.Add(new ToyFunctionViewModel()
+                {
+                    Name = piShock.FriendlyName,
+                    Function = PiShockMappableFunctionsConstant.Duration,
+                    ToyId = piShock.ShareCode,
+                    Type = piShock.GetType().Name
+                });
+            }
         }
 
         return toyFunctions;
