@@ -4,5 +4,5 @@ namespace GoodVibes.Client.Wpf.Services.Abstractions;
 
 public interface IOscProfileConverterService
 {
-    OscProfileDto DeserializeOscProfile(string profileJson);
+    VrcOscProfileDto DeserializeOscProfile(string profileJson);
 }

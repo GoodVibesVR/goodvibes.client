@@ -10,6 +10,7 @@ using GoodVibes.Client.PiShock.Enums;
 using GoodVibes.Client.PiShock.Models.Abstractions;
 using GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels;
 using GoodVibes.Client.Wpf.Services.Abstractions;
+using Newtonsoft.Json;
 
 namespace GoodVibes.Client.Wpf.Services;
 
@@ -155,5 +156,16 @@ public class AvatarMapperService : IAvatarMapperService
     public void ChangeOrAddMappingAddress(string oldAddress, string newAddress)
     {
         _avatarMapper.ChangeOrAddMappingAddress(oldAddress, newAddress);
+    }
+
+    public GoodVibesProfileDto? DeserializeAvatarMappingProfile(string json)
+    {
+        var successful = json.TryParseJson<GoodVibesProfileDto>(out var profile);
+        return successful ? profile : null;
+    }
+
+    public string SerializeAvatarMappingProfile(GoodVibesProfileDto goodVibesProfile)
+    {
+        return JsonConvert.SerializeObject(goodVibesProfile, Formatting.Indented);
     }
 }

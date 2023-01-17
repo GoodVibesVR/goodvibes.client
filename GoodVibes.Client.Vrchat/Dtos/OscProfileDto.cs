@@ -2,7 +2,7 @@
 
 namespace GoodVibes.Client.Vrchat.Dtos
 {
-    public class OscProfileDto
+    public class VrcOscProfileDto
     {
         [JsonProperty("id")]
         public string? Id { get; set; }

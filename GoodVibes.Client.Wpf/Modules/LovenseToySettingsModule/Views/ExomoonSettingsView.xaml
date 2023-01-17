@@ -142,7 +142,7 @@
                                         VerticalAlignment="Top"
                                         Orientation="Vertical"
                                         Margin="0,0,0,0">
-                                        <TextBlock Text="Strength"
+                                        <TextBlock Text="Max Strength"
                                            Foreground="White"
                                            HorizontalAlignment="Center"
                                            FontWeight="SemiBold"

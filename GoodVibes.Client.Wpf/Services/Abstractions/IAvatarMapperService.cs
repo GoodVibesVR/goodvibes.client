@@ -22,4 +22,8 @@ public interface IAvatarMapperService
     void RemoveMapping(string oscAddress, ToyMappingDto toyMapping);
 
     void ChangeOrAddMappingAddress(string oldAddress, string newAddress);
+
+    GoodVibesProfileDto? DeserializeAvatarMappingProfile(string json);
+
+    string SerializeAvatarMappingProfile(GoodVibesProfileDto goodVibesProfile);
 }

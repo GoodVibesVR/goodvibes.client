@@ -351,7 +351,7 @@
                             <Border.Background>
                                 <SolidColorBrush Color="#000" Opacity="0.25" />
                             </Border.Background>
-                            <ComboBox Grid.Column="2" Height="20" Width="300" ItemsSource="{Binding Path=Avatars}" SelectedItem="{Binding SelectedAvatar}">
+                            <ComboBox Grid.Column="2" Height="20" Width="300" ItemsSource="{Binding Path=Avatars}" SelectedItem="{Binding SelectedAvatar}" >
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=DisplayName}"></TextBlock>
