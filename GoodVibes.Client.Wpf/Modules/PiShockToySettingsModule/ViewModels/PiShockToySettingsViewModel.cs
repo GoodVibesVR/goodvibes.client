@@ -66,6 +66,10 @@ namespace GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule.ViewModels
         public DelegateCommand ShockCommand =>
             _shockCommand ??= new DelegateCommand(Shock);
 
+        private DelegateCommand _miniShockCommand;
+        public DelegateCommand MiniShockCommand =>
+            _miniShockCommand ??= new DelegateCommand(MiniShock);
+
         private DelegateCommand _vibrateCommand;
         public DelegateCommand VibrateCommand =>
             _vibrateCommand ??= new DelegateCommand(Vibrate);
@@ -115,6 +119,15 @@ namespace GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule.ViewModels
             _eventAggregator.GetEvent<PiShockCommandEventCarrier>().Publish(new PiShockCommandEvent()
             {
                 Command = PiShockCommandEnum.Shock,
+                ShareCode = ToyId
+            });
+        }
+
+        private void MiniShock()
+        {
+            _eventAggregator.GetEvent<PiShockCommandEventCarrier>().Publish(new PiShockCommandEvent()
+            {
+                Command = PiShockCommandEnum.MiniShock,
                 ShareCode = ToyId
             });
         }

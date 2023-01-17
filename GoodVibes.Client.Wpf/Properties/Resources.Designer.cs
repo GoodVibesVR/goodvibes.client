@@ -73,6 +73,16 @@ namespace GoodVibes.Client.Wpf.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap button_pishock_minishock {
+            get {
+                object obj = ResourceManager.GetObject("button_pishock_minishock", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap button_pishock_shock {
             get {
                 object obj = ResourceManager.GetObject("button_pishock_shock", resourceCulture);

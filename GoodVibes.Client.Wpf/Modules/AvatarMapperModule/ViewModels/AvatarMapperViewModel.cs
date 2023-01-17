@@ -36,7 +36,20 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
         private readonly Dictionary<string, ObservableCollection<MappingPointViewModel>> _avatarMappingPoints;
 
         public ObservableCollection<AvatarViewModel> Avatars { get; set; }
-        public ObservableCollection<ToyFunctionViewModel> AvailableToyFunctions { get; set; }
+
+
+        private ObservableCollection<ToyFunctionViewModel> _availableToyFunctions;
+        public ObservableCollection<ToyFunctionViewModel> AvailableToyFunctions
+        {
+            get
+            {
+                return _availableToyFunctions;
+            }
+            set
+            {
+                _availableToyFunctions = value;
+            }
+        }
 
         private ObservableCollection<MappingPointViewModel> _mappingPoints;
         public ObservableCollection<MappingPointViewModel> MappingPoints
@@ -200,7 +213,8 @@ namespace GoodVibes.Client.Wpf.Modules.AvatarMapperModule.ViewModels
         {
             MappingPoints.Add(new MappingPointViewModel()
             {
-                AvatarId = SelectedAvatar?.AvatarId
+                AvatarId = SelectedAvatar?.AvatarId,
+                AvailableToyFunctions = AvailableToyFunctions.ToArray()
             });
         }
 

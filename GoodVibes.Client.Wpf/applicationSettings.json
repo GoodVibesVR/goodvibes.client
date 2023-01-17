@@ -5,5 +5,9 @@
     "CommandHubPath": "/commandHub",
     "SyncHubPath": "/syncHub",
     "PiShockHubPath": "/piShockCommandHub"
-  }
+  },
+  "OscSettings": {
+    "ServerPort": 9001,
+    "ClientPort": 9000 
+  } 
 }

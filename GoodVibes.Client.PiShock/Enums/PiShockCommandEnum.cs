@@ -5,6 +5,9 @@
         Unknown = 0,
         Shock = 10,
         Vibrate = 11,
-        Beep = 12
+        Beep = 12,
+
+        // A variant of Shock with different duration
+        MiniShock = 50
     }
 }

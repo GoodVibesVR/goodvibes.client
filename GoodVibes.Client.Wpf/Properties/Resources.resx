@@ -121,6 +121,9 @@
   <data name="button_pishock_beep" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\button_pishock_beep.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="button_pishock_minishock" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\button_pishock_minishock.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="button_pishock_shock" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\button_pishock_shock.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
