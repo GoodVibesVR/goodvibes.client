@@ -6,15 +6,15 @@ namespace GoodVibes.Client.PiShock.Models;
 
 public class PiVault : PiShockToy
 {
+    public override ToyTypeEnum ToyType => ToyTypeEnum.PiVault;
+
     public override int Id { get; set; }
+
+    public override string? Name { get; set; }
 
     public Guid ApiKey { get; set; }
 
-    public override ToyTypeEnum ToyType => ToyTypeEnum.PiVault;
-
     public bool Online { get; set; }
-
-    public string? Name { get; set; }
 
     public int KeyHoldersCount { get; set; }
 

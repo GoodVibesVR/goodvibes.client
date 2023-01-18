@@ -61,6 +61,8 @@ namespace GoodVibes.Client.PiShock
                 {
                     Connection!.On<string>(PiShockCommandMethodConstants.ConnectionAck, ReceiveConnectionAcknowledgedHandler);
                     Connection!.On<string>(PiShockCommandMethodConstants.Pong, ReceivePongResponseHandler);
+                    Connection!.On<string>(PiShockCommandMethodConstants.GetPiShockInformationResponse, ReceivePiShockInformationResponseHandler);
+                    Connection!.On<string>(PiShockCommandMethodConstants.PausePiShockResponse, ReceivePausePiShockResponseHandler);
                     Connection!.On<string>(PiShockCommandMethodConstants.ShockResponse, ReceiveShockResponseHandler);
                     Connection!.On<string>(PiShockCommandMethodConstants.VibrateResponse, ReceiveVibrateResponseHandler);
                     Connection!.On<string>(PiShockCommandMethodConstants.BeepResponse, ReceiveBeepResponseHandler);
@@ -193,6 +195,18 @@ namespace GoodVibes.Client.PiShock
             }
         }
 
+        public async Task PausePiShock(string shareCode, bool pause)
+        {
+            if (!Connected) return;
+            var found = Toys!.TryGetValue(shareCode, out var toy);
+            if (!found) return;
+
+            if (toy is Models.PiShock shocker)
+            {
+                await Connection!.InvokeAsync(PiShockCommandMethodConstants.PausePiShock, shareCode, pause);
+            }
+        }
+
         public async Task Beep(string shareCode)
         {
             if (!Connected) return;
@@ -213,6 +227,45 @@ namespace GoodVibes.Client.PiShock
         private void ReceivePongResponseHandler(string messageStr)
         {
             Console.WriteLine($"PING -> Pong response from PiShock hub");
+        }
+
+        private void ReceivePiShockInformationResponseHandler(string messageStr)
+        {
+            var successfulResponse = messageStr.TryParseJson<ReceivePiShockInformationResponseEvent>(out var piShockInformationResponseEvent);
+            if (!successfulResponse)
+            {
+                _piShockEventDispatcher.Dispatch(JsonConvert.DeserializeObject<ReceivePiShockInformationErrorResponseEvent>(messageStr)!);
+            }
+
+            var piShockFound = Toys.TryGetValue(piShockInformationResponseEvent.ShareCode!, out var piShockToy);
+            if (!piShockFound)
+            {
+                piShockToy = new Models.PiShock()
+                {
+                    Id = piShockInformationResponseEvent.Id,
+                    ShareCode = piShockInformationResponseEvent.ShareCode
+                };
+                Toys.Add(piShockInformationResponseEvent.ShareCode!, piShockToy);
+            }
+
+            if (piShockToy is not Models.PiShock piShock) return;
+            piShock.Id = piShockInformationResponseEvent.Id;
+            piShock.Name = piShockInformationResponseEvent.Name;
+            piShock.Paused = piShockInformationResponseEvent.Paused;
+            piShock.Online = piShockInformationResponseEvent.Online;
+            piShock.MaxIntensity = piShockInformationResponseEvent.MaxIntensity;
+            piShock.MaxDuration = piShockInformationResponseEvent.MaxDuration;
+
+            _piShockEventDispatcher.Dispatch(piShockInformationResponseEvent);
+            _piShockEventDispatcher.Dispatch(new PiShockToyListUpdatedEvent()
+            {
+                ToyList = Toys.Select(t => t.Value).ToList()
+            });
+        }
+
+        private void ReceivePausePiShockResponseHandler(string messageStr)
+        {
+            _piShockEventDispatcher.Dispatch(JsonConvert.DeserializeObject<ReceivePausePiShockResponseEvent>(messageStr)!);
         }
 
         private void ReceiveShockResponseHandler(string messageStr)
@@ -247,11 +300,6 @@ namespace GoodVibes.Client.PiShock
                     ApiKey = piVaultStatusResponseEvent.ApiKey
                 };
                 Toys.Add(piVaultStatusResponseEvent.ApiKey.ToString(), piVaultToy);
-
-                _piShockEventDispatcher.Dispatch(new PiShockToyListUpdatedEvent()
-                {
-                    ToyList = Toys.Select(t => t.Value).ToList()
-                });
             }
 
             if (piVaultToy is not PiVault piVault) return;
@@ -286,6 +334,10 @@ namespace GoodVibes.Client.PiShock
             piVault.LockedUntil = piVaultStatusResponseEvent.LockedUntil;
 
             _piShockEventDispatcher.Dispatch(piVaultStatusResponseEvent);
+            _piShockEventDispatcher.Dispatch(new PiShockToyListUpdatedEvent()
+            {
+                ToyList = Toys.Select(t => t.Value).ToList()
+            });
         }
 
         private void ReceiveApiKeyPermissionsResponseHandler(string messageStr)
@@ -352,7 +404,8 @@ namespace GoodVibes.Client.PiShock
             }
 
             Console.WriteLine("PiShock - HealthCheck Task is starting");
-            var timer = new PeriodicTimer(TimeSpan.FromMinutes(1));
+            await GetPiShockToyInformation();
+            var timer = new PeriodicTimer(TimeSpan.FromSeconds(30));
 
             while (await timer.WaitForNextTickAsync())
             {
@@ -361,7 +414,32 @@ namespace GoodVibes.Client.PiShock
                     return;
                 }
 
+                await GetPiShockToyInformation();
+            }
+        }
+
+        private async Task GetPiShockToyInformation()
+        {
+            if (Toys.Count == 0)
+            {
                 await Connection!.InvokeAsync(PiShockCommandMethodConstants.Ping);
+            }
+            else
+            {
+                foreach (var toy in Toys.Values)
+                {
+                    if (toy is Models.PiShock piShock)
+                    {
+                        await Connection!.InvokeAsync(PiShockCommandMethodConstants.GetPiShockInformation,
+                            piShock.ShareCode);
+                    }
+
+                    if (toy is PiVault piVault)
+                    {
+                        await Connection!.InvokeAsync(PiShockCommandMethodConstants.GetPiVaultStatus,
+                            piVault.ApiKey);
+                    }
+                }
             }
         }
 

@@ -19,6 +19,7 @@ namespace GoodVibes.Client.PiShock.EventHandlers
         public void Subscribe()
         {
             _eventAggregator.GetEvent<PiShockCommandEventCarrier>().Subscribe(PiShockCommandReceived);
+            _eventAggregator.GetEvent<PausePiShockEventCarrier>().Subscribe(PausePiShockEventHandler);
             _eventAggregator.GetEvent<PiShockToyAddedEventCarrier>().Subscribe(PiShockToyAddedEventHandler);
             _eventAggregator.GetEvent<RemovePiShockToyEventCarrier>().Subscribe(RemovePiSHockToyEventHandler);
             _eventAggregator.GetEvent<PiShockIntensityChangedEventCarrier>().Subscribe(IntensityChangedEventHandler);
@@ -32,6 +33,7 @@ namespace GoodVibes.Client.PiShock.EventHandlers
         public void Unsubscribe()
         {
             _eventAggregator.GetEvent<PiShockCommandEventCarrier>().Unsubscribe(PiShockCommandReceived);
+            _eventAggregator.GetEvent<PausePiShockEventCarrier>().Unsubscribe(PausePiShockEventHandler);
             _eventAggregator.GetEvent<PiShockToyAddedEventCarrier>().Unsubscribe(PiShockToyAddedEventHandler);
             _eventAggregator.GetEvent<RemovePiShockToyEventCarrier>().Unsubscribe(RemovePiSHockToyEventHandler);
             _eventAggregator.GetEvent<PiShockIntensityChangedEventCarrier>().Unsubscribe(IntensityChangedEventHandler);
@@ -60,10 +62,16 @@ namespace GoodVibes.Client.PiShock.EventHandlers
                 case PiShockCommandEnum.Beep:
                     Task.Run(() => _piShockClient.Beep(obj.ShareCode!));
                     break;
+                case PiShockCommandEnum.Pause:
                 case PiShockCommandEnum.Unknown:
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void PausePiShockEventHandler(PausePiShockEvent obj)
+        {
+            Task.Run(() => _piShockClient.PausePiShock(obj.ShareCode!, obj.Pause));
         }
 
         private void PiShockToyAddedEventHandler(PiShockToyAddedEvent obj)

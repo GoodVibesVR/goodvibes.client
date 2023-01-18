@@ -18,6 +18,26 @@ public static class PiShockCommandMethodConstants
     public static string Pong => "Pong";
 
     /// <summary>
+    /// Used to fetch PiShock information. Response will be returned on <see cref="GetPiShockInformationResponse"/>
+    /// </summary>
+    public static string GetPiShockInformation => "GetPiShockInformation";
+
+    /// <summary>
+    /// Used to receive the response from <see cref="GetPiShockInformation"/>
+    /// </summary>
+    public static string GetPiShockInformationResponse => "GetPiShockInformationResponse";
+
+    /// <summary>
+    /// Used to pause PiShock from receiving any more actions. Response will be returned on <see cref="PausePiShockResponse"/>
+    /// </summary>
+    public static string PausePiShock => "PausePiShock";
+
+    /// <summary>
+    /// Used to receive the response from <see cref="PausePiShock"/>
+    /// </summary>
+    public static string PausePiShockResponse => "PausePiShockResponse";
+
+    /// <summary>
     /// Used to send a Shock request to a PiShock shocker. Response will be returned on <see cref="ShockResponse"/>
     /// </summary>
     public static string Shock => "Shock";

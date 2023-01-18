@@ -8,6 +8,9 @@
         Beep = 12,
 
         // A variant of Shock with different duration
-        MiniShock = 50
+        MiniShock = 50,
+
+        // Command to pause the PiShock from receiving actions
+        Pause = 60
     }
 }

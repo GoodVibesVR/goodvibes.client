@@ -158,10 +158,14 @@ public class MenuViewModel : RegionViewModelBase
                             Id = piShock.ShareCode,
                             DisplayName = piShock.FriendlyName,
                             ToyIcon = _piShockService.GetToyIcon(piShock),
-                            Status = true,
+                            Status = piShock.Online,
                             ToyType = ToyTypeEnum.PiShock
                         });
+
+                        continue;
                     }
+
+                    toy.Status = piShock.Online;
                 }
             }
         });
@@ -194,7 +198,6 @@ public class MenuViewModel : RegionViewModelBase
                 toy.Battery = lovenseToy.Battery;
                 toy.DisplayName = lovenseToy.DisplayName;
                 toy.Status = lovenseToy.Status;
-                
             }
 
             // TODO: Fix sorting
@@ -231,7 +234,7 @@ public class MenuViewModel : RegionViewModelBase
                     Id = piShock.ShareCode,
                     DisplayName = piShock.FriendlyName,
                     ToyIcon = _piShockService.GetToyIcon(piShock),
-                    Status = true,
+                    Status = piShock.Online,
                     ToyType = ToyTypeEnum.PiShock
                 });
             }

@@ -124,6 +124,13 @@ public class AvatarMapperService : IAvatarMapperService
                 toyFunctions.Add(new ToyFunctionViewModel()
                 {
                     Name = piShock.FriendlyName,
+                    Function = PiShockCommandEnum.Pause.ToString(),
+                    ToyId = piShock.ShareCode,
+                    Type = piShock.GetType().Name
+                });
+                toyFunctions.Add(new ToyFunctionViewModel()
+                {
+                    Name = piShock.FriendlyName,
                     Function = PiShockMappableFunctionsConstant.Intensity,
                     ToyId = piShock.ShareCode,
                     Type = piShock.GetType().Name

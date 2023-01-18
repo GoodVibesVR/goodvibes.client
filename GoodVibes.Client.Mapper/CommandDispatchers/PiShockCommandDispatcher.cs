@@ -18,14 +18,13 @@ public class PiShockCommandDispatcher
 
     public void DispatchBoolCommand(ToyMappingDto toyMapping, bool value)
     {
-        if (!value) return;
-
         var properCommand = Enum.TryParse(typeof(PiShockCommandEnum), toyMapping.Function!, true, out var command);
         if (!properCommand) return;
 
         switch (command)
         {
             case PiShockCommandEnum.Shock:
+                if (!value) return;
                 _eventAggregator.GetEvent<PiShockCommandEventCarrier>().Publish(new PiShockCommandEvent()
                 {
                     Command = PiShockCommandEnum.Shock,
@@ -33,6 +32,7 @@ public class PiShockCommandDispatcher
                 });
                 break;
             case PiShockCommandEnum.MiniShock:
+                if (!value) return;
                 _eventAggregator.GetEvent<PiShockCommandEventCarrier>().Publish(new PiShockCommandEvent()
                 {
                     Command = PiShockCommandEnum.MiniShock,
@@ -40,6 +40,7 @@ public class PiShockCommandDispatcher
                 });
                 break;
             case PiShockCommandEnum.Vibrate:
+                if (!value) return;
                 _eventAggregator.GetEvent<PiShockCommandEventCarrier>().Publish(new PiShockCommandEvent()
                 {
                     Command = PiShockCommandEnum.Vibrate,
@@ -47,10 +48,18 @@ public class PiShockCommandDispatcher
                 });
                 break;
             case PiShockCommandEnum.Beep:
+                if (!value) return;
                 _eventAggregator.GetEvent<PiShockCommandEventCarrier>().Publish(new PiShockCommandEvent()
                 {
                     Command = PiShockCommandEnum.Beep,
                     ShareCode = toyMapping.Id
+                });
+                break;
+            case PiShockCommandEnum.Pause:
+                _eventAggregator.GetEvent<PausePiShockEventCarrier>().Publish(new PausePiShockEvent()
+                {
+                    ShareCode = toyMapping.Id,
+                    Pause = value
                 });
                 break;
             default:

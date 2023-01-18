@@ -7,6 +7,7 @@ using Prism.Events;
 namespace GoodVibes.Client.PiShock.EventDispatchers
 {
     public class PiShockEventDispatcher : IDispatchEvent<PiShockConnectionAckEvent>, IDispatchEvent<ReceiveShockResponseEvent>, 
+        IDispatchEvent<ReceivePiShockInformationResponseEvent>, IDispatchEvent<ReceivePiShockInformationErrorResponseEvent>, IDispatchEvent<ReceivePausePiShockResponseEvent>,
         IDispatchEvent<ReceiveVibrateResponseEvent>, IDispatchEvent<ReceiveBeepResponseEvent>, IDispatchEvent<PiShockToyListUpdatedEvent>,
         IDispatchEvent<PiShockDisconnectedEvent>, IDispatchEvent<ReceivePiVaultLockBoxStatusResponseEvent>, IDispatchEvent<ReceivePiVaultLockBoxStatusResponseErrorEvent>,
         IDispatchEvent<ReceivePiVaultApiKeyPermissionsResponseEvent>, IDispatchEvent<ReceivePiVaultApiKeyPermissionsResponseErrorEvent>, IDispatchEvent<ReceiveSetUnlockTimeResponseEvent>, IDispatchEvent<ReceiveClearCurrentSessionResponseEvent>,
@@ -26,6 +27,27 @@ namespace GoodVibes.Client.PiShock.EventDispatchers
             Console.WriteLine("Connection to PiShock Command Hub acknowledged...");
 
             _eventAggregator.GetEvent<PiShockConnectionAckEventCarrier>().Publish(e);
+        }
+
+        public void Dispatch(ReceivePiShockInformationResponseEvent e)
+        {
+            Console.WriteLine($"PiShock information response received from PiShock:\n{JsonConvert.SerializeObject(e)}");
+
+            // TODO: Do things
+        }
+
+        public void Dispatch(ReceivePiShockInformationErrorResponseEvent e)
+        {
+            Console.WriteLine($"PiShock information error response received from PiShock:\n{JsonConvert.SerializeObject(e)}");
+
+            // TODO: Do things
+        }
+
+        public void Dispatch(ReceivePausePiShockResponseEvent e)
+        {
+            Console.WriteLine($"Pause PiShock response received from PiShock:\n{JsonConvert.SerializeObject(e)}");
+
+            // TODO: Do things
         }
 
         public void Dispatch(ReceiveShockResponseEvent e)
