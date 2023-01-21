@@ -145,6 +145,8 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
         <Rectangle>
@@ -175,15 +177,12 @@
                             VerticalAlignment="Top"
                             Orientation="Vertical"
                             Margin="0,0,0,0">
-                    <!--
-                    <Slider Template="{StaticResource ResourceKey=gauge}" HorizontalAlignment="Center" LayoutTransform="{StaticResource windowScaleTransform}"
-                Minimum="0" Maximum="180" Value="{Binding Path=Value,ElementName=sl}" 
-                TextBlock.FontSize="20">
-                    </Slider> -->
-
                     <Canvas Width="340" Height="180">
-                        <Slider Template="{StaticResource ResourceKey=gauge}" HorizontalAlignment="Center" LayoutTransform="{StaticResource windowScaleTransform}"
+                        <!--<Slider Template="{StaticResource ResourceKey=gauge}" HorizontalAlignment="Center" LayoutTransform="{StaticResource windowScaleTransform}"
                 Minimum="0" Maximum="180" Value="{Binding Path=IntensityGauge}" 
+                TextBlock.FontSize="20">-->
+                        <Slider Template="{StaticResource ResourceKey=gauge}" HorizontalAlignment="Center" LayoutTransform="{StaticResource windowScaleTransform}"
+                Minimum="0" Maximum="180" Value="90" 
                 TextBlock.FontSize="20">
                         </Slider>
                         <Rectangle Width="128" Height="128" Canvas.Left="110" Canvas.Top="60">
@@ -191,23 +190,11 @@
                                 <ImageBrush ImageSource="/GoodVibes;component/Resources/pishock_logo.png"/>
                             </Rectangle.Fill>
                         </Rectangle>
+                        <TextBlock TextWrapping="Wrap" Text="Locked Since" Canvas.Top="173" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" Width="75" Canvas.Left="-1"/>
+                        <TextBlock TextWrapping="Wrap" Text="Locked Until" Canvas.Top="173" Canvas.Left="265" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" Width="75"/>
+                        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" TextAlignment="Center" Foreground="White" Width="75" Canvas.Left="-1" Canvas.Top="190" Text="{Binding Path=LockedSinceFormatted}" />
+                        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" TextAlignment="Center" Foreground="White" Width="75" Canvas.Left="265" Canvas.Top="190" Text="{Binding Path=LockedUntilFormatted}"/>
                     </Canvas>
-
-                    <TextBlock Text="INTENSITY"
-                           Foreground="White"
-                           HorizontalAlignment="Center"
-                           FontWeight="SemiBold"
-                           FontSize="26"/>
-                    <Slider Style="{StaticResource Horizontal_Slider_Pink}" 
-                                        x:Name="sl"
-                                        Maximum="100" 
-                                        VerticalAlignment="Center" 
-                                        Width="180" 
-                                        Margin="5,0,5,0"
-                                        Value="{Binding Path=Intensity}"
-                                        TickPlacement="BottomRight" 
-                                        IsSnapToTickEnabled="True"
-                                        TickFrequency="1"/>
                     <StackPanel HorizontalAlignment="Center" 
                                 VerticalAlignment="Top"
                                 Orientation="Horizontal"
@@ -216,26 +203,51 @@
                                         VerticalAlignment="Top"
                                         Orientation="Vertical"
                                         Margin="0,10,0,0">
-                            <TextBlock Text="Duration"
+                            <TextBlock Text="Amount to add/remove"
                                            Foreground="White"
                                            HorizontalAlignment="Center"
                                            FontWeight="SemiBold"
                                            FontSize="12"/>
                             <Slider Style="{StaticResource Horizontal_Slider_Pink}" 
-                                        Maximum="10" 
+                                        Maximum="100" 
+                                        Minimum="1"
                                         VerticalAlignment="Center" 
                                         Width="100" 
                                         Margin="5,0,5,0" 
-                                        Value="{Binding Path=Duration}"
-                                        TickPlacement="BottomRight" 
+                                        Value="{Binding Path=TimeAddSub}"
+                                        TickPlacement="BottomRight"
                                         IsSnapToTickEnabled="True"
-                                        TickFrequency="1"/>
+                                        TickFrequency="1" SmallChange="1" AutoToolTipPlacement="TopLeft"/>
+                            <TextBlock Text="{Binding Path=TimeAddSub}"
+                                           Foreground="White"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="SemiBold"
+                                           FontSize="12" Margin="0,0,0,0"/>
                         </StackPanel>
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Center" 
                                 VerticalAlignment="Top"
                                 Orientation="Horizontal"
-                                Margin="0,20,0,0">
+                                Margin="0,0,0,0">
+                        <StackPanel HorizontalAlignment="Center" 
+                                        VerticalAlignment="Top"
+                                        Orientation="Horizontal"
+                                        Margin="0,10,0,0">
+                            <TextBlock Text="Buzz"
+                                           Foreground="White"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="SemiBold"
+                                           FontSize="12"
+                                           Margin="0,0,5,0" VerticalAlignment="Center"
+                                           Padding="0,0,0,0"
+                                       />
+                            <CheckBox Margin="0,2,0,0" IsChecked="{Binding Path=Buzz}"></CheckBox>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center" 
+                                VerticalAlignment="Top"
+                                Orientation="Horizontal"
+                                Margin="0,10,0,0">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="1*" />
@@ -245,7 +257,7 @@
                             </Grid.ColumnDefinitions>
                             <Grid Grid.Column="0" Margin="2">
                                 <Button Style="{DynamicResource PiShockTriggerButton }"
-                                        Command="{ Binding ShockCommand }">
+                                        Command="{ Binding ShockCommand }" IsEnabled="{Binding Path=PermissionCanUnlock}">
                                     <Rectangle Width="42" Height="42">
                                         <Rectangle.Fill>
                                             <ImageBrush ImageSource="/GoodVibes;component/Resources/button_pishock_shock.png"/>
@@ -255,7 +267,7 @@
                             </Grid>
                             <Grid Grid.Column="1" Margin="2">
                                 <Button Style="{DynamicResource PiShockTriggerButton }"
-                                        Command="{ Binding MiniShockCommand }">
+                                        Command="{ Binding MiniShockCommand }" IsEnabled="{Binding Path=PermissionCanUnlock}">
                                     <Rectangle Width="42" Height="42">
                                         <Rectangle.Fill>
                                             <ImageBrush ImageSource="/GoodVibes;component/Resources/button_pishock_minishock.png"/>
@@ -263,32 +275,186 @@
                                     </Rectangle>
                                 </Button>
                             </Grid>
-                            <Grid Grid.Column="2" Margin="2">
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center" 
+                                VerticalAlignment="Top"
+                                Orientation="Horizontal"
+                                Margin="0,10,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0" Margin="2">
                                 <Button Style="{DynamicResource PiShockTriggerButton }"
-                                        Command="{ Binding VibrateCommand }">
+                                        Command="{ Binding ShockCommand }" IsEnabled="{Binding Path=PermissionTimeChange}">
                                     <Rectangle Width="42" Height="42">
                                         <Rectangle.Fill>
-                                            <ImageBrush ImageSource="/GoodVibes;component/Resources/button_pishock_vibrate.png"/>
+                                            <ImageBrush ImageSource="/GoodVibes;component/Resources/button_pishock_shock.png"/>
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Button>
+                            </Grid>
+                            <Grid Grid.Column="1" Margin="2">
+                                <Button Style="{DynamicResource PiShockTriggerButton }"
+                                        Command="{ Binding ShockCommand }" IsEnabled="{Binding Path=PermissionTimeChange}">
+                                    <Rectangle Width="42" Height="42">
+                                        <Rectangle.Fill>
+                                            <ImageBrush ImageSource="/GoodVibes;component/Resources/button_pishock_shock.png"/>
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Button>
+                            </Grid>
+                            <Grid Grid.Column="2" Margin="2">
+                                <Button Style="{DynamicResource PiShockTriggerButton }"
+                                        Command="{ Binding ShockCommand }" IsEnabled="{Binding Path=PermissionTimeChange}">
+                                    <Rectangle Width="42" Height="42">
+                                        <Rectangle.Fill>
+                                            <ImageBrush ImageSource="/GoodVibes;component/Resources/button_pishock_shock.png"/>
                                         </Rectangle.Fill>
                                     </Rectangle>
                                 </Button>
                             </Grid>
                             <Grid Grid.Column="3" Margin="2">
                                 <Button Style="{DynamicResource PiShockTriggerButton }"
-                                        Command="{ Binding BeepCommand }">
+                                        Command="{ Binding ShockCommand }" IsEnabled="{Binding Path=PermissionTimeReduction}">
                                     <Rectangle Width="42" Height="42">
                                         <Rectangle.Fill>
-                                            <ImageBrush ImageSource="/GoodVibes;component/Resources/button_pishock_beep.png"/>
+                                            <ImageBrush ImageSource="/GoodVibes;component/Resources/button_pishock_shock.png"/>
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Button>
+                            </Grid>
+                            <Grid Grid.Column="4" Margin="2">
+                                <Button Style="{DynamicResource PiShockTriggerButton }"
+                                        Command="{ Binding ShockCommand }" IsEnabled="{Binding Path=PermissionTimeReduction}">
+                                    <Rectangle Width="42" Height="42">
+                                        <Rectangle.Fill>
+                                            <ImageBrush ImageSource="/GoodVibes;component/Resources/button_pishock_shock.png"/>
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Button>
+                            </Grid>
+                            <Grid Grid.Column="5" Margin="2">
+                                <Button Style="{DynamicResource PiShockTriggerButton }"
+                                        Command="{ Binding ShockCommand }" IsEnabled="{Binding Path=PermissionTimeReduction}">
+                                    <Rectangle Width="42" Height="42">
+                                        <Rectangle.Fill>
+                                            <ImageBrush ImageSource="/GoodVibes;component/Resources/button_pishock_shock.png"/>
                                         </Rectangle.Fill>
                                     </Rectangle>
                                 </Button>
                             </Grid>
                         </Grid>
                     </StackPanel>
+                    <StackPanel HorizontalAlignment="Center" 
+                                VerticalAlignment="Top"
+                                Orientation="Horizontal"
+                                Margin="0,0,0,0">
+                        <StackPanel HorizontalAlignment="Center" 
+                                        VerticalAlignment="Top"
+                                        Orientation="Vertical"
+                                        Margin="0,10,0,0">
+                            <TextBlock Text="Owner"
+                                           Foreground="White"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="Bold"
+                                           FontSize="12" Margin="0,0,0,2"/>
+                            <TextBlock Text="{Binding Path=OwnerUsername}"
+                                           Foreground="White"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="SemiBold"
+                                           FontSize="12" Margin="0,0,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center" 
+                                VerticalAlignment="Top"
+                                Orientation="Horizontal"
+                                Margin="0,0,0,0" Visibility="{Binding Path=HygieneActive, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel HorizontalAlignment="Center" 
+                                        VerticalAlignment="Top"
+                                        Orientation="Vertical"
+                                        Margin="0,10,0,0">
+                            <TextBlock Text="Hygiene Days"
+                                           Foreground="White"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="Bold"
+                                           FontSize="12" Margin="0,0,0,2"/>
+                            <TextBlock Text="{Binding Path=HygieneDaysFormatted}"
+                                           Foreground="White"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="SemiBold"
+                                           FontSize="12" Margin="0,0,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center" 
+                                VerticalAlignment="Top"
+                                Orientation="Horizontal"
+                                Margin="0,0,0,0" Visibility="{Binding Path=HygieneActive, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel HorizontalAlignment="Center" 
+                                        VerticalAlignment="Top"
+                                        Orientation="Vertical"
+                                        Margin="0,10,0,0">
+                            <TextBlock Text="Hygiene Time"
+                                           Foreground="White"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="Bold"
+                                           FontSize="12" Margin="0,0,0,2"/>
+                            <TextBlock Text="{Binding Path=HygieneTimeFormatted}"
+                                           Foreground="White"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="SemiBold"
+                                           FontSize="12" Margin="0,0,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center" 
+                                VerticalAlignment="Top"
+                                Orientation="Horizontal"
+                                Margin="0,0,0,0" Visibility="{Binding Path=HygieneActive, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel HorizontalAlignment="Center" 
+                                        VerticalAlignment="Top"
+                                        Orientation="Vertical"
+                                        Margin="0,10,0,0">
+                            <TextBlock Text="Hygiene Duration"
+                                           Foreground="White"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="Bold"
+                                           FontSize="12" Margin="0,0,0,2"/>
+                            <TextBlock Text="{Binding Path=HygieneDuration}"
+                                           Foreground="White"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="SemiBold"
+                                           FontSize="12" Margin="0,0,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center" 
+                                VerticalAlignment="Top"
+                                Orientation="Horizontal"
+                                Margin="0,0,0,0">
+                        <StackPanel HorizontalAlignment="Center" 
+                                        VerticalAlignment="Top"
+                                        Orientation="Vertical"
+                                        Margin="0,10,0,0">
+                            <TextBlock Text="Key Holders"
+                                           Foreground="White"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="Bold"
+                                           FontSize="12" Margin="0,0,0,2"/>
+                            <TextBlock Text="{Binding Path=KeyHoldersCount, Mode=OneWay}"
+                                           Foreground="White"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="SemiBold"
+                                           FontSize="12" Margin="0,0,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
         </StackPanel>
-
     </Grid>
 </UserControl>
 
