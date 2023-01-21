@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Globalization;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media.Animation;
 using GoodVibes.Client.Core.Mvvm;
@@ -104,14 +107,24 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
     public bool UsingEmlaLock
     {
         get => _usingEmlaLock;
-        set => SetProperty(ref _usingEmlaLock, value);
+        set
+        {
+            SetProperty(ref _usingEmlaLock, value);
+            PermissionTimeChange = value; // Not really doing anything;
+            PermissionTimeReduction = value; // Not really doing anything
+        }
     }
 
     private bool _usingChaster;
     public bool UsingChaster
     {
         get => _usingChaster;
-        set => SetProperty(ref _usingChaster, value);
+        set
+        {
+            SetProperty(ref _usingChaster, value);
+            PermissionTimeChange = value; // Not really doing anything;
+            PermissionTimeReduction = value; // Not really doing anything
+        }
     }
 
     private bool _canUnlock;
@@ -153,56 +166,121 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
     public DateTime? LockedSince
     {
         get => _lockedSince;
-        set => SetProperty(ref _lockedSince, value);
+        set
+        {
+            SetProperty(ref _lockedSince, value);
+            LockedSinceFormatted = ""; // Stupid hack, can this be done any other way?
+        }
+    }
+
+    private string _lockedSinceFormatted;
+    public string LockedSinceFormatted
+    {
+        get => _lockedSinceFormatted;
+        set => SetProperty(ref _lockedSinceFormatted, LockedSince.HasValue ? $"{LockedSince.Value.ToString("d", DateTimeFormatInfo.InvariantInfo)}\n{LockedSince.Value.ToString("t", DateTimeFormatInfo.InvariantInfo)}" : "");
     }
 
     private DateTime? _lockedUntil;
     public DateTime? LockedUntil
     {
         get => _lockedUntil;
-        set => SetProperty(ref _lockedUntil, value);
+        set
+        {
+            SetProperty(ref _lockedUntil, value);
+            LockedUntilFormatted = "";   // Stupid hack, can this be done any other way?
+        }
+    }
+
+    private string _lockedUntilFormatted;
+    public string LockedUntilFormatted
+    {
+        get => _lockedUntilFormatted;
+        set => SetProperty(ref _lockedUntilFormatted, LockedUntil.HasValue ? $"{LockedUntil.Value.ToString("d", DateTimeFormatInfo.InvariantInfo)}\n{LockedUntil.Value.ToString("t", DateTimeFormatInfo.InvariantInfo)}" : "");
     }
 
     private WeekdaysEnum[] _hygieneDays;
     public WeekdaysEnum[] HygieneDays
     {
         get => _hygieneDays;
-        set => SetProperty(ref _hygieneDays, value);
+        set
+        {
+            SetProperty(ref _hygieneDays, value);
+            HygieneDaysFormatted = ""; // Stupid hack, can this be done any other way?
+        }
+    }
+
+    private string _hygieneDaysFormatted;
+    public string HygieneDaysFormatted
+    {
+        get => _hygieneDaysFormatted;
+        set => SetProperty(ref _hygieneDaysFormatted, _hygieneDays.Length > 0 ? String.Join(", ", _hygieneDays.Select(day => day.ToString().Substring(0, 3))) : "");
     }
 
     private int? _hygieneHour;
     public int? HygieneHour
     {
         get => _hygieneHour;
-        set => SetProperty(ref _hygieneHour, value);
+        set
+        {
+            SetProperty(ref _hygieneHour, value);
+            HygieneTimeFormatted = "";  // Stupid hack, can this be done any other way?
+        }
     }
 
     private int? _hygieneMinute;
     public int? HygieneMinute
     {
         get => _hygieneMinute;
-        set => SetProperty(ref _hygieneMinute, value);
+        set
+        {
+            SetProperty(ref _hygieneMinute, value);
+            HygieneTimeFormatted = "";  // Stupid hack, can this be done any other way?
+        }
     }
 
     private int? _hygieneDuration;
     public int? HygieneDuration
     {
         get => _hygieneDuration;
-        set => SetProperty(ref _hygieneDuration, value);
+        set
+        {
+            SetProperty(ref _hygieneDuration, value);
+            HygieneTimeFormatted = "";
+        }
+    }
+
+    private string _hygieneTimeFormatted;
+    public string HygieneTimeFormatted
+    {
+        get => _hygieneTimeFormatted;
+        set
+        {
+            DateTime dt = new DateTime(1970, 1, 1, HygieneHour.GetValueOrDefault(0), HygieneMinute.GetValueOrDefault(0), 0, DateTimeKind.Utc);
+            DateTime future = dt.AddMinutes(HygieneDuration.GetValueOrDefault(0)); ;
+            SetProperty(ref _hygieneTimeFormatted, $"{dt.ToShortTimeString()} - {future.ToShortTimeString()}");
+        }
     }
 
     private bool _permissionAllowTimeChange;
     public bool PermissionAllowTimeChange
     {
         get => _permissionAllowTimeChange;
-        set => SetProperty(ref _permissionAllowTimeChange, value);
+        set
+        {
+            SetProperty(ref _permissionAllowTimeChange, value);
+            PermissionTimeChange = value; // Not really doing anything;
+        }
     }
 
     private bool _permissionsAllowTimeReduction;
     public bool PermissionsAllowTimeReduction
     {
         get => _permissionsAllowTimeReduction;
-        set => SetProperty(ref _permissionsAllowTimeReduction, value);
+        set
+        {
+            SetProperty(ref _permissionsAllowTimeReduction, value);
+            PermissionTimeReduction = value; // Not really doing anything
+        }
     }
 
     private bool _permissionSessionStart;
@@ -217,6 +295,34 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
     {
         get => _permissionCanUnlock;
         set => SetProperty(ref _permissionCanUnlock, value);
+    }
+
+    private int _timeAddSub = 1;
+    public int TimeAddSub
+    {
+        get => _timeAddSub;
+        set => SetProperty(ref _timeAddSub, value);
+    }
+
+    private bool _buzz = true;
+    public bool Buzz
+    {
+        get => _buzz;
+        set => SetProperty(ref _buzz, value);
+    }
+
+    private bool _permissionTimeChange;
+    public bool PermissionTimeChange
+    {
+        get => _permissionTimeChange;
+        set => SetProperty(ref _permissionTimeChange, !_usingChaster && !_usingEmlaLock && PermissionAllowTimeChange);
+    }
+
+    private bool _permissionTimeReduction;
+    public bool PermissionTimeReduction
+    {
+        get => _permissionTimeChange;
+        set => SetProperty(ref _permissionTimeReduction, !_usingChaster && !_usingEmlaLock && PermissionsAllowTimeReduction);
     }
 
     public PiVaultToySettingsViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, PiShockClient piShockClient) : base(regionManager)
