@@ -53,6 +53,19 @@ public class PiVault : PiShockToy
     public DateTime? LockedSince { get; set; }
 
     public DateTime? LockedUntil { get; set; }
+
+    public Permissions Permissions { get; set; } = new();
+}
+
+public class Permissions
+{
+    public bool AllowTimeChange { get; set; }
+
+    public bool AllowTimeReduction { get; set; }
+
+    public bool SessionStart { get; set; }
+
+    public bool CanUnlock { get; set; }
 }
 
 public class HygieneSettings

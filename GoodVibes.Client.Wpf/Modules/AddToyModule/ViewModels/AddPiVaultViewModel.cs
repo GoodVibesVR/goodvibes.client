@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Media.Animation;
 using GoodVibes.Client.Common.Enums;
 using GoodVibes.Client.Core;
 using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.PiShock;
 using GoodVibes.Client.PiShock.EventCarriers;
 using GoodVibes.Client.PiShock.Events;
+using GoodVibes.Client.PiShock.Models;
 using GoodVibes.Client.Wpf.Modules.AddToyModule.Views;
 using GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule.Views;
 using Prism.Commands;
@@ -313,7 +315,14 @@ public class AddPiVaultViewModel : RegionViewModelBase
         _eventAggregator.GetEvent<PiShockToyAddedEventCarrier>().Publish(new PiShockToyAddedEvent()
         {
             ApiKey = new Guid(_apiKey),
-            ToyType = ToyTypeEnum.PiVault
+            ToyType = ToyTypeEnum.PiVault,
+            Permissions = new Permissions()
+            {
+                AllowTimeChange = AllowTimeChange,
+                AllowTimeReduction = AllowTimeReduction,
+                CanUnlock = CanUnlock,
+                SessionStart = SessionStart
+            }
         });
     }
 
@@ -323,6 +332,11 @@ public class AddPiVaultViewModel : RegionViewModelBase
         {
             return;
         }
+
+        AllowTimeChange = obj.AllowTimeChange;
+        AllowTimeReduction = obj.AllowTimeReduction;
+        SessionStart = obj.SessionStart;
+        CanUnlock = obj.CanUnlock;
 
         PermissionsVisibility = Visibility.Visible;
         TimeChangeTrueVisibility = obj.AllowTimeChange ? Visibility.Visible : Visibility.Collapsed;

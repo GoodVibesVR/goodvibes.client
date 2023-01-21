@@ -98,7 +98,7 @@ namespace GoodVibes.Client.PiShock
             _piShockEventDispatcher.Dispatch(new PiShockDisconnectedEvent());
         }
 
-        public async Task AddToy(string friendlyName, string? shareCode, Guid? apiKey, ToyTypeEnum toyType)
+        public async Task AddToy(string friendlyName, string? shareCode, Guid? apiKey, ToyTypeEnum toyType, Permissions? permissions)
         {
             // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
             switch (toyType)
@@ -120,6 +120,12 @@ namespace GoodVibes.Client.PiShock
                     SaveCache();
                     break;
                 case ToyTypeEnum.PiVault:
+                    Toys!.Add(apiKey!.ToString()!, new PiVault()
+                    {
+                        ApiKey = apiKey!.Value,
+                        Permissions = permissions!
+                    });
+
                     await Connection!.InvokeAsync(PiShockCommandMethodConstants.GetPiVaultStatus,
                         apiKey!);
                     break;

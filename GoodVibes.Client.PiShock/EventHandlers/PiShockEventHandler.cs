@@ -78,7 +78,7 @@ namespace GoodVibes.Client.PiShock.EventHandlers
 
         private void PiShockToyAddedEventHandler(PiShockToyAddedEvent obj)
         {
-            Task.Run(() => _piShockClient.AddToy(obj.FriendlyName!, obj.ShareCode, obj.ApiKey, obj.ToyType));
+            Task.Run(() => _piShockClient.AddToy(obj.FriendlyName!, obj.ShareCode, obj.ApiKey, obj.ToyType, obj.Permissions));
         }
 
         private void RemovePiSHockToyEventHandler(RemovePiShockToyEvent obj)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Media.Animation;
 using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.PiShock;
 using GoodVibes.Client.PiShock.Enums;
@@ -190,16 +191,63 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
         set => SetProperty(ref _hygieneDuration, value);
     }
 
+    private bool _permissionAllowTimeChange;
+    public bool PermissionAllowTimeChange
+    {
+        get => _permissionAllowTimeChange;
+        set => SetProperty(ref _permissionAllowTimeChange, value);
+    }
+
+    private bool _permissionsAllowTimeReduction;
+    public bool PermissionsAllowTimeReduction
+    {
+        get => _permissionsAllowTimeReduction;
+        set => SetProperty(ref _permissionsAllowTimeReduction, value);
+    }
+
+    private bool _permissionSessionStart;
+    public bool PermissionSessionStart
+    {
+        get => _permissionSessionStart;
+        set => SetProperty(ref _permissionSessionStart, value);
+    }
+
+    private bool _permissionCanUnlock;
+    public bool PermissionCanUnlock
+    {
+        get => _permissionCanUnlock;
+        set => SetProperty(ref _permissionCanUnlock, value);
+    }
+
     public PiVaultToySettingsViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, PiShockClient piShockClient) : base(regionManager)
     {
         _eventAggregator = eventAggregator;
         _piShockClient = piShockClient;
+    }
 
-        _eventAggregator.GetEvent<ReceivePiVaultLockBoxStatusResponseEventCarrier>().Subscribe(ReceivePiVaultLockBoxStatus);
+    private void ReceivePiVaultAPiKeyPermissions(ReceivePiVaultApiKeyPermissionsResponseEvent obj)
+    {
+        if (ToyId != obj.ApiKey.ToString())
+        {
+            return;
+        }
+
+        Application.Current.Dispatcher.Invoke((Action)delegate
+        {
+            PermissionAllowTimeChange = obj.AllowTimeChange;
+            PermissionsAllowTimeReduction = obj.AllowTimeReduction;
+            PermissionSessionStart = obj.SessionStart;
+            PermissionCanUnlock = obj.CanUnlock;
+        });
     }
 
     private void ReceivePiVaultLockBoxStatus(ReceivePiVaultLockBoxStatusResponseEvent obj)
     {
+        if (ToyId != obj.ApiKey.ToString())
+        {
+            return;
+        }
+
         Application.Current.Dispatcher.Invoke((Action)delegate
         {
             DisplayName = obj.Name;
@@ -264,10 +312,19 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
         HygieneDays = piVault.HygieneSettings?.Days;
         HygieneHour = piVault.HygieneSettings?.Hours;
         HygieneDuration = piVault.HygieneSettings?.Duration;
+        PermissionAllowTimeChange = piVault.Permissions.AllowTimeChange;
+        PermissionsAllowTimeReduction = piVault.Permissions.AllowTimeReduction;
+        PermissionSessionStart = piVault.Permissions.SessionStart;
+        PermissionCanUnlock = piVault.Permissions.CanUnlock;
+
+        _eventAggregator.GetEvent<ReceivePiVaultLockBoxStatusResponseEventCarrier>().Subscribe(ReceivePiVaultLockBoxStatus);
+        _eventAggregator.GetEvent<ReceivePiVaultApiKeyPermissionsResponseEventCarrier>().Subscribe(ReceivePiVaultAPiKeyPermissions);
     }
 
     public override void OnNavigatedFrom(NavigationContext navigationContext)
     {
         _eventAggregator.GetEvent<SavePiShockCacheEventCarrier>().Publish(new SavePiShockCacheEvent());
+        _eventAggregator.GetEvent<ReceivePiVaultLockBoxStatusResponseEventCarrier>().Unsubscribe(ReceivePiVaultLockBoxStatus);
+        _eventAggregator.GetEvent<ReceivePiVaultApiKeyPermissionsResponseEventCarrier>().Unsubscribe(ReceivePiVaultAPiKeyPermissions);
     }
 }
