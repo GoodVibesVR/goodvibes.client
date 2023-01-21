@@ -45,147 +45,147 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
     }
 
     private string _ownerUsername;
-    private string OwnerUsername
+    public string OwnerUsername
     {
         get => _ownerUsername;
         set => SetProperty(ref _ownerUsername, value);
     }
 
     private int _timesForced;
-    private int TimesForced
+    public int TimesForced
     {
         get => _timesForced;
         set => SetProperty(ref _timesForced, value);
     }
 
     private bool _selfLocking;
-    private bool SelfLocking
+    public bool SelfLocking
     {
         get => _selfLocking;
         set => SetProperty(ref _selfLocking, value);
     }
 
     private int _maxMinutesOverall;
-    private int MaxMinutesOverall
+    public int MaxMinutesOverall
     {
         get => _maxMinutesOverall;
         set => SetProperty(ref _maxMinutesOverall, value);
     }
 
     private int _maxMinutesSelfBondage;
-    private int MaxMinutesSelfBondage
+    public int MaxMinutesSelfBondage
     {
         get => _maxMinutesSelfBondage;
         set => SetProperty(ref _maxMinutesSelfBondage, value);
     }
 
     private bool _normallyUnlocked;
-    private bool NormallyUnlocked
+    public bool NormallyUnlocked
     {
         get => _normallyUnlocked;
         set => SetProperty(ref _normallyUnlocked, value);
     }
 
     private string _timeZone;
-    private string TimeZone
+    public string TimeZone
     {
         get => _timeZone;
         set => SetProperty(ref _timeZone, value);
     }
 
     private bool _hygieneActive;
-    private bool HygieneActive
+    public bool HygieneActive
     {
         get => _hygieneActive;
         set => SetProperty(ref _hygieneActive, value);
     }
 
     private bool _usingEmlaLock;
-    private bool UsingEmlaLock
+    public bool UsingEmlaLock
     {
         get => _usingEmlaLock;
         set => SetProperty(ref _usingEmlaLock, value);
     }
 
     private bool _usingChaster;
-    private bool UsingChaster
+    public bool UsingChaster
     {
         get => _usingChaster;
         set => SetProperty(ref _usingChaster, value);
     }
 
     private bool _canUnlock;
-    private bool CanUnlock
+    public bool CanUnlock
     {
         get => _canUnlock;
         set => SetProperty(ref _canUnlock, value);
     }
 
     private DateTime _lastPolled;
-    private DateTime LastPolled
+    public DateTime LastPolled
     {
         get => _lastPolled;
         set => SetProperty(ref _lastPolled, value);
     }
 
     private DateTime? _lastUnlocked;
-    private DateTime? LastUnlocked
+    public DateTime? LastUnlocked
     {
         get => _lastUnlocked;
         set => SetProperty(ref _lastUnlocked, value);
     }
 
     private DateTime? _lastOpened;
-    private DateTime? LastOpened
+    public DateTime? LastOpened
     {
         get => _lastOpened;
         set => SetProperty(ref _lastOpened, value);
     }
 
     private DateTime? _lastClosed;
-    private DateTime? LastClosed
+    public DateTime? LastClosed
     {
         get => _lastClosed;
         set => SetProperty(ref _lastClosed, value);
     }
 
     private DateTime? _lockedSince;
-    private DateTime? LockedSince
+    public DateTime? LockedSince
     {
         get => _lockedSince;
         set => SetProperty(ref _lockedSince, value);
     }
 
     private DateTime? _lockedUntil;
-    private DateTime? LockedUntil
+    public DateTime? LockedUntil
     {
         get => _lockedUntil;
         set => SetProperty(ref _lockedUntil, value);
     }
 
     private WeekdaysEnum[] _hygieneDays;
-    private WeekdaysEnum[] HygieneDays
+    public WeekdaysEnum[] HygieneDays
     {
         get => _hygieneDays;
         set => SetProperty(ref _hygieneDays, value);
     }
 
     private int? _hygieneHour;
-    private int? HygieneHour
+    public int? HygieneHour
     {
         get => _hygieneHour;
         set => SetProperty(ref _hygieneHour, value);
     }
 
     private int? _hygieneMinute;
-    private int? HygieneMinute
+    public int? HygieneMinute
     {
         get => _hygieneMinute;
         set => SetProperty(ref _hygieneMinute, value);
     }
 
     private int? _hygieneDuration;
-    private int? HygieneDuration
+    public int? HygieneDuration
     {
         get => _hygieneDuration;
         set => SetProperty(ref _hygieneDuration, value);
