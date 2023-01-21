@@ -178,11 +178,8 @@
                             Orientation="Vertical"
                             Margin="0,0,0,0">
                     <Canvas Width="340" Height="180">
-                        <!--<Slider Template="{StaticResource ResourceKey=gauge}" HorizontalAlignment="Center" LayoutTransform="{StaticResource windowScaleTransform}"
-                Minimum="0" Maximum="180" Value="{Binding Path=IntensityGauge}" 
-                TextBlock.FontSize="20">-->
                         <Slider Template="{StaticResource ResourceKey=gauge}" HorizontalAlignment="Center" LayoutTransform="{StaticResource windowScaleTransform}"
-                Minimum="0" Maximum="180" Value="90" 
+                Minimum="0" Maximum="180" Value="{Binding Path=TimeGauge}" 
                 TextBlock.FontSize="20">
                         </Slider>
                         <Rectangle Width="128" Height="128" Canvas.Left="110" Canvas.Top="60">

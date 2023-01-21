@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.PiShock;
 using GoodVibes.Client.PiShock.Enums;
@@ -325,6 +326,14 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
         set => SetProperty(ref _permissionTimeReduction, !_usingChaster && !_usingEmlaLock && PermissionsAllowTimeReduction);
     }
 
+    private int _timeGauge;
+
+    public int TimeGauge
+    {
+        get => _timeGauge;
+        set => SetProperty(ref _timeGauge, value);
+    }
+
     public PiVaultToySettingsViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, PiShockClient piShockClient) : base(regionManager)
     {
         _eventAggregator = eventAggregator;
@@ -382,6 +391,8 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
         });
     }
 
+    DispatcherTimer dispatcherTimer;
+
     public override void OnNavigatedTo(NavigationContext navigationContext)
     {
         var toyId = (string)navigationContext.Parameters["toyId"];
@@ -425,12 +436,29 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
 
         _eventAggregator.GetEvent<ReceivePiVaultLockBoxStatusResponseEventCarrier>().Subscribe(ReceivePiVaultLockBoxStatus);
         _eventAggregator.GetEvent<ReceivePiVaultApiKeyPermissionsResponseEventCarrier>().Subscribe(ReceivePiVaultAPiKeyPermissions);
+
+        dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+        dispatcherTimer.Tick += new EventHandler(UpdateTimeGauge);
+        dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+        dispatcherTimer.Start();
     }
 
     public override void OnNavigatedFrom(NavigationContext navigationContext)
     {
+        dispatcherTimer.Stop();
+
         _eventAggregator.GetEvent<SavePiShockCacheEventCarrier>().Publish(new SavePiShockCacheEvent());
         _eventAggregator.GetEvent<ReceivePiVaultLockBoxStatusResponseEventCarrier>().Unsubscribe(ReceivePiVaultLockBoxStatus);
         _eventAggregator.GetEvent<ReceivePiVaultApiKeyPermissionsResponseEventCarrier>().Unsubscribe(ReceivePiVaultAPiKeyPermissions);
+    }
+
+    private void UpdateTimeGauge(object sender, EventArgs e)
+    {
+        if (!LockedSince.HasValue || !LockedUntil.HasValue) TimeGauge = 0;
+
+        TimeSpan totalDuration = LockedUntil.Value.Subtract(LockedSince.Value);
+        TimeSpan durationLeft = LockedUntil.Value.Subtract(DateTime.Now);
+
+        TimeGauge = (int)Math.Round((totalDuration.TotalSeconds - durationLeft.TotalSeconds) / totalDuration.TotalSeconds * 100 * 1.8);
     }
 }
