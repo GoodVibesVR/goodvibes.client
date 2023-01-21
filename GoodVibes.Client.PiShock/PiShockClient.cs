@@ -43,9 +43,14 @@ namespace GoodVibes.Client.PiShock
             var toys = piShockCache.Toys;
             foreach (var piShockToy in toys)
             {
-                if (piShockToy is Models.PiShock piShock)
+                switch (piShockToy)
                 {
-                    toysDict.Add(piShock.ShareCode!, piShockToy);
+                    case Models.PiShock piShock:
+                        toysDict.Add(piShock.ShareCode!, piShock);
+                        break;
+                    case PiVault piVault:
+                        toysDict.Add(piVault.ApiKey.ToString()!, piVault);
+                        break;
                 }
             }
             
@@ -93,27 +98,37 @@ namespace GoodVibes.Client.PiShock
             _piShockEventDispatcher.Dispatch(new PiShockDisconnectedEvent());
         }
 
-        public Task AddToy(string friendlyName, string shareCode, ToyTypeEnum toyType)
+        public async Task AddToy(string friendlyName, string? shareCode, Guid? apiKey, ToyTypeEnum toyType)
         {
-            Toys!.Add(shareCode, new Models.PiShock()
+            // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+            switch (toyType)
             {
-                FriendlyName = friendlyName,
-                ShareCode = shareCode,
-                Duration = 2,
-                Intensity = 50
-            });
+                case ToyTypeEnum.PiShock:
+                    Toys!.Add(shareCode!, new Models.PiShock()
+                    {
+                        FriendlyName = friendlyName,
+                        ShareCode = shareCode,
+                        Duration = 2,
+                        Intensity = 50
+                    });
 
-            SaveCache();
+                    _piShockEventDispatcher.Dispatch(new PiShockToyListUpdatedEvent()
+                    {
+                        ToyList = Toys.Select(t => t.Value).ToList()
+                    });
 
-            _piShockEventDispatcher.Dispatch(new PiShockToyListUpdatedEvent()
-            {
-                ToyList = Toys.Select(t => t.Value).ToList()
-            });
-
-            return Task.CompletedTask;
+                    SaveCache();
+                    break;
+                case ToyTypeEnum.PiVault:
+                    await Connection!.InvokeAsync(PiShockCommandMethodConstants.GetPiVaultStatus,
+                        apiKey!);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(toyType), toyType, null);
+            }
         }
 
-        public async Task TestApiKeyPermissions(Guid apiKey)
+        public async Task GetApiKeyPermissions(Guid apiKey)
         {
             await Connection!.InvokeAsync(PiShockCommandMethodConstants.GetApiKeyPermissions, apiKey);
         }
@@ -338,6 +353,8 @@ namespace GoodVibes.Client.PiShock
             {
                 ToyList = Toys.Select(t => t.Value).ToList()
             });
+
+            SaveCache();
         }
 
         private void ReceiveApiKeyPermissionsResponseHandler(string messageStr)

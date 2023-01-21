@@ -37,6 +37,7 @@ namespace GoodVibes.Client.Wpf.Modules.AddToyModule.ViewModels
             {
                 new() { DisplayName = string.Empty },
                 new() { DisplayName = AddToyTypeConstants.PiShock },
+                new () {DisplayName = AddToyTypeConstants.PiVault},
                 new() { DisplayName = AddToyTypeConstants.LovenseToy }
             };
         }
@@ -57,6 +58,9 @@ namespace GoodVibes.Client.Wpf.Modules.AddToyModule.ViewModels
             {
                 case AddToyTypeConstants.PiShock:
                     _regionManager.RequestNavigate(RegionNames.AddToyForm, nameof(AddPiShockView));
+                    break;
+                case AddToyTypeConstants.PiVault:
+                    _regionManager.RequestNavigate(RegionNames.AddToyForm, nameof(AddPiVaultView));
                     break;
                 case AddToyTypeConstants.LovenseToy:
                     _regionManager.RequestNavigate(RegionNames.AddToyForm, nameof(AddLovenseView));

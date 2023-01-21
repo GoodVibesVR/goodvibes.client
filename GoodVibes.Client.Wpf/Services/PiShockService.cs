@@ -22,6 +22,8 @@ public class PiShockService : IPiShockService
         var uriPackPath = toy switch
         {
             PiShock.Models.PiShock => "pack://application:,,,/GoodVibes;component/Resources/icon_pishock_shocker.png",
+            // ReSharper disable once StringLiteralTypo
+            PiShock.Models.PiVault => "pack://application:,,,/GoodVibes;component/Resources/icon_pishock_pivault.png",
             _ => "pack://application:,,,/GoodVibes;component/Resources/icon_pishock_shocker.png"
         };
 

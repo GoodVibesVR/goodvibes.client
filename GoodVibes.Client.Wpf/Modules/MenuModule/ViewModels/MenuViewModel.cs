@@ -15,6 +15,7 @@ using GoodVibes.Client.Wpf.Modules.AddToyModule.Views;
 using GoodVibes.Client.Wpf.Modules.AvatarMapperModule.Views;
 using GoodVibes.Client.Wpf.Modules.DashboardModule.Views;
 using GoodVibes.Client.Wpf.Services.Abstractions;
+using ImTools;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
@@ -101,7 +102,7 @@ public class MenuViewModel : RegionViewModelBase
         {
             switch (toy.ToyType)
             {
-                
+
                 case ToyTypeEnum.Ambi:
                 case ToyTypeEnum.Calor:
                 case ToyTypeEnum.Diamo:
@@ -128,6 +129,7 @@ public class MenuViewModel : RegionViewModelBase
                     });
                     break;
                 case ToyTypeEnum.PiShock:
+                case ToyTypeEnum.PiVault:
                     _eventAggregator.GetEvent<RemovePiShockToyEventCarrier>().Publish(new RemovePiShockToyEvent()
                     {
                         ToyId = toy.Id
@@ -166,6 +168,25 @@ public class MenuViewModel : RegionViewModelBase
                     }
 
                     toy.Status = piShock.Online;
+                }
+                if (piShockToy is PiShock.Models.PiVault piVault)
+                {
+                    var toy = tempList.FirstOrDefault(t => t.Id == piVault.ApiKey.ToString());
+                    if (toy == null)
+                    {
+                        Toys.Add(new ToyViewModel()
+                        {
+                            Id = piVault.ApiKey.ToString(),
+                            DisplayName = piVault.Name,
+                            ToyIcon = _piShockService.GetToyIcon(piVault),
+                            Status = piVault.Online,
+                            ToyType = ToyTypeEnum.PiVault
+                        });
+
+                        continue;
+                    }
+
+                    toy.Status = piVault.Online;
                 }
             }
         });
@@ -227,16 +248,28 @@ public class MenuViewModel : RegionViewModelBase
         var existingPiShockToys = _piShockService.GetToys();
         foreach (var piShockToy in existingPiShockToys)
         {
-            if (piShockToy is PiShock.Models.PiShock piShock)
+            switch (piShockToy)
             {
-                Toys.Add(new ToyViewModel()
-                {
-                    Id = piShock.ShareCode,
-                    DisplayName = piShock.FriendlyName,
-                    ToyIcon = _piShockService.GetToyIcon(piShock),
-                    Status = piShock.Online,
-                    ToyType = ToyTypeEnum.PiShock
-                });
+                case PiShock.Models.PiShock piShock:
+                    Toys.Add(new ToyViewModel()
+                    {
+                        Id = piShock.ShareCode,
+                        DisplayName = piShock.FriendlyName,
+                        ToyIcon = _piShockService.GetToyIcon(piShock),
+                        Status = null,
+                        ToyType = ToyTypeEnum.PiShock
+                    });
+                    break;
+                case PiShock.Models.PiVault piVault:
+                    Toys.Add(new ToyViewModel()
+                    {
+                        Id = piVault.ApiKey.ToString(),
+                        DisplayName = piVault.Name,
+                        ToyIcon = _piShockService.GetToyIcon(piVault),
+                        Status = null,
+                        ToyType = ToyTypeEnum.PiVault
+                    });
+                    break;
             }
         }
     }

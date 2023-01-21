@@ -4,5 +4,6 @@
     {
         public const string LovenseToy = "LovenseToy";
         public const string PiShock = "PiShock";
+        public const string PiVault = "PiVault";
     }
 }

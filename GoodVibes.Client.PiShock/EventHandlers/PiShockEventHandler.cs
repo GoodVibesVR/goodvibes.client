@@ -28,6 +28,7 @@ namespace GoodVibes.Client.PiShock.EventHandlers
             _eventAggregator.GetEvent<PiShockSettingsDurationChangedEventCarrier>().Subscribe(PiShockSettingsDurationChangedEventHandler);
             _eventAggregator.GetEvent<PiShockSettingsIntensityChangedEventCarrier>().Subscribe(PiShockSettingsIntensityChangedEventHandler);
             _eventAggregator.GetEvent<SavePiShockCacheEventCarrier>().Subscribe(PiShockSaveCacheEventHandler);
+            _eventAggregator.GetEvent<GetPiVaultApiKeyPermissionsEventCarrier>().Subscribe(GetPiVaultApiKeyPermissionsEventHandler);
         }
 
         public void Unsubscribe()
@@ -42,6 +43,7 @@ namespace GoodVibes.Client.PiShock.EventHandlers
             _eventAggregator.GetEvent<PiShockSettingsDurationChangedEventCarrier>().Unsubscribe(PiShockSettingsDurationChangedEventHandler);
             _eventAggregator.GetEvent<PiShockSettingsIntensityChangedEventCarrier>().Unsubscribe(PiShockSettingsIntensityChangedEventHandler);
             _eventAggregator.GetEvent<SavePiShockCacheEventCarrier>().Unsubscribe(PiShockSaveCacheEventHandler);
+            _eventAggregator.GetEvent<GetPiVaultApiKeyPermissionsEventCarrier>().Unsubscribe(GetPiVaultApiKeyPermissionsEventHandler);
         }
 
         private void PiShockCommandReceived(PiShockCommandEvent obj)
@@ -76,7 +78,7 @@ namespace GoodVibes.Client.PiShock.EventHandlers
 
         private void PiShockToyAddedEventHandler(PiShockToyAddedEvent obj)
         {
-            Task.Run(() => _piShockClient.AddToy(obj.FriendlyName!, obj.ShareCode!, obj.ToyType));
+            Task.Run(() => _piShockClient.AddToy(obj.FriendlyName!, obj.ShareCode, obj.ApiKey, obj.ToyType));
         }
 
         private void RemovePiSHockToyEventHandler(RemovePiShockToyEvent obj)
@@ -112,6 +114,11 @@ namespace GoodVibes.Client.PiShock.EventHandlers
         private void PiShockSaveCacheEventHandler(SavePiShockCacheEvent obj)
         {
             _piShockClient.SaveCache();
+        }
+
+        private void GetPiVaultApiKeyPermissionsEventHandler(GetPiVaultApiKeyPermissionsEvent obj)
+        {
+            Task.Run(() => _piShockClient.GetApiKeyPermissions(obj.ApiKey));
         }
     }
 }

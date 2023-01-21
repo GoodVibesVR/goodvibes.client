@@ -33,6 +33,7 @@
 	  <None Remove="Resources\icon_max.png" />
 	  <None Remove="Resources\icon_nora.png" />
 	  <None Remove="Resources\icon_osci.png" />
+	  <None Remove="Resources\icon_pishock_pivault.png" />
 	  <None Remove="Resources\icon_pishock_shocker.png" />
 	  <None Remove="Resources\icon_tenera.png" />
 	  <None Remove="Resources\image_ambi.png" />
@@ -101,6 +102,7 @@
 	  <Resource Include="Resources\icon_max.png" />
 	  <Resource Include="Resources\icon_nora.png" />
 	  <Resource Include="Resources\icon_osci.png" />
+	  <Resource Include="Resources\icon_pishock_pivault.png" />
 	  <Resource Include="Resources\icon_pishock_shocker.png" />
 	  <Resource Include="Resources\icon_tenera.png" />
 	  <Resource Include="Resources\image_ambi.png" />
