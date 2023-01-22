@@ -168,7 +168,7 @@ public class AvatarMapperService : IAvatarMapperService
         _avatarMapper.ChangeOrAddMappingAddress(oldAddress, newAddress);
     }
 
-    public GoodVibesProfileDto? DeserializeAvatarMappingProfile(string json)
+    public GoodVibesProfileDto DeserializeAvatarMappingProfile(string json)
     {
         var successful = json.TryParseJson<GoodVibesProfileDto>(out var profile);
         return successful ? profile : null;

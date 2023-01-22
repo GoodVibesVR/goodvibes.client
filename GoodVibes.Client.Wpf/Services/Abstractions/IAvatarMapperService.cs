@@ -23,7 +23,7 @@ public interface IAvatarMapperService
 
     void ChangeOrAddMappingAddress(string oldAddress, string newAddress);
 
-    GoodVibesProfileDto? DeserializeAvatarMappingProfile(string json);
+    GoodVibesProfileDto DeserializeAvatarMappingProfile(string json);
 
     string SerializeAvatarMappingProfile(GoodVibesProfileDto goodVibesProfile);
 }

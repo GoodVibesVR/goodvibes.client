@@ -43,7 +43,7 @@ public class PiVault : PiShockToy
     public bool CanUnlock { get; set; }
 
     public HygieneSettings? HygieneSettings { get; set; }
-
+    
     public DateTime LastPolled { get; set; }
 
     public DateTime? LastUnlocked { get; set; }
@@ -57,6 +57,8 @@ public class PiVault : PiShockToy
     public DateTime? LockedUntil { get; set; }
 
     public Permissions Permissions { get; set; } = new();
+
+    public int AmountToAddRemove { get; set; } = 5;
 }
 
 public class Permissions

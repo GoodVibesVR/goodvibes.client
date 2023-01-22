@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Media.Animation;
+using System.Windows.Media;
 using System.Windows.Threading;
 using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.PiShock;
 using GoodVibes.Client.PiShock.Enums;
 using GoodVibes.Client.PiShock.EventCarriers;
 using GoodVibes.Client.PiShock.Events;
+using GoodVibes.Client.Wpf.Services.Abstractions;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
 
@@ -18,7 +19,17 @@ namespace GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule.ViewModels;
 public class PiVaultToySettingsViewModel : RegionViewModelBase
 {
     private readonly PiShockClient _piShockClient;
+    private readonly IPiVaultService _piVaultService;
     private readonly IEventAggregator _eventAggregator;
+
+    private DispatcherTimer _dispatcherTimer;
+
+    private ImageSource _logoImage;
+    public ImageSource LogoImage
+    {
+        get => _logoImage;
+        set => SetProperty(ref _logoImage, value);
+    }
 
     private string _toyId;
     public string ToyId
@@ -178,7 +189,10 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
     public string LockedSinceFormatted
     {
         get => _lockedSinceFormatted;
-        set => SetProperty(ref _lockedSinceFormatted, LockedSince.HasValue ? $"{LockedSince.Value.ToString("d", DateTimeFormatInfo.InvariantInfo)}\n{LockedSince.Value.ToString("t", DateTimeFormatInfo.InvariantInfo)}" : "");
+        set => SetProperty(ref _lockedSinceFormatted,
+            LockedSince.HasValue
+                ? $"{LockedSince.Value.ToString("d", DateTimeFormatInfo.InvariantInfo)}\n{LockedSince.Value.ToString("t", DateTimeFormatInfo.InvariantInfo)}"
+                : "");
     }
 
     private DateTime? _lockedUntil;
@@ -196,7 +210,10 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
     public string LockedUntilFormatted
     {
         get => _lockedUntilFormatted;
-        set => SetProperty(ref _lockedUntilFormatted, LockedUntil.HasValue ? $"{LockedUntil.Value.ToString("d", DateTimeFormatInfo.InvariantInfo)}\n{LockedUntil.Value.ToString("t", DateTimeFormatInfo.InvariantInfo)}" : "");
+        set => SetProperty(ref _lockedUntilFormatted,
+            LockedUntil.HasValue
+                ? $"{LockedUntil.Value.ToString("d", DateTimeFormatInfo.InvariantInfo)}\n{LockedUntil.Value.ToString("t", DateTimeFormatInfo.InvariantInfo)}"
+                : "");
     }
 
     private WeekdaysEnum[] _hygieneDays;
@@ -214,7 +231,10 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
     public string HygieneDaysFormatted
     {
         get => _hygieneDaysFormatted;
-        set => SetProperty(ref _hygieneDaysFormatted, _hygieneDays.Length > 0 ? String.Join(", ", _hygieneDays.Select(day => day.ToString().Substring(0, 3))) : "");
+        set => SetProperty(ref _hygieneDaysFormatted,
+            _hygieneDays.Length > 0
+                ? string.Join(", ", _hygieneDays.Select(day => day.ToString().Substring(0, 3)))
+                : "");
     }
 
     private int? _hygieneHour;
@@ -334,10 +354,68 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
         set => SetProperty(ref _timeGauge, value);
     }
 
-    public PiVaultToySettingsViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, PiShockClient piShockClient) : base(regionManager)
+    private DelegateCommand _unlockCommand;
+    public DelegateCommand UnlockCommand =>
+        _unlockCommand ??= new DelegateCommand(Unlock);
+
+    private DelegateCommand _clearSessionCommand;
+    public DelegateCommand ClearSessionCommand =>
+        _clearSessionCommand ??= new DelegateCommand(ClearSession);
+
+    private DelegateCommand _addMinutesToSessionCommand;
+    public DelegateCommand AddMinutesToSessionCommand =>
+        _addMinutesToSessionCommand ??= new DelegateCommand(AddMinutesToSession);
+
+    private DelegateCommand _addHoursToSessionCommand;
+    public DelegateCommand AddHoursToSessionCommand =>
+        _addHoursToSessionCommand ??= new DelegateCommand(AddHoursToSession);
+
+    private DelegateCommand _addDaysToSessionCommand;
+    public DelegateCommand AddDaysToSessionCommand =>
+        _addDaysToSessionCommand ??= new DelegateCommand(AddDaysToSession);
+
+    private DelegateCommand _removeMinutesFromSessionCommand;
+    public DelegateCommand RemoveMinutesFromSessionCommand =>
+        _removeMinutesFromSessionCommand ??= new DelegateCommand(RemoveMinutesFromSession);
+
+    private DelegateCommand _removeHoursFromSessionCommand;
+    public DelegateCommand RemoveHoursFromSessionCommand =>
+        _removeHoursFromSessionCommand ??= new DelegateCommand(RemoveHoursFromSession);
+
+    private DelegateCommand _removeDaysFromSessionCommand;
+    public DelegateCommand RemoveDaysFromSessionCommand =>
+        _removeDaysFromSessionCommand ??= new DelegateCommand(RemoveDaysFromSession);
+
+    public PiVaultToySettingsViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, 
+        PiShockClient piShockClient, IPiVaultService piVaultService) : base(regionManager)
     {
         _eventAggregator = eventAggregator;
         _piShockClient = piShockClient;
+        _piVaultService = piVaultService;
+    }
+
+    public override void OnNavigatedTo(NavigationContext navigationContext)
+    {
+        var toyId = (string)navigationContext.Parameters["toyId"];
+        GetAndSetParameters(toyId);
+
+        _eventAggregator.GetEvent<ReceivePiVaultLockBoxStatusResponseEventCarrier>().Subscribe(ReceivePiVaultLockBoxStatus);
+        _eventAggregator.GetEvent<ReceivePiVaultApiKeyPermissionsResponseEventCarrier>().Subscribe(ReceivePiVaultAPiKeyPermissions);
+
+        UpdateTimeGauge();
+        _dispatcherTimer = new DispatcherTimer();
+        _dispatcherTimer.Tick += new EventHandler(UpdateTimeGaugeTick);
+        _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+        _dispatcherTimer.Start();
+    }
+
+    public override void OnNavigatedFrom(NavigationContext navigationContext)
+    {
+        _dispatcherTimer.Stop();
+
+        _eventAggregator.GetEvent<SavePiShockCacheEventCarrier>().Publish(new SavePiShockCacheEvent());
+        _eventAggregator.GetEvent<ReceivePiVaultLockBoxStatusResponseEventCarrier>().Unsubscribe(ReceivePiVaultLockBoxStatus);
+        _eventAggregator.GetEvent<ReceivePiVaultApiKeyPermissionsResponseEventCarrier>().Unsubscribe(ReceivePiVaultAPiKeyPermissions);
     }
 
     private void ReceivePiVaultAPiKeyPermissions(ReceivePiVaultApiKeyPermissionsResponseEvent obj)
@@ -365,37 +443,12 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
 
         Application.Current.Dispatcher.Invoke((Action)delegate
         {
-            DisplayName = obj.Name;
-            Online = obj.Online;
-            KeyHoldersCount = obj.KeyHoldersCount;
-            OwnerUsername = obj.Username;
-            TimesForced = obj.TimesForced;
-            SelfLocking = obj.SelfLocking;
-            MaxMinutesOverall = obj.MaxMinutesOverall;
-            MaxMinutesSelfBondage = obj.MaxMinutesSelfBondage;
-            NormallyUnlocked = obj.NormallyUnlocked;
-            TimeZone = obj.TimeZone;
-            HygieneActive = obj.HygieneActive;
-            UsingEmlaLock = obj.UsingEmlalock;
-            UsingChaster = obj.UsingChaster;
-            CanUnlock = obj.CanUnlock;
-            LastPolled = obj.LastPolled;
-            LastUnlocked = obj.LastUnlocked;
-            LastOpened = obj.LastOpened;
-            LastClosed = obj.LastClosed;
-            LockedSince = obj.LockedSince;
-            LockedUntil = obj.LockedUntil;
-            HygieneDays = obj.HygieneSettings?.Days;
-            HygieneHour = obj.HygieneSettings?.Hours;
-            HygieneDuration = obj.HygieneSettings?.Duration;
+            GetAndSetParameters(obj.ApiKey.ToString());
         });
     }
 
-    DispatcherTimer dispatcherTimer;
-
-    public override void OnNavigatedTo(NavigationContext navigationContext)
+    private void GetAndSetParameters(string toyId)
     {
-        var toyId = (string)navigationContext.Parameters["toyId"];
         var toy = _piShockClient.Toys![toyId];
 
         if (toy == null)
@@ -434,31 +487,97 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
         PermissionSessionStart = piVault.Permissions.SessionStart;
         PermissionCanUnlock = piVault.Permissions.CanUnlock;
 
-        _eventAggregator.GetEvent<ReceivePiVaultLockBoxStatusResponseEventCarrier>().Subscribe(ReceivePiVaultLockBoxStatus);
-        _eventAggregator.GetEvent<ReceivePiVaultApiKeyPermissionsResponseEventCarrier>().Subscribe(ReceivePiVaultAPiKeyPermissions);
-
-        dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
-        dispatcherTimer.Tick += new EventHandler(UpdateTimeGauge);
-        dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
-        dispatcherTimer.Start();
+        LogoImage = _piVaultService.GetLogoIcon(UsingEmlaLock, UsingChaster, CanUnlock);
     }
 
-    public override void OnNavigatedFrom(NavigationContext navigationContext)
+    private void UpdateTimeGaugeTick(object sender, EventArgs e)
     {
-        dispatcherTimer.Stop();
-
-        _eventAggregator.GetEvent<SavePiShockCacheEventCarrier>().Publish(new SavePiShockCacheEvent());
-        _eventAggregator.GetEvent<ReceivePiVaultLockBoxStatusResponseEventCarrier>().Unsubscribe(ReceivePiVaultLockBoxStatus);
-        _eventAggregator.GetEvent<ReceivePiVaultApiKeyPermissionsResponseEventCarrier>().Unsubscribe(ReceivePiVaultAPiKeyPermissions);
+        UpdateTimeGauge();
     }
 
-    private void UpdateTimeGauge(object sender, EventArgs e)
+    private void UpdateTimeGauge()
     {
-        if (!LockedSince.HasValue || !LockedUntil.HasValue) TimeGauge = 0;
+        if (!LockedSince.HasValue || !LockedUntil.HasValue)
+        {
+            TimeGauge = 0;
+            return;
+        }
 
-        TimeSpan totalDuration = LockedUntil.Value.Subtract(LockedSince.Value);
-        TimeSpan durationLeft = LockedUntil.Value.Subtract(DateTime.Now);
+        var totalDuration = LockedUntil.Value.Subtract(LockedSince.Value);
+        var durationLeft = LockedUntil.Value.Subtract(DateTime.Now);
 
-        TimeGauge = (int)Math.Round((totalDuration.TotalSeconds - durationLeft.TotalSeconds) / totalDuration.TotalSeconds * 100 * 1.8);
+        TimeGauge = (int)Math.Round((totalDuration.TotalSeconds - durationLeft.TotalSeconds) / totalDuration.TotalSeconds * 10 * 1.8);
+    }
+
+    private void Unlock()
+    {
+        _eventAggregator.GetEvent<PiVaultCommandEventCarrier>().Publish(new PiVaultCommandEvent()
+        {
+            ApiKey = new Guid(ToyId),
+            Command = PiVaultCommandEnum.Unlock
+        });
+    }
+
+    private void ClearSession()
+    {
+        _eventAggregator.GetEvent<PiVaultCommandEventCarrier>().Publish(new PiVaultCommandEvent()
+        {
+            ApiKey = new Guid(ToyId),
+            Command = PiVaultCommandEnum.ClearSession
+        });
+    }
+
+    private void AddMinutesToSession()
+    {
+        _eventAggregator.GetEvent<PiVaultCommandEventCarrier>().Publish(new PiVaultCommandEvent()
+        {
+            ApiKey = new Guid(ToyId),
+            Command = PiVaultCommandEnum.AddMinutes
+        });
+    }
+
+    private void AddHoursToSession()
+    {
+        _eventAggregator.GetEvent<PiVaultCommandEventCarrier>().Publish(new PiVaultCommandEvent()
+        {
+            ApiKey = new Guid(ToyId),
+            Command = PiVaultCommandEnum.AddHours
+        });
+    }
+
+    private void AddDaysToSession()
+    {
+        _eventAggregator.GetEvent<PiVaultCommandEventCarrier>().Publish(new PiVaultCommandEvent()
+        {
+            ApiKey = new Guid(ToyId),
+            Command = PiVaultCommandEnum.AddDays
+        });
+    }
+
+    private void RemoveMinutesFromSession()
+    {
+        _eventAggregator.GetEvent<PiVaultCommandEventCarrier>().Publish(new PiVaultCommandEvent()
+        {
+            ApiKey = new Guid(ToyId),
+            Command = PiVaultCommandEnum.RemoveMinutes
+        });
+    }
+
+    private void RemoveHoursFromSession()
+    {
+        _eventAggregator.GetEvent<PiVaultCommandEventCarrier>().Publish(new PiVaultCommandEvent()
+        {
+            ApiKey = new Guid(ToyId),
+            Command = PiVaultCommandEnum.RemoveHours
+        });
+    }
+
+    private void RemoveDaysFromSession()
+    {
+        _eventAggregator.GetEvent<PiVaultCommandEventCarrier>().Publish(new PiVaultCommandEvent()
+        {
+            ApiKey = new Guid(ToyId),
+            Command = PiVaultCommandEnum.RemoveDays
+        });
     }
 }

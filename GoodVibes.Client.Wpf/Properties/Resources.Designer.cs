@@ -103,6 +103,16 @@ namespace GoodVibes.Client.Wpf.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap button_pivault_clear {
+            get {
+                object obj = ResourceManager.GetObject("button_pivault_clear", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap button_pivault_days_add {
             get {
                 object obj = ResourceManager.GetObject("button_pivault_days_add", resourceCulture);
@@ -163,19 +173,9 @@ namespace GoodVibes.Client.Wpf.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap chaster_logo {
+        internal static System.Drawing.Bitmap button_pivault_unlock {
             get {
-                object obj = ResourceManager.GetObject("chaster_logo", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap emlalock_logo {
-            get {
-                object obj = ResourceManager.GetObject("emlalock_logo", resourceCulture);
+                object obj = ResourceManager.GetObject("button_pivault_unlock", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -613,9 +613,9 @@ namespace GoodVibes.Client.Wpf.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap pivault_logo {
+        internal static System.Drawing.Bitmap pishock_logo_chaster {
             get {
-                object obj = ResourceManager.GetObject("pivault_logo", resourceCulture);
+                object obj = ResourceManager.GetObject("pishock_logo_chaster", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -623,9 +623,29 @@ namespace GoodVibes.Client.Wpf.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap pivault_logo_open {
+        internal static System.Drawing.Bitmap pishock_logo_emla {
             get {
-                object obj = ResourceManager.GetObject("pivault_logo_open", resourceCulture);
+                object obj = ResourceManager.GetObject("pishock_logo_emla", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pishock_logo_locked {
+            get {
+                object obj = ResourceManager.GetObject("pishock_logo_locked", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pishock_logo_unlocked {
+            get {
+                object obj = ResourceManager.GetObject("pishock_logo_unlocked", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

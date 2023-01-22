@@ -2,6 +2,7 @@
 using GoodVibes.Client.Common.Enums;
 using GoodVibes.Client.Common.Extensions;
 using GoodVibes.Client.PiShock.Cache;
+using GoodVibes.Client.PiShock.Enums;
 using GoodVibes.Client.PiShock.EventDispatchers;
 using GoodVibes.Client.PiShock.Events;
 using GoodVibes.Client.PiShock.Models;
@@ -53,7 +54,7 @@ namespace GoodVibes.Client.PiShock
                         break;
                 }
             }
-            
+
             return toysDict;
         }
 
@@ -237,6 +238,129 @@ namespace GoodVibes.Client.PiShock
             if (toy is Models.PiShock shocker)
             {
                 await Connection!.InvokeAsync(PiShockCommandMethodConstants.Beep, shareCode, shocker.Duration);
+            }
+        }
+
+        public async Task UnlockPiVault(Guid apiKey)
+        {
+            if (!Connected)
+                return;
+
+            var found = Toys!.TryGetValue(apiKey.ToString(), out var toy);
+            if (!found) return;
+
+            if (toy is PiVault piVault)
+            {
+                const int seconds = 0;
+                const bool buzz = true;
+                const bool ignoreTimer = true;
+
+                await Connection!.InvokeAsync(PiShockCommandMethodConstants.UnlockPiVault, piVault.ApiKey,
+                    PiVaultUnlockModeEnum.UnlockNextPull, seconds, buzz, ignoreTimer);
+            }
+        }
+
+        public async Task ClearPiVaultSession(Guid apiKey)
+        {
+            if (!Connected)
+                return;
+
+            var found = Toys!.TryGetValue(apiKey.ToString(), out var toy);
+            if (!found) return;
+
+            if (toy is PiVault piVault)
+            {
+                await Connection!.InvokeAsync(PiShockCommandMethodConstants.ClearCurrentSession, piVault.ApiKey);
+            }
+        }
+
+        public async Task AddMinutesToPiVaultSession(Guid apiKey)
+        {
+            if (!Connected)
+                return;
+
+            var found = Toys!.TryGetValue(apiKey.ToString(), out var toy);
+            if (!found) return;
+
+            if (toy is PiVault piVault)
+            {
+                await Connection!.InvokeAsync(PiShockCommandMethodConstants.AddMinutesToSession, piVault.ApiKey,
+                    piVault.AmountToAddRemove);
+            }
+        }
+
+        public async Task AddHoursToPiVaultSession(Guid apiKey)
+        {
+            if (!Connected)
+                return;
+
+            var found = Toys!.TryGetValue(apiKey.ToString(), out var toy);
+            if (!found) return;
+
+            if (toy is PiVault piVault)
+            {
+                await Connection!.InvokeAsync(PiShockCommandMethodConstants.AddHoursToSession, piVault.ApiKey,
+                    piVault.AmountToAddRemove);
+            }
+        }
+
+        public async Task AddDaysToFromVaultSession(Guid apiKey)
+        {
+            if (!Connected)
+                return;
+
+            var found = Toys!.TryGetValue(apiKey.ToString(), out var toy);
+            if (!found) return;
+
+            if (toy is PiVault piVault)
+            {
+                await Connection!.InvokeAsync(PiShockCommandMethodConstants.AddDaysToSession, piVault.ApiKey,
+                    piVault.AmountToAddRemove);
+            }
+        }
+
+        public async Task RemoveMinutesFromPiVaultSession(Guid apiKey)
+        {
+            if (!Connected)
+                return;
+
+            var found = Toys!.TryGetValue(apiKey.ToString(), out var toy);
+            if (!found) return;
+
+            if (toy is PiVault piVault)
+            {
+                await Connection!.InvokeAsync(PiShockCommandMethodConstants.RetractMinutesFromSession, piVault.ApiKey,
+                    piVault.AmountToAddRemove);
+            }
+        }
+
+        public async Task RemoveHoursFromPiVaultSession(Guid apiKey)
+        {
+            if (!Connected)
+                return;
+
+            var found = Toys!.TryGetValue(apiKey.ToString(), out var toy);
+            if (!found) return;
+
+            if (toy is PiVault piVault)
+            {
+                await Connection!.InvokeAsync(PiShockCommandMethodConstants.RetractHoursFromSession, piVault.ApiKey,
+                    piVault.AmountToAddRemove);
+            }
+        }
+
+        public async Task RemoveDaysFromPiVaultSession(Guid apiKey)
+        {
+            if (!Connected)
+                return;
+
+            var found = Toys!.TryGetValue(apiKey.ToString(), out var toy);
+            if (!found) return;
+
+            if (toy is PiVault piVault)
+            {
+                await Connection!.InvokeAsync(PiShockCommandMethodConstants.RetractDaysFromSession, piVault.ApiKey,
+                    piVault.AmountToAddRemove);
             }
         }
 
@@ -429,7 +553,7 @@ namespace GoodVibes.Client.PiShock
 
             Console.WriteLine("PiShock - HealthCheck Task is starting");
             await GetPiShockToyInformation();
-            var timer = new PeriodicTimer(TimeSpan.FromSeconds(30));
+            var timer = new PeriodicTimer(TimeSpan.FromMinutes(1));
 
             while (await timer.WaitForNextTickAsync())
             {

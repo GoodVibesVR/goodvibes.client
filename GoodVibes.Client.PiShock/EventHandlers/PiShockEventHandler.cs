@@ -29,6 +29,7 @@ namespace GoodVibes.Client.PiShock.EventHandlers
             _eventAggregator.GetEvent<PiShockSettingsIntensityChangedEventCarrier>().Subscribe(PiShockSettingsIntensityChangedEventHandler);
             _eventAggregator.GetEvent<SavePiShockCacheEventCarrier>().Subscribe(PiShockSaveCacheEventHandler);
             _eventAggregator.GetEvent<GetPiVaultApiKeyPermissionsEventCarrier>().Subscribe(GetPiVaultApiKeyPermissionsEventHandler);
+            _eventAggregator.GetEvent<PiVaultCommandEventCarrier>().Subscribe(PiVaultCommandReceived);
         }
 
         public void Unsubscribe()
@@ -44,6 +45,43 @@ namespace GoodVibes.Client.PiShock.EventHandlers
             _eventAggregator.GetEvent<PiShockSettingsIntensityChangedEventCarrier>().Unsubscribe(PiShockSettingsIntensityChangedEventHandler);
             _eventAggregator.GetEvent<SavePiShockCacheEventCarrier>().Unsubscribe(PiShockSaveCacheEventHandler);
             _eventAggregator.GetEvent<GetPiVaultApiKeyPermissionsEventCarrier>().Unsubscribe(GetPiVaultApiKeyPermissionsEventHandler);
+            _eventAggregator.GetEvent<PiVaultCommandEventCarrier>().Unsubscribe(PiVaultCommandReceived);
+        }
+
+        private void PiVaultCommandReceived(PiVaultCommandEvent obj)
+        {
+            Console.WriteLine($"PIVault command received: {obj.Command.ToString()}");
+
+            switch (obj.Command)
+            {
+                case PiVaultCommandEnum.Unlock:
+                    Task.Run(() => _piShockClient.UnlockPiVault(obj.ApiKey));
+                    break;
+                case PiVaultCommandEnum.ClearSession:
+                    Task.Run(() => _piShockClient.ClearPiVaultSession(obj.ApiKey));
+                    break;
+                case PiVaultCommandEnum.AddMinutes:
+                    Task.Run(() => _piShockClient.AddMinutesToPiVaultSession(obj.ApiKey));
+                    break;
+                case PiVaultCommandEnum.AddHours:
+                    Task.Run(() => _piShockClient.AddHoursToPiVaultSession(obj.ApiKey));
+                    break;
+                case PiVaultCommandEnum.AddDays:
+                    Task.Run(() => _piShockClient.AddDaysToFromVaultSession(obj.ApiKey));
+                    break;
+                case PiVaultCommandEnum.RemoveMinutes:
+                    Task.Run(() => _piShockClient.RemoveMinutesFromPiVaultSession(obj.ApiKey));
+                    break;
+                case PiVaultCommandEnum.RemoveHours:
+                    Task.Run(() => _piShockClient.RemoveHoursFromPiVaultSession(obj.ApiKey));
+                    break;
+                case PiVaultCommandEnum.RemoveDays:
+                    Task.Run(() => _piShockClient.RemoveDaysFromPiVaultSession(obj.ApiKey));
+                    break;
+                case PiVaultCommandEnum.Unknown:
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private void PiShockCommandReceived(PiShockCommandEvent obj)
