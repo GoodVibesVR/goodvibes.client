@@ -139,7 +139,7 @@ public class AddPiVaultViewModel : RegionViewModelBase
                 OnApiKeyChangedHandler();
             }
 
-            SetProperty(ref _apiKey, value);
+            SetProperty(ref _apiKey, value.Trim());
         }
     }
 
