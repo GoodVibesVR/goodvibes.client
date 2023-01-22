@@ -334,6 +334,7 @@ namespace GoodVibes.Client.PiShock
             piVault.MaxMinutesSelfBondage = piVaultStatusResponseEvent.MaxMinutesSelfBondage;
             piVault.NormallyUnlocked = piVaultStatusResponseEvent.NormallyUnlocked;
             piVault.TimeZone = piVaultStatusResponseEvent.TimeZone;
+            piVault.TimeZoneOffset = piVaultStatusResponseEvent.TzOffset;
             piVault.HygieneActive = piVaultStatusResponseEvent.HygieneActive;
             piVault.UsingEmlalock = piVaultStatusResponseEvent.UsingEmlalock;
             piVault.UsingChaster = piVaultStatusResponseEvent.UsingChaster;

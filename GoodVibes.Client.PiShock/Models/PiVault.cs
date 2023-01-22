@@ -32,6 +32,8 @@ public class PiVault : PiShockToy
 
     public string? TimeZone { get; set; }
 
+    public int TimeZoneOffset { get; set; }
+
     public bool HygieneActive { get; set; }
 
     public bool UsingEmlalock { get; set; }

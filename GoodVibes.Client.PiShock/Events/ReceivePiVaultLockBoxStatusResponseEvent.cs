@@ -48,7 +48,10 @@ public class ReceivePiVaultLockBoxStatusResponseEvent : IEvent
     
     [JsonProperty("timezone")]
     public string? TimeZone { get; set; }
-    
+
+    [JsonProperty("tzOffset")]
+    public int TzOffset { get; set; }
+
     [JsonProperty("hygieneActive")]
     public bool HygieneActive { get; set; }
     

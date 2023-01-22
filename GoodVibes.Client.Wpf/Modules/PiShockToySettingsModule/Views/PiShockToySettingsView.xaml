@@ -24,11 +24,11 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <!--<Setter Property="Background" Value="Yellow" />-->
-                    <Setter Property="BorderBrush" Value="Yellow" />
+                    <!--<Setter Property="Background" Value="#f4d600" />-->
+                    <Setter Property="BorderBrush" Value="#f4d600" />
                 </Trigger>
                 <Trigger Property="IsMouseCaptureWithin" Value="True">
-                    <Setter Property="Background" Value="Yellow" />
+                    <Setter Property="Background" Value="#f4d600" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -38,7 +38,7 @@
 
                 <Canvas Margin="0" Width="240" Height="120">
                     <Grid Width="210" Height="210" VerticalAlignment="Bottom" Margin="16">
-                        <Ellipse Stroke="#373737" StrokeThickness="20" Width="210" Height="210" >
+                        <Ellipse Stroke="#1e1e1e" StrokeThickness="20" Width="210" Height="210" >
                             <Ellipse.Clip>
                                 <RectangleGeometry Rect="0,0,210,104" />
                             </Ellipse.Clip>
@@ -57,7 +57,7 @@
 
                         <Ellipse StrokeThickness="10" Width="200" Height="200" >
                             <Ellipse.Stroke>
-                                <SolidColorBrush Opacity="0.8" Color="Yellow" />
+                                <SolidColorBrush Opacity="0.8" Color="#f4d600" />
                             </Ellipse.Stroke>
                             <Ellipse.Clip>
                                 <RectangleGeometry Rect="0,0,200,99" />
@@ -74,7 +74,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RepeatButton">
-                        <Border SnapsToDevicePixels="True" Background="Yellow" BorderThickness="0" BorderBrush="White" Height="3"/>
+                        <Border SnapsToDevicePixels="True" Background="#f4d600" BorderThickness="0" BorderBrush="White" Height="3"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -104,7 +104,7 @@
                         <Ellipse x:Name="Ellipse" Height="10" Width="10" Fill="White"></Ellipse>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="true">
-                                <Setter TargetName="Ellipse" Property="Fill" Value="Yellow"></Setter>
+                                <Setter TargetName="Ellipse" Property="Fill" Value="#f4d600"></Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
