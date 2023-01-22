@@ -506,7 +506,7 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
         var totalDuration = LockedUntil.Value.Subtract(LockedSince.Value);
         var durationLeft = LockedUntil.Value.Subtract(DateTime.Now);
 
-        TimeGauge = (int)Math.Round((totalDuration.TotalSeconds - durationLeft.TotalSeconds) / totalDuration.TotalSeconds * 10 * 1.8);
+        TimeGauge = (int)Math.Round((totalDuration.TotalSeconds - durationLeft.TotalSeconds) / totalDuration.TotalSeconds * 100 * 1.8);
     }
 
     private void Unlock()
