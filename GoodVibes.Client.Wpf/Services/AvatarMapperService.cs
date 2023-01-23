@@ -143,6 +143,73 @@ public class AvatarMapperService : IAvatarMapperService
                     Type = piShock.GetType().Name
                 });
             }
+
+            if (piShockToy is PiShock.Models.PiVault piVault)
+            {
+                toyFunctions.Add(new ToyFunctionViewModel()
+                {
+                    Name = piVault.Name,
+                    Function = PiVaultCommandEnum.Unlock.ToString(),
+                    ToyId = piVault.ApiKey.ToString(),
+                    Type = piVault.GetType().Name
+                });
+                toyFunctions.Add(new ToyFunctionViewModel()
+                {
+                    Name = piVault.Name,
+                    Function = PiVaultCommandEnum.ClearSession.ToString(),
+                    ToyId = piVault.ApiKey.ToString(),
+                    Type = piVault.GetType().Name
+                });
+                toyFunctions.Add(new ToyFunctionViewModel()
+                {
+                    Name = piVault.Name,
+                    Function = PiVaultCommandEnum.AddMinutes.ToString(),
+                    ToyId = piVault.ApiKey.ToString(),
+                    Type = piVault.GetType().Name
+                });
+                toyFunctions.Add(new ToyFunctionViewModel()
+                {
+                    Name = piVault.Name,
+                    Function = PiVaultCommandEnum.AddHours.ToString(),
+                    ToyId = piVault.ApiKey.ToString(),
+                    Type = piVault.GetType().Name
+                });
+                toyFunctions.Add(new ToyFunctionViewModel()
+                {
+                    Name = piVault.Name,
+                    Function = PiVaultCommandEnum.AddDays.ToString(),
+                    ToyId = piVault.ApiKey.ToString(),
+                    Type = piVault.GetType().Name
+                });
+                toyFunctions.Add(new ToyFunctionViewModel()
+                {
+                    Name = piVault.Name,
+                    Function = PiVaultCommandEnum.RemoveMinutes.ToString(),
+                    ToyId = piVault.ApiKey.ToString(),
+                    Type = piVault.GetType().Name
+                });
+                toyFunctions.Add(new ToyFunctionViewModel()
+                {
+                    Name = piVault.Name,
+                    Function = PiVaultCommandEnum.RemoveHours.ToString(),
+                    ToyId = piVault.ApiKey.ToString(),
+                    Type = piVault.GetType().Name
+                });
+                toyFunctions.Add(new ToyFunctionViewModel()
+                {
+                    Name = piVault.Name,
+                    Function = PiVaultCommandEnum.RemoveDays.ToString(),
+                    ToyId = piVault.ApiKey.ToString(),
+                    Type = piVault.GetType().Name
+                });
+                toyFunctions.Add(new ToyFunctionViewModel()
+                {
+                    Name = piVault.Name,
+                    Function = PiVaultMappableFunctionsConstant.AmountToAddRemove,
+                    ToyId = piVault.ApiKey.ToString(),
+                    Type = piVault.GetType().Name
+                });
+            }
         }
 
         return toyFunctions;
