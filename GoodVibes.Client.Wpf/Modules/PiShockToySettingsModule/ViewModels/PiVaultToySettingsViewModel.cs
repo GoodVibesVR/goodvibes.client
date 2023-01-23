@@ -222,7 +222,7 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
         get => _hygieneDays;
         set
         {
-            SetProperty(ref _hygieneDays, value);
+            SetProperty(ref _hygieneDays, value ?? Array.Empty<WeekdaysEnum>());
             HygieneDaysFormatted = ""; // Stupid hack, can this be done any other way?
         }
     }
