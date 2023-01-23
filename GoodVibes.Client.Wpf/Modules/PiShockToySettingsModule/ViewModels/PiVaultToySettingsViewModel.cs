@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using GoodVibes.Client.Core.Mvvm;
 using GoodVibes.Client.PiShock;
@@ -23,6 +24,7 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
     private readonly IEventAggregator _eventAggregator;
 
     private DispatcherTimer _dispatcherTimer;
+    private bool _eventLocked;
 
     private ImageSource _logoImage;
     public ImageSource LogoImage
@@ -191,7 +193,7 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
         get => _lockedSinceFormatted;
         set => SetProperty(ref _lockedSinceFormatted,
             LockedSince.HasValue
-                ? $"{LockedSince.Value.ToString("d", DateTimeFormatInfo.InvariantInfo)}\n{LockedSince.Value.ToString("t", DateTimeFormatInfo.InvariantInfo)}"
+                ? $"{LockedSince.Value:d}\n{LockedSince.Value:t}"
                 : "");
     }
 
@@ -210,10 +212,7 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
     public string LockedUntilFormatted
     {
         get => _lockedUntilFormatted;
-        set => SetProperty(ref _lockedUntilFormatted,
-            LockedUntil.HasValue
-                ? $"{LockedUntil.Value.ToString("d", DateTimeFormatInfo.InvariantInfo)}\n{LockedUntil.Value.ToString("t", DateTimeFormatInfo.InvariantInfo)}"
-                : "");
+        set => SetProperty(ref _lockedUntilFormatted, LockedUntil.HasValue ? $"{LockedUntil.Value:d}\n{LockedUntil.Value:t}" : "");
     }
 
     private WeekdaysEnum[] _hygieneDays;
@@ -222,7 +221,7 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
         get => _hygieneDays;
         set
         {
-            SetProperty(ref _hygieneDays, value ?? Array.Empty<WeekdaysEnum>());
+            SetProperty(ref _hygieneDays, value ?? new WeekdaysEnum[0]);
             HygieneDaysFormatted = ""; // Stupid hack, can this be done any other way?
         }
     }
@@ -276,8 +275,8 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
         get => _hygieneTimeFormatted;
         set
         {
-            DateTime dt = new DateTime(1970, 1, 1, HygieneHour.GetValueOrDefault(0), HygieneMinute.GetValueOrDefault(0), 0, DateTimeKind.Utc);
-            DateTime future = dt.AddMinutes(HygieneDuration.GetValueOrDefault(0)); ;
+            var dt = new DateTime(1970, 1, 1, HygieneHour.GetValueOrDefault(0), HygieneMinute.GetValueOrDefault(0), 0, DateTimeKind.Utc);
+            var future = dt.AddMinutes(HygieneDuration.GetValueOrDefault(0));
             SetProperty(ref _hygieneTimeFormatted, $"{dt.ToShortTimeString()} - {future.ToShortTimeString()}");
         }
     }
@@ -315,35 +314,58 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
     public bool PermissionCanUnlock
     {
         get => _permissionCanUnlock;
-        set => SetProperty(ref _permissionCanUnlock, value);
+        set
+        {
+            SetProperty(ref _permissionCanUnlock, value);
+            PermissionClearSession = value;
+            ClearSessionOpacity = PermissionClearSession ? 1 : (float)0.2;
+            UnlockOpacity = value ? 1 : (float)0.2;
+        }
     }
 
-    private int _timeAddSub = 1;
-    public int TimeAddSub
+    private int _amountToAddOrRemove;
+    public int AmountToAddOrRemove
     {
-        get => _timeAddSub;
-        set => SetProperty(ref _timeAddSub, value);
-    }
-
-    private bool _buzz = true;
-    public bool Buzz
-    {
-        get => _buzz;
-        set => SetProperty(ref _buzz, value);
+        get => _amountToAddOrRemove;
+        set
+        {
+            SetAmountToAddOrRemove(value);
+            SetProperty(ref _amountToAddOrRemove, value);
+        }
     }
 
     private bool _permissionTimeChange;
     public bool PermissionTimeChange
     {
         get => _permissionTimeChange;
-        set => SetProperty(ref _permissionTimeChange, !_usingChaster && !_usingEmlaLock && PermissionAllowTimeChange);
+        set
+        {
+            var perm = !_usingChaster && !_usingEmlaLock && PermissionAllowTimeChange;
+            SetProperty(ref _permissionTimeChange, perm);
+            AddOpacity = perm ? 1 : (float)0.2;
+        }
     }
 
     private bool _permissionTimeReduction;
     public bool PermissionTimeReduction
     {
-        get => _permissionTimeChange;
-        set => SetProperty(ref _permissionTimeReduction, !_usingChaster && !_usingEmlaLock && PermissionsAllowTimeReduction);
+        get => _permissionTimeReduction;
+        set
+        {
+            var perm = !_usingChaster && !_usingEmlaLock && PermissionsAllowTimeReduction;
+            SetProperty(ref _permissionTimeReduction, perm);
+            RemoveOpacity = perm ? 1 : (float)0.2;
+        }
+    }
+
+    private bool _permissionClearSession;
+
+    public bool PermissionClearSession
+    {
+        get => _permissionClearSession;
+        set => SetProperty(ref _permissionClearSession,
+            !UsingEmlaLock && !UsingChaster && PermissionAllowTimeChange && PermissionsAllowTimeReduction &&
+            PermissionCanUnlock && PermissionSessionStart);
     }
 
     private int _timeGauge;
@@ -352,6 +374,34 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
     {
         get => _timeGauge;
         set => SetProperty(ref _timeGauge, value);
+    }
+
+    private float _unlockOpacity;
+    public float UnlockOpacity
+    {
+        get => _unlockOpacity;
+        set => SetProperty(ref _unlockOpacity, value);
+    }
+
+    private float _clearSessionOpacity;
+    public float ClearSessionOpacity
+    {
+        get => _clearSessionOpacity;
+        set => SetProperty(ref _clearSessionOpacity, value);
+    }
+
+    private float _addOpacity;
+    public float AddOpacity
+    {
+        get => _addOpacity;
+        set => SetProperty(ref _addOpacity, value);
+    }
+
+    private float _removeOpacity;
+    public float RemoveOpacity
+    {
+        get => _removeOpacity;
+        set => SetProperty(ref _removeOpacity, value);
     }
 
     private DelegateCommand _unlockCommand;
@@ -386,7 +436,7 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
     public DelegateCommand RemoveDaysFromSessionCommand =>
         _removeDaysFromSessionCommand ??= new DelegateCommand(RemoveDaysFromSession);
 
-    public PiVaultToySettingsViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, 
+    public PiVaultToySettingsViewModel(IRegionManager regionManager, IEventAggregator eventAggregator,
         PiShockClient piShockClient, IPiVaultService piVaultService) : base(regionManager)
     {
         _eventAggregator = eventAggregator;
@@ -401,6 +451,7 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
 
         _eventAggregator.GetEvent<ReceivePiVaultLockBoxStatusResponseEventCarrier>().Subscribe(ReceivePiVaultLockBoxStatus);
         _eventAggregator.GetEvent<ReceivePiVaultApiKeyPermissionsResponseEventCarrier>().Subscribe(ReceivePiVaultAPiKeyPermissions);
+        _eventAggregator.GetEvent<PiVaultAmountToAddOrRemoveChangedEventCarrier>().Subscribe(PiVaultAmountToAddOrRemoveEventHandler);
 
         UpdateTimeGauge();
         _dispatcherTimer = new DispatcherTimer();
@@ -481,11 +532,16 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
         LockedUntil = piVault.LockedUntil;
         HygieneDays = piVault.HygieneSettings?.Days;
         HygieneHour = piVault.HygieneSettings?.Hours;
+        HygieneMinute = piVault.HygieneSettings?.Minutes;
         HygieneDuration = piVault.HygieneSettings?.Duration;
         PermissionAllowTimeChange = piVault.Permissions.AllowTimeChange;
         PermissionsAllowTimeReduction = piVault.Permissions.AllowTimeReduction;
         PermissionSessionStart = piVault.Permissions.SessionStart;
         PermissionCanUnlock = piVault.Permissions.CanUnlock;
+
+        _eventLocked = true;
+        AmountToAddOrRemove = piVault.AmountToAddRemove;
+        _eventLocked = false;
 
         LogoImage = _piVaultService.GetLogoIcon(UsingEmlaLock, UsingChaster, CanUnlock);
     }
@@ -579,5 +635,28 @@ public class PiVaultToySettingsViewModel : RegionViewModelBase
             ApiKey = new Guid(ToyId),
             Command = PiVaultCommandEnum.RemoveDays
         });
+    }
+
+    private void PiVaultAmountToAddOrRemoveEventHandler(PiVaultAmountToAddOrRemoveChangedEvent obj)
+    {
+        if (ToyId != obj.ApiKey.ToString()) return;
+
+        Application.Current.Dispatcher.Invoke((Action)delegate
+        {
+            _eventLocked = true;
+            AmountToAddOrRemove = obj.Amount;
+            _eventLocked = false;
+        });
+    }
+
+    private void SetAmountToAddOrRemove(int value)
+    {
+        if (_eventLocked) return;
+        _eventAggregator.GetEvent<PiVaultAmountToAddOrRemoveChangedEventCarrier>().Publish(new PiVaultAmountToAddOrRemoveChangedEvent()
+        {
+            ApiKey = new Guid(ToyId),
+            Amount = value
+        });
+
     }
 }

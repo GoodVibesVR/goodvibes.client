@@ -282,10 +282,10 @@
                                 <ColumnDefinition Width="1*" />
                                 <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
-                            <Grid Grid.Column="0" Margin="2">
+                            <Grid Grid.Column="0" Margin="2, 7, 2, 2">
                                 <Button Style="{DynamicResource PiShockTriggerButton }"
-                                        Command="{ Binding UnlockCommand }" IsEnabled="{Binding Path=PermissionTimeChange}">
-                                    <Rectangle Width="42" Height="42">
+                                        Command="{ Binding UnlockCommand }" IsEnabled="{Binding Path=PermissionCanUnlock}">
+                                    <Rectangle Width="42" Height="42" Opacity="{Binding UnlockOpacity}">
                                         <Rectangle.Fill>
                                             <ImageBrush ImageSource="/GoodVibes;component/Resources/button_pivault_unlock.png"/>
                                         </Rectangle.Fill>
@@ -294,8 +294,8 @@
                             </Grid>
                             <Grid Grid.Column="1" Margin="2">
                                 <Button Style="{DynamicResource PiShockTriggerButton }"
-                                        Command="{ Binding ClearSessionCommand }" IsEnabled="{Binding Path=PermissionTimeChange}">
-                                    <Rectangle Width="42" Height="42">
+                                        Command="{ Binding ClearSessionCommand }" IsEnabled="{Binding Path=PermissionClearSession}">
+                                    <Rectangle Width="42" Height="42" Opacity="{Binding ClearSessionOpacity}">
                                         <Rectangle.Fill>
                                             <ImageBrush ImageSource="/GoodVibes;component/Resources/button_pivault_clear.png"/>
                                         </Rectangle.Fill>
@@ -323,11 +323,11 @@
                                         VerticalAlignment="Center" 
                                         Width="100" 
                                         Margin="5,0,5,0" 
-                                        Value="{Binding Path=TimeAddSub}"
+                                        Value="{Binding Path=AmountToAddOrRemove}"
                                         TickPlacement="BottomRight"
                                         IsSnapToTickEnabled="True"
                                         TickFrequency="1" SmallChange="1" AutoToolTipPlacement="TopLeft"/>
-                            <TextBlock Text="{Binding Path=TimeAddSub}"
+                            <TextBlock Text="{Binding Path=AmountToAddOrRemove}"
                                            Foreground="White"
                                            HorizontalAlignment="Center"
                                            FontWeight="SemiBold"
@@ -350,7 +350,7 @@
                             <Grid Grid.Column="0" Margin="2">
                                 <Button Style="{DynamicResource PiShockTriggerButton }"
                                         Command="{ Binding AddMinutesToSessionCommand }" IsEnabled="{Binding Path=PermissionTimeChange}">
-                                    <Rectangle Width="42" Height="42">
+                                    <Rectangle Width="42" Height="42" Opacity="{Binding AddOpacity}">
                                         <Rectangle.Fill>
                                             <ImageBrush ImageSource="/GoodVibes;component/Resources/button_pivault_minutes_add.png"/>
                                         </Rectangle.Fill>
@@ -360,7 +360,7 @@
                             <Grid Grid.Column="1" Margin="2">
                                 <Button Style="{DynamicResource PiShockTriggerButton }"
                                         Command="{ Binding AddHoursToSessionCommand }" IsEnabled="{Binding Path=PermissionTimeChange}">
-                                    <Rectangle Width="42" Height="42">
+                                    <Rectangle Width="42" Height="42" Opacity="{Binding AddOpacity}">
                                         <Rectangle.Fill>
                                             <ImageBrush ImageSource="/GoodVibes;component/Resources/button_pivault_hours_add.png"/>
                                         </Rectangle.Fill>
@@ -370,7 +370,7 @@
                             <Grid Grid.Column="2" Margin="2">
                                 <Button Style="{DynamicResource PiShockTriggerButton }"
                                         Command="{ Binding AddDaysToSessionCommand }" IsEnabled="{Binding Path=PermissionTimeChange}">
-                                    <Rectangle Width="42" Height="42">
+                                    <Rectangle Width="42" Height="42" Opacity="{Binding AddOpacity}">
                                         <Rectangle.Fill>
                                             <ImageBrush ImageSource="/GoodVibes;component/Resources/button_pivault_days_add.png"/>
                                         </Rectangle.Fill>
@@ -380,7 +380,7 @@
                             <Grid Grid.Column="3" Margin="2">
                                 <Button Style="{DynamicResource PiShockTriggerButton }"
                                         Command="{ Binding RemoveDaysFromSessionCommand }" IsEnabled="{Binding Path=PermissionTimeReduction}">
-                                    <Rectangle Width="42" Height="42">
+                                    <Rectangle Width="42" Height="42" Opacity="{Binding RemoveOpacity}">
                                         <Rectangle.Fill>
                                             <ImageBrush ImageSource="/GoodVibes;component/Resources/button_pivault_days_remove.png"/>
                                         </Rectangle.Fill>
@@ -390,7 +390,7 @@
                             <Grid Grid.Column="4" Margin="2">
                                 <Button Style="{DynamicResource PiShockTriggerButton }"
                                         Command="{ Binding RemoveHoursFromSessionCommand }" IsEnabled="{Binding Path=PermissionTimeReduction}">
-                                    <Rectangle Width="42" Height="42">
+                                    <Rectangle Width="42" Height="42" Opacity="{Binding RemoveOpacity}">
                                         <Rectangle.Fill>
                                             <ImageBrush ImageSource="/GoodVibes;component/Resources/button_pivault_hours_remove.png"/>
                                         </Rectangle.Fill>
@@ -400,7 +400,7 @@
                             <Grid Grid.Column="5" Margin="2">
                                 <Button Style="{DynamicResource PiShockTriggerButton }"
                                         Command="{ Binding RemoveMinutesFromSessionCommand }" IsEnabled="{Binding Path=PermissionTimeReduction}">
-                                    <Rectangle Width="42" Height="42">
+                                    <Rectangle Width="42" Height="42" Opacity="{Binding RemoveOpacity}">
                                         <Rectangle.Fill>
                                             <ImageBrush ImageSource="/GoodVibes;component/Resources/button_pivault_minutes_remove.png"/>
                                         </Rectangle.Fill>

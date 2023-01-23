@@ -364,6 +364,19 @@ namespace GoodVibes.Client.PiShock
             }
         }
 
+        public Task ChangeAmountToAddOrRemove(Guid apiKey, int value)
+        {
+            var found = Toys!.TryGetValue(apiKey.ToString(), out var toy);
+            if (!found) return Task.CompletedTask;
+
+            if (toy is PiVault piVault)
+            {
+                piVault.AmountToAddRemove = value;
+            }
+
+            return Task.CompletedTask;
+        }
+
         private void ReceiveConnectionAcknowledgedHandler(string messageStr)
         {
             _piShockEventDispatcher.Dispatch(new PiShockConnectionAckEvent());

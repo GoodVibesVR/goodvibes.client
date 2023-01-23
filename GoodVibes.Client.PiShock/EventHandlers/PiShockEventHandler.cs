@@ -30,6 +30,7 @@ namespace GoodVibes.Client.PiShock.EventHandlers
             _eventAggregator.GetEvent<SavePiShockCacheEventCarrier>().Subscribe(PiShockSaveCacheEventHandler);
             _eventAggregator.GetEvent<GetPiVaultApiKeyPermissionsEventCarrier>().Subscribe(GetPiVaultApiKeyPermissionsEventHandler);
             _eventAggregator.GetEvent<PiVaultCommandEventCarrier>().Subscribe(PiVaultCommandReceived);
+            _eventAggregator.GetEvent<PiVaultAmountToAddOrRemoveChangedEventCarrier>().Subscribe(PiVaultAmountToAddOrRemoveEventHandler);
         }
 
         public void Unsubscribe()
@@ -46,6 +47,7 @@ namespace GoodVibes.Client.PiShock.EventHandlers
             _eventAggregator.GetEvent<SavePiShockCacheEventCarrier>().Unsubscribe(PiShockSaveCacheEventHandler);
             _eventAggregator.GetEvent<GetPiVaultApiKeyPermissionsEventCarrier>().Unsubscribe(GetPiVaultApiKeyPermissionsEventHandler);
             _eventAggregator.GetEvent<PiVaultCommandEventCarrier>().Unsubscribe(PiVaultCommandReceived);
+            _eventAggregator.GetEvent<PiVaultAmountToAddOrRemoveChangedEventCarrier>().Unsubscribe(PiVaultAmountToAddOrRemoveEventHandler);
         }
 
         private void PiVaultCommandReceived(PiVaultCommandEvent obj)
@@ -157,6 +159,11 @@ namespace GoodVibes.Client.PiShock.EventHandlers
         private void GetPiVaultApiKeyPermissionsEventHandler(GetPiVaultApiKeyPermissionsEvent obj)
         {
             Task.Run(() => _piShockClient.GetApiKeyPermissions(obj.ApiKey));
+        }
+
+        private void PiVaultAmountToAddOrRemoveEventHandler(PiVaultAmountToAddOrRemoveChangedEvent obj)
+        {
+            Task.Run(() => _piShockClient.ChangeAmountToAddOrRemove(obj.ApiKey, obj.Amount));
         }
     }
 }
