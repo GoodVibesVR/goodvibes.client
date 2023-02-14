@@ -9,5 +9,12 @@
   "OscSettings": {
     "ServerPort": 9001,
     "ClientPort": 9000
-  }
+  },
+  "SerialSettings": {
+    "BaudRate": 115200,
+    "DeviceIds": [
+      "4292:60000",
+      "6790:21972"
+    ]
+  } 
 }

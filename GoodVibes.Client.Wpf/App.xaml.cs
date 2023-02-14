@@ -15,6 +15,7 @@ using GoodVibes.Client.PiShock;
 using GoodVibes.Client.PiShock.Cache;
 using GoodVibes.Client.PiShock.EventDispatchers;
 using GoodVibes.Client.PiShock.EventHandlers;
+using GoodVibes.Client.Serial;
 using GoodVibes.Client.Settings;
 using GoodVibes.Client.Settings.Enums;
 using GoodVibes.Client.Settings.Models;
@@ -90,6 +91,7 @@ namespace GoodVibes.Client.Wpf
 
             // General GoodVibes
             containerRegistry.RegisterSingleton<OscServer>();
+            containerRegistry.RegisterSingleton<SerialClient>();
             containerRegistry.RegisterSingleton<AvatarMapperClient>();
         }
 

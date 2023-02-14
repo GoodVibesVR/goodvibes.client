@@ -8,6 +8,7 @@ using GoodVibes.Client.Lovense.Events;
 using GoodVibes.Client.Osc;
 using GoodVibes.Client.PiShock.EventCarriers;
 using GoodVibes.Client.PiShock.Events;
+using GoodVibes.Client.Serial;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
@@ -20,6 +21,7 @@ namespace GoodVibes.Client.Wpf.Modules.DashboardModule.ViewModels
         private readonly IEventAggregator _eventAggregator;
 
         private readonly LovenseClient _lovenseClient;
+        private readonly SerialClient _serialClient;
         private readonly OscServer _oscServer;
 
         private bool _lovenseConnected;
@@ -48,13 +50,15 @@ namespace GoodVibes.Client.Wpf.Modules.DashboardModule.ViewModels
         public DelegateCommand ConnectToOscCommand =>
             _connectToOscCommand ??= new DelegateCommand(ConnectToOsc);
 
-        public DashboardViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, LovenseClient lovenseClient, OscServer oscServer) :
+        public DashboardViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, 
+            LovenseClient lovenseClient, SerialClient serialClient, OscServer oscServer) :
             base(regionManager)
         {
             _regionManager = regionManager;
             _eventAggregator = eventAggregator;
 
             _lovenseClient = lovenseClient;
+            _serialClient = serialClient;
             _oscServer = oscServer;
             _oscServer.ConnectAsync();
 

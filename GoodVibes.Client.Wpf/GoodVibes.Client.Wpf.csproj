@@ -86,6 +86,7 @@
 		<ProjectReference Include="..\GoodVibes.Client.Lovense\GoodVibes.Client.Lovense.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.Osc\GoodVibes.Client.Osc.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.PiShock\GoodVibes.Client.PiShock.csproj" />
+		<ProjectReference Include="..\GoodVibes.Client.Serial\GoodVibes.Client.Serial.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.Settings\GoodVibes.Client.Settings.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.SignalR\GoodVibes.Client.SignalR.csproj" />
 		<ProjectReference Include="..\GoodVibes.Client.Vrchat\GoodVibes.Client.Vrchat.csproj" />

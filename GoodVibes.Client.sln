@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodVibes.Client.PiShock", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodVibes.Client.Common", "GoodVibes.Client.Common\GoodVibes.Client.Common.csproj", "{33C3DAE5-ADB4-4B54-8816-FB52B5945C78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodVibes.Client.Cache", "GoodVibes.Client.Cache\GoodVibes.Client.Cache.csproj", "{A60093F4-BA5A-43D6-B639-D763586160A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodVibes.Client.Cache", "GoodVibes.Client.Cache\GoodVibes.Client.Cache.csproj", "{A60093F4-BA5A-43D6-B639-D763586160A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodVibes.Client.Serial", "GoodVibes.Client.Serial\GoodVibes.Client.Serial.csproj", "{B7EA9DBC-23DA-4F4D-8A16-BB2973AFF1C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +89,10 @@ Global
 		{A60093F4-BA5A-43D6-B639-D763586160A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A60093F4-BA5A-43D6-B639-D763586160A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A60093F4-BA5A-43D6-B639-D763586160A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7EA9DBC-23DA-4F4D-8A16-BB2973AFF1C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7EA9DBC-23DA-4F4D-8A16-BB2973AFF1C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7EA9DBC-23DA-4F4D-8A16-BB2973AFF1C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7EA9DBC-23DA-4F4D-8A16-BB2973AFF1C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
