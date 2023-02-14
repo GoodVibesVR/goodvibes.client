@@ -82,7 +82,7 @@ public class SerialClient
     private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
     {
         var data = serialPort.ReadLine();
-        var correctJson = data.TryParseJson<PiShockCommandCallback>(out var correctData);
+        var correctJson = data.TryParseJson<PiShockSerialCallback>(out var correctData);
         if (correctJson)
         {
             if (correctData.Commands.Any())
