@@ -82,8 +82,14 @@ public class SerialClient
         _serialPort.StopBits = StopBits.One;
         _serialPort.ReadBufferSize = 20000000;
         _serialPort.DataReceived += SerialPort_DataReceived;
+        _serialPort.ErrorReceived += _serialPort_ErrorReceived;
 
         _serialPort.Open();
+    }
+
+    private void _serialPort_ErrorReceived(object sender, SerialErrorReceivedEventArgs e)
+    {
+        // TODO: At this point dispose and reinitialize?
     }
 
     private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
