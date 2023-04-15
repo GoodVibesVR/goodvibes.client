@@ -130,6 +130,30 @@
   <data name="button_pishock_vibrate" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\button_pishock_vibrate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="button_pivault_clear" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\button_pivault_clear.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="button_pivault_days_add" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\button_pivault_days_add.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="button_pivault_days_remove" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\button_pivault_days_remove.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="button_pivault_hours_add" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\button_pivault_hours_add.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="button_pivault_hours_remove" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\button_pivault_hours_remove.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="button_pivault_minutes_add" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\button_pivault_minutes_add.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="button_pivault_minutes_remove" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\button_pivault_minutes_remove.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="button_pivault_unlock" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\button_pivault_unlock.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="icon_ambi" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon_ambi.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -186,6 +210,9 @@
   </data>
   <data name="icon_osci" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon_osci.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_pishock_pivault" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_pishock_pivault.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icon_pishock_shocker" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon_pishock_shocker.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -255,5 +282,17 @@
   </data>
   <data name="pishock_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pishock_logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pishock_logo_chaster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pishock_logo_chaster.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pishock_logo_emla" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pishock_logo_emla.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pishock_logo_locked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pishock_logo_locked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pishock_logo_unlocked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pishock_logo_unlocked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

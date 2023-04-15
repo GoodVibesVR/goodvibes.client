@@ -4,8 +4,8 @@ namespace GoodVibes.Client.PiShock.Models.Abstractions
 {
     public abstract class PiShockToy
     {
-        public virtual string? FriendlyName { get; set; }
-        public virtual string? ShareCode { get; set; }
+        public abstract int Id { get; set; }
+        public abstract string? Name { get; set; }
         public abstract ToyTypeEnum ToyType { get; }
     }
 }

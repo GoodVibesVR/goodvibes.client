@@ -23,11 +23,13 @@ namespace GoodVibes.Client.Wpf.Modules.AddToyModule
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             ViewModelLocationProvider.Register<AddPiShockView, AddPiShockViewModel>();
+            ViewModelLocationProvider.Register<AddPiVaultView, AddPiVaultViewModel>();
             ViewModelLocationProvider.Register<AddLovenseView, AddLovenseViewModel>();
             ViewModelLocationProvider.Register<SelectTypeView, SelectToyTypeViewModel>();
             ViewModelLocationProvider.Register<AddToyView, AddToyViewModel>();
 
             containerRegistry.RegisterForNavigation<AddPiShockView>();
+            containerRegistry.RegisterForNavigation<AddPiVaultView>();
             containerRegistry.RegisterForNavigation<AddLovenseView>();
             containerRegistry.RegisterForNavigation<SelectTypeView>();
             containerRegistry.RegisterForNavigation<AddToyView>();

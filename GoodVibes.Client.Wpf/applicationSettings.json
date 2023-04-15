@@ -8,6 +8,6 @@
   },
   "OscSettings": {
     "ServerPort": 9001,
-    "ClientPort": 9000 
-  } 
+    "ClientPort": 9000
+  }
 }

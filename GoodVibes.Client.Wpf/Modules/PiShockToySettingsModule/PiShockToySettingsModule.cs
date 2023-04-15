@@ -21,6 +21,7 @@ namespace GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<PiShockToySettingsView>();
+            containerRegistry.RegisterForNavigation<PiVaultToySettingsView>();
         }
     }
 }

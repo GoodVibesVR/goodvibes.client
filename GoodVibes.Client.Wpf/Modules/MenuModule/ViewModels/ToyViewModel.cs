@@ -2,7 +2,6 @@
 using GoodVibes.Client.Common.Enums;
 using GoodVibes.Client.Core;
 using GoodVibes.Client.Core.Mvvm;
-using GoodVibes.Client.Lovense.Enums;
 using GoodVibes.Client.Wpf.EventCarriers;
 using GoodVibes.Client.Wpf.Events;
 using GoodVibes.Client.Wpf.Modules.LovenseToySettingsModule.Views;
@@ -63,6 +62,7 @@ namespace GoodVibes.Client.Wpf.Modules.MenuModule.ViewModels
                 ToyTypeEnum.Gravity => nameof(GravitySettingsView),
                 ToyTypeEnum.Gemini => nameof(GeminiSettingsView),
                 ToyTypeEnum.PiShock => nameof(PiShockToySettingsView),
+                ToyTypeEnum.PiVault => nameof(PiVaultToySettingsView),
                 _ => ""
             };
 

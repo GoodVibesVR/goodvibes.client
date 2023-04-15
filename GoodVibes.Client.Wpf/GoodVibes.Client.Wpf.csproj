@@ -14,6 +14,14 @@
 	  <None Remove="Resources\button_pishock_minishock.png" />
 	  <None Remove="Resources\button_pishock_shock.png" />
 	  <None Remove="Resources\button_pishock_vibrate.png" />
+	  <None Remove="Resources\button_pivault_clear.png" />
+	  <None Remove="Resources\button_pivault_days_add.png" />
+	  <None Remove="Resources\button_pivault_days_remove.png" />
+	  <None Remove="Resources\button_pivault_hours_add.png" />
+	  <None Remove="Resources\button_pivault_hours_remove.png" />
+	  <None Remove="Resources\button_pivault_minutes_add.png" />
+	  <None Remove="Resources\button_pivault_minutes_remove.png" />
+	  <None Remove="Resources\button_pivault_unlock.png" />
 	  <None Remove="Resources\icon_ambi.png" />
 	  <None Remove="Resources\icon_blast.png" />
 	  <None Remove="Resources\icon_calor.png" />
@@ -33,6 +41,7 @@
 	  <None Remove="Resources\icon_max.png" />
 	  <None Remove="Resources\icon_nora.png" />
 	  <None Remove="Resources\icon_osci.png" />
+	  <None Remove="Resources\icon_pishock_pivault.png" />
 	  <None Remove="Resources\icon_pishock_shocker.png" />
 	  <None Remove="Resources\icon_tenera.png" />
 	  <None Remove="Resources\image_ambi.png" />
@@ -56,6 +65,10 @@
 	  <None Remove="Resources\image_sexmachine.png" />
 	  <None Remove="Resources\image_terera.png" />
 	  <None Remove="Resources\pishock_logo.png" />
+	  <None Remove="Resources\pishock_logo_chaster.png" />
+	  <None Remove="Resources\pishock_logo_emla.png" />
+	  <None Remove="Resources\pishock_logo_locked.png" />
+	  <None Remove="Resources\pishock_logo_unlocked.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Content Include="GW_Logo.ico" />
@@ -82,6 +95,14 @@
 	  <Resource Include="Resources\button_pishock_minishock.png" />
 	  <Resource Include="Resources\button_pishock_shock.png" />
 	  <Resource Include="Resources\button_pishock_vibrate.png" />
+	  <Resource Include="Resources\button_pivault_clear.png" />
+	  <Resource Include="Resources\button_pivault_days_add.png" />
+	  <Resource Include="Resources\button_pivault_days_remove.png" />
+	  <Resource Include="Resources\button_pivault_hours_add.png" />
+	  <Resource Include="Resources\button_pivault_hours_remove.png" />
+	  <Resource Include="Resources\button_pivault_minutes_add.png" />
+	  <Resource Include="Resources\button_pivault_minutes_remove.png" />
+	  <Resource Include="Resources\button_pivault_unlock.png" />
 	  <Resource Include="Resources\icon_ambi.png" />
 	  <Resource Include="Resources\icon_blast.png" />
 	  <Resource Include="Resources\icon_calor.png" />
@@ -101,6 +122,7 @@
 	  <Resource Include="Resources\icon_max.png" />
 	  <Resource Include="Resources\icon_nora.png" />
 	  <Resource Include="Resources\icon_osci.png" />
+	  <Resource Include="Resources\icon_pishock_pivault.png" />
 	  <Resource Include="Resources\icon_pishock_shocker.png" />
 	  <Resource Include="Resources\icon_tenera.png" />
 	  <Resource Include="Resources\image_ambi.png" />
@@ -124,6 +146,10 @@
 	  <Resource Include="Resources\image_sexmachine.png" />
 	  <Resource Include="Resources\image_terera.png" />
 	  <Resource Include="Resources\pishock_logo.png" />
+	  <Resource Include="Resources\pishock_logo_chaster.png" />
+	  <Resource Include="Resources\pishock_logo_emla.png" />
+	  <Resource Include="Resources\pishock_logo_locked.png" />
+	  <Resource Include="Resources\pishock_logo_unlocked.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Compile Update="Properties\Resources.Designer.cs">

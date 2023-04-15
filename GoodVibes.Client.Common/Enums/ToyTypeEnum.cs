@@ -23,5 +23,6 @@ public enum ToyTypeEnum
     Flexer = 27,
     Gravity = 28,
     Gemini = 29,
-    PiShock = 50
+    PiShock = 50,
+    PiVault = 51
 }
