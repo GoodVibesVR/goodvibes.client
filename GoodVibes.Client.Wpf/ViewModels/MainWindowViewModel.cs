@@ -10,7 +10,7 @@ namespace GoodVibes.Client.Wpf.ViewModels
         private readonly LovenseEventHandler _lovenseEventHandler;
         private readonly PiShockEventHandler _piShockEventHandler;
 
-        private string _title = "GoodVibes 1.0-alpha1.3";
+        private string _title = "GoodVibes 1.0-alpha1.4";
         public string Title
         {
             get => _title;
