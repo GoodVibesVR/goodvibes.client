@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
+using GoodVibes.Client.Settings.Models;
 
 namespace GoodVibes.Client.Wpf.Views
 {
@@ -16,17 +17,21 @@ namespace GoodVibes.Client.Wpf.Views
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
-        public MainWindow()
+        private readonly bool _lowPerformanceMode;
+
+        public MainWindow(ApplicationSettings applicationSettings)
         {
             InitializeComponent();
             Console.WriteLine("Hello from MainWindow cstor");
+
+            _lowPerformanceMode = applicationSettings.LowPerformanceMode;
 
             Closing += OnWindowClosing;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            EnableBlur();
+            SetAccentState(_lowPerformanceMode ? AccentState.ACCENT_DISABLED : AccentState.ACCENT_ENABLE_BLURBEHIND);
         }
 
         public void OnWindowClosing(object sender, CancelEventArgs e)
@@ -35,12 +40,12 @@ namespace GoodVibes.Client.Wpf.Views
             Process.GetCurrentProcess().Kill();
         }
 
-        internal void EnableBlur()
+        internal void SetAccentState(AccentState accentState)
         {
             var windowHelper = new WindowInteropHelper(this);
 
             var accent = new AccentPolicy();
-            accent.AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND;
+            accent.AccentState = accentState;
 
             var accentStructSize = Marshal.SizeOf(accent);
 
