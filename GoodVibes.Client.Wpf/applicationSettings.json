@@ -9,5 +9,6 @@
   "OscSettings": {
     "ServerPort": 9001,
     "ClientPort": 9000
-  }
+  },
+  "LowPerformanceMode": false
 }

@@ -20,7 +20,7 @@ public sealed class Gemini : LovenseToy
     public Gemini() : base()
     {
         Enabled = true;
-        Function1 = LovenseCommandEnum.Vibrate;
-        Function2 = LovenseCommandEnum.None;
+        Function1 = LovenseCommandEnum.Vibrate1;
+        Function2 = LovenseCommandEnum.Vibrate2;
     }
 }
