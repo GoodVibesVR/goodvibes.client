@@ -4,7 +4,7 @@
     {
         public string? GoodVibesRoot { get; set; }
         public SignalRSettings? SignalRSettings { get; set; }
-        public OscSettings? OscSettings { get; set; }
+        public LovenseSettings? LovenseSettings { get; set; }
         public bool LowPerformanceMode { get; set; }
     }
 }

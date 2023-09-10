@@ -1,28 +1,30 @@
 ﻿using GoodVibes.Client.Mapper;
-using GoodVibes.Client.Settings.Models;
 using Rug.Osc.Core;
+using VRC.OSCQuery;
 
 namespace GoodVibes.Client.Osc
 {
     public class OscServer
     {
-        private readonly ApplicationSettings _applicationSettings;
         private readonly AvatarMapperClient _avatarMapper;
+        private readonly OSCQueryService _oscQueryService;
 
         private OscReceiver _receiver = null!;
         private Thread _thread = null!;
 
-        public OscServer(ApplicationSettings applicationSettings, AvatarMapperClient avatarMapper)
+        public OscServer(OSCQueryService oscQueryService, AvatarMapperClient avatarMapper)
         {
-            _applicationSettings = applicationSettings;
+            //_applicationSettings = applicationSettings;
+            _oscQueryService = oscQueryService;
             _avatarMapper = avatarMapper;
         }
 
         public Task ConnectAsync()
         {
-            var port = _applicationSettings?.OscSettings?.ServerPort ?? 9001;
-            _receiver = new OscReceiver(port);
+            Console.WriteLine($"Starting OSC Server. \nDiscoverable on http://127.0.0.1:{_oscQueryService.TcpPort}. \nOsc port: {_oscQueryService.OscPort}");
 
+            var port = _oscQueryService.OscPort;
+            _receiver = new OscReceiver(port);
             _thread = new Thread(ListenLoop);
 
             _receiver.Connect();
@@ -50,8 +52,8 @@ namespace GoodVibes.Client.Osc
                     var message = packet as OscMessage;
 
                     var typedMessage = message!.ToDto();
-                    if(typedMessage == null) continue;
-                    
+                    if (typedMessage == null) continue;
+
                     _avatarMapper.MapAndPublishEvent(typedMessage);
                 }
             }

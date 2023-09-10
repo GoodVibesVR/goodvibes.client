@@ -275,7 +275,11 @@ namespace GoodVibes.Client.Lovense
 
             Console.WriteLine("ApiCallerTask connected!");
 
-            var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(500));
+            var timerMilliseconds = _applicationSettings.LovenseSettings?.ApiCallerMilliseconds;
+            Console.WriteLine($"Lovense ApiCaller milliseconds: {timerMilliseconds}");
+            var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(timerMilliseconds is > 0
+                ? timerMilliseconds.Value
+                : 500));
 
             while (await timer.WaitForNextTickAsync())
             {

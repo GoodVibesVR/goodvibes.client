@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
     <PackageReference Include="Rug.Osc.Core" Version="1.0.0" />
+    <PackageReference Include="VRChat.OSCQuery" Version="0.0.7" />
   </ItemGroup>
 
   <ItemGroup>
