@@ -32,6 +32,7 @@ using GoodVibes.Client.Wpf.Modules.PiShockToySettingsModule;
 using GoodVibes.Client.Wpf.Services;
 using GoodVibes.Client.Wpf.Services.Abstractions;
 using Prism.Modularity;
+using VRC.OSCQuery;
 
 namespace GoodVibes.Client.Wpf
 {
@@ -58,6 +59,23 @@ namespace GoodVibes.Client.Wpf
                 SettingsLocationEnum.ApplicationDirectory);
             var applicationSettings = applicationSettingsManager.LoadSettings();
             containerRegistry.RegisterSingleton<ApplicationSettings>(_ => applicationSettings);
+
+            // Setting up OSCQuery
+            var tcpPort = Extensions.GetAvailableTcpPort();
+            var udpPort = Extensions.GetAvailableUdpPort();
+            var oscQuery = new OSCQueryServiceBuilder()
+                .WithTcpPort(tcpPort)
+                .WithUdpPort(udpPort)
+                .WithServiceName("GoodVibes")
+                .StartHttpServer()
+                .AdvertiseOSC()
+                .AdvertiseOSCQuery()
+                .Build();
+
+            oscQuery.AddEndpoint<string>("/avatar", Attributes.AccessValues.WriteOnly, null,
+                "Listening for dynamic avatar mapping");
+
+            containerRegistry.RegisterSingleton<OSCQueryService>(() => oscQuery);
 
             // Local cache manager
             containerRegistry.RegisterSingleton<GoodVibesCacheManager<LovenseCache>>();

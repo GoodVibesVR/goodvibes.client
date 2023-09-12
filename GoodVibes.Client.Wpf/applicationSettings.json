@@ -6,9 +6,9 @@
     "SyncHubPath": "/syncHub",
     "PiShockHubPath": "/piShockCommandHub"
   },
-  "OscSettings": {
-    "ServerPort": 9001,
-    "ClientPort": 9000
+  "LovenseSettings": {
+    // I wouldn't recommend going to low(250 for 4 calls a second).
+    "ApiCallerMilliseconds": 500
   },
   "LowPerformanceMode": false
 }
