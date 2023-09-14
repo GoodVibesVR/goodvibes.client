@@ -43,6 +43,7 @@
 	  <None Remove="Resources\icon_osci.png" />
 	  <None Remove="Resources\icon_pishock_pivault.png" />
 	  <None Remove="Resources\icon_pishock_shocker.png" />
+	  <None Remove="Resources\icon_ridge.png" />
 	  <None Remove="Resources\icon_tenera.png" />
 	  <None Remove="Resources\image_ambi.png" />
 	  <None Remove="Resources\image_calor.png" />
@@ -72,6 +73,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Content Include="GW_Logo.ico" />
+	  <Resource Include="Resources\icon_ridge.png" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="BlackPearl.Controls.Library" Version="2.0.2" />

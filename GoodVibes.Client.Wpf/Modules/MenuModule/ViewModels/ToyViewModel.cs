@@ -61,6 +61,7 @@ namespace GoodVibes.Client.Wpf.Modules.MenuModule.ViewModels
                 ToyTypeEnum.Flexer => nameof(FlexerSettingsView),
                 ToyTypeEnum.Gravity => nameof(GravitySettingsView),
                 ToyTypeEnum.Gemini => nameof(GeminiSettingsView),
+                ToyTypeEnum.Ridge => nameof(RidgeSettingsView),
                 ToyTypeEnum.PiShock => nameof(PiShockToySettingsView),
                 ToyTypeEnum.PiVault => nameof(PiVaultToySettingsView),
                 _ => ""

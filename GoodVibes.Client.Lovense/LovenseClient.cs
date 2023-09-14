@@ -226,6 +226,7 @@ namespace GoodVibes.Client.Lovense
                             ToyTypeConstants.Flexer => new Flexer(),
                             ToyTypeConstants.Gravity => new Gravity(),
                             ToyTypeConstants.Gemini => new Gemini(),
+                            ToyTypeConstants.Ridge => new Ridge(),
                                 // ReSharper disable once NotResolvedInText
                             _ => throw new ArgumentOutOfRangeException("Unsupported toy")
                         };
