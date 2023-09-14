@@ -63,6 +63,7 @@
 	  <None Remove="Resources\image_max.png" />
 	  <None Remove="Resources\image_nora.png" />
 	  <None Remove="Resources\image_osci.png" />
+	  <None Remove="Resources\image_ridge.png" />
 	  <None Remove="Resources\image_sexmachine.png" />
 	  <None Remove="Resources\image_terera.png" />
 	  <None Remove="Resources\pishock_logo.png" />
@@ -146,6 +147,7 @@
 	  <Resource Include="Resources\image_max.png" />
 	  <Resource Include="Resources\image_nora.png" />
 	  <Resource Include="Resources\image_osci.png" />
+	  <Resource Include="Resources\image_ridge.png" />
 	  <Resource Include="Resources\image_sexmachine.png" />
 	  <Resource Include="Resources\image_terera.png" />
 	  <Resource Include="Resources\pishock_logo.png" />
