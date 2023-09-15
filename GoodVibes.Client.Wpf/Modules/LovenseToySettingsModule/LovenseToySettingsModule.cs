@@ -63,11 +63,13 @@ namespace GoodVibes.Client.Wpf.Modules.LovenseToySettingsModule
             ViewModelLocationProvider.Register<MaxSettingsView, LovenseMultiFunctionToySettingsViewModel>();
             ViewModelLocationProvider.Register<FlexerSettingsView, LovenseMultiFunctionToySettingsViewModel>();
             ViewModelLocationProvider.Register<GravitySettingsView, LovenseMultiFunctionToySettingsViewModel>();
+            ViewModelLocationProvider.Register<RidgeSettingsView, LovenseMultiFunctionToySettingsViewModel>();
 
             containerRegistry.RegisterForNavigation<NoraSettingsView>();
             containerRegistry.RegisterForNavigation<MaxSettingsView>();
             containerRegistry.RegisterForNavigation<FlexerSettingsView>();
             containerRegistry.RegisterForNavigation<GravitySettingsView>();
+            containerRegistry.RegisterForNavigation<RidgeSettingsView>();
         }
     }
 }

@@ -41,6 +41,7 @@ public class LovenseService : ILovenseService
             Flexer => "pack://application:,,,/GoodVibes;component/Resources/icon_flexer.png",
             Gravity => "pack://application:,,,/GoodVibes;component/Resources/icon_gravity.png",
             Gemini => "pack://application:,,,/GoodVibes;component/Resources/icon_gemini.png",
+            Ridge => "pack://application:,,,/GoodVibes;component/Resources/icon_ridge.png",
             SexMachine => "pack://application:,,,/GoodVibes;component/Resources/icon_blast.png",
             _ => "pack://application:,,,/GoodVibes;component/Resources/icon_lush.png"
         };

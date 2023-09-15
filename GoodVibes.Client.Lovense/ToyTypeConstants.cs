@@ -22,4 +22,5 @@ public static class ToyTypeConstants
     public const string Flexer = "flexer";
     public const string Gravity = "gravity";
     public const string Gemini = "gemini";
+    public const string Ridge = "ridge";
 }

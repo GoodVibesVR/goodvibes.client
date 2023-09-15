@@ -122,6 +122,7 @@ public class MenuViewModel : RegionViewModelBase
                 case ToyTypeEnum.Gravity:
                 case ToyTypeEnum.Flexer:
                 case ToyTypeEnum.Gemini:
+                case ToyTypeEnum.Ridge:
                 case ToyTypeEnum.SexMachine:
                     _eventAggregator.GetEvent<RemoveLovenseToyEventCarrier>().Publish(new RemoveLovenseToyEvent()
                     {

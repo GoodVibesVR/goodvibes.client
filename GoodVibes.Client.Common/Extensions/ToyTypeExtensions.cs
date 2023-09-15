@@ -33,6 +33,7 @@ namespace GoodVibes.Client.Common.Extensions
                 case ToyTypeEnum.Gravity:
                 case ToyTypeEnum.Flexer:
                 case ToyTypeEnum.Gemini:
+                case ToyTypeEnum.Ridge:
                     return ToySupplierEnum.Lovense;
                 case ToyTypeEnum.PiVault:
                 case ToyTypeEnum.PiShock:
