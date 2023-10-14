@@ -24,6 +24,7 @@ public enum ToyTypeEnum
     Gravity = 28,
     Gemini = 29,
     Ridge = 30,
+    Vulse = 31,
     PiShock = 50,
     PiVault = 51
 }
