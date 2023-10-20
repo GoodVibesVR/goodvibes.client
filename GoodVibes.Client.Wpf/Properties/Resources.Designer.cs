@@ -633,6 +633,16 @@ namespace GoodVibes.Client.Wpf.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap image_vulse {
+            get {
+                object obj = ResourceManager.GetObject("image_vulse", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap pishock_logo {
             get {
                 object obj = ResourceManager.GetObject("pishock_logo", resourceCulture);

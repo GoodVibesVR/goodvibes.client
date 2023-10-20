@@ -23,5 +23,5 @@ public static class ToyTypeConstants
     public const string Gravity = "gravity";
     public const string Gemini = "gemini";
     public const string Ridge = "ridge";
-    public const string Vulse = "sd";
+    public const string Vulse = "vulse";
 }

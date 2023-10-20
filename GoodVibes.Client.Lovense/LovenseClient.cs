@@ -149,6 +149,8 @@ namespace GoodVibes.Client.Lovense
                 : new ApiClient($"http://{callback.Domain}:{callback.HttpPort}");
 
             var toys = Task.Run(() => BuildLovenseToys(callback.Toys!)).Result;
+            if (toys == null) return;
+            
             SaveToysToCache(toys);
 
             Toys = toys;
@@ -183,11 +185,13 @@ namespace GoodVibes.Client.Lovense
             _lovenseEventDispatcher.Dispatch(@event);
         }
 
-        private async Task<Dictionary<string, LovenseToy>> BuildLovenseToys(List<ToyDto> toyList)
+        private async Task<Dictionary<string, LovenseToy>?> BuildLovenseToys(List<ToyDto> toyList)
         {
             try
             {
                 var detailedToys = await GetDetailedToyList();
+                if (detailedToys == null) return null;
+
                 var tempList = new Dictionary<string, LovenseToy>();
                 var handledIds = new List<string>();
                 foreach (var toyDto in toyList)
@@ -369,8 +373,18 @@ namespace GoodVibes.Client.Lovense
 
                 Console.WriteLine($"Detailed Toy Response: {JsonConvert.SerializeObject(detailedToysResponse)}");
 
-                var toys = JsonConvert.DeserializeObject<Dictionary<string, DetailedToyDto>>(detailedToysResponse?.Data!.Toys!);
-                return toys;
+                try
+                {
+                    var toys = JsonConvert.DeserializeObject<Dictionary<string, DetailedToyDto>>(detailedToysResponse?.Data!.Toys!);
+                    return toys;
+                }
+                catch (Exception)
+                {
+                    // Apparently when there's no toys connected (battery out) the data from this API call becomes null.
+                    // So... lets just silently continue :D
+
+                    return null;
+                }
             }
             catch (Exception e)
             {
