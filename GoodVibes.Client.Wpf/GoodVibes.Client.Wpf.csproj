@@ -45,6 +45,7 @@
 	  <None Remove="Resources\icon_pishock_shocker.png" />
 	  <None Remove="Resources\icon_ridge.png" />
 	  <None Remove="Resources\icon_tenera.png" />
+	  <None Remove="Resources\icon_vulse.png" />
 	  <None Remove="Resources\image_ambi.png" />
 	  <None Remove="Resources\image_calor.png" />
 	  <None Remove="Resources\image_diamo.png" />
@@ -66,6 +67,7 @@
 	  <None Remove="Resources\image_ridge.png" />
 	  <None Remove="Resources\image_sexmachine.png" />
 	  <None Remove="Resources\image_terera.png" />
+	  <None Remove="Resources\image_vulse.png" />
 	  <None Remove="Resources\pishock_logo.png" />
 	  <None Remove="Resources\pishock_logo_chaster.png" />
 	  <None Remove="Resources\pishock_logo_emla.png" />
@@ -129,6 +131,7 @@
 	  <Resource Include="Resources\icon_pishock_pivault.png" />
 	  <Resource Include="Resources\icon_pishock_shocker.png" />
 	  <Resource Include="Resources\icon_tenera.png" />
+	  <Resource Include="Resources\icon_vulse.png" />
 	  <Resource Include="Resources\image_ambi.png" />
 	  <Resource Include="Resources\image_calor.png" />
 	  <Resource Include="Resources\image_diamo.png" />
@@ -150,6 +153,7 @@
 	  <Resource Include="Resources\image_ridge.png" />
 	  <Resource Include="Resources\image_sexmachine.png" />
 	  <Resource Include="Resources\image_terera.png" />
+	  <Resource Include="Resources\image_vulse.png" />
 	  <Resource Include="Resources\pishock_logo.png" />
 	  <Resource Include="Resources\pishock_logo_chaster.png" />
 	  <Resource Include="Resources\pishock_logo_emla.png" />

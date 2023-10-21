@@ -15,7 +15,6 @@ using GoodVibes.Client.Wpf.Modules.AddToyModule.Views;
 using GoodVibes.Client.Wpf.Modules.AvatarMapperModule.Views;
 using GoodVibes.Client.Wpf.Modules.DashboardModule.Views;
 using GoodVibes.Client.Wpf.Services.Abstractions;
-using ImTools;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
@@ -123,6 +122,7 @@ public class MenuViewModel : RegionViewModelBase
                 case ToyTypeEnum.Flexer:
                 case ToyTypeEnum.Gemini:
                 case ToyTypeEnum.Ridge:
+                case ToyTypeEnum.Vulse:
                 case ToyTypeEnum.SexMachine:
                     _eventAggregator.GetEvent<RemoveLovenseToyEventCarrier>().Publish(new RemoveLovenseToyEvent()
                     {
