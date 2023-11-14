@@ -219,7 +219,7 @@ namespace GoodVibes.Client.Lovense
                             ToyTypeConstants.Ferri => new Ferri(),
                             ToyTypeConstants.Gush => new Gush(),
                             ToyTypeConstants.Hush => new Hush(),
-                            ToyTypeConstants.Hyphy => new Solace(), // TODO: Restore
+                            ToyTypeConstants.Hyphy => new Hyphy(),
                             ToyTypeConstants.Lush => new Lush(),
                             ToyTypeConstants.Max => new Max(),
                             ToyTypeConstants.Nora => new Nora(),

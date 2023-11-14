@@ -4,7 +4,7 @@
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:core1="clr-namespace:GoodVibes.Client.Core;assembly=GoodVibes.Client.Core"
-        Title="{Binding Title}" Height="768" Width="1024" 
+        Title="{Binding Title}" Height="770" Width="1024" 
         AllowsTransparency="True"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen" Background="Transparent"
