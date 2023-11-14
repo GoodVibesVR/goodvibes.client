@@ -333,6 +333,16 @@ namespace GoodVibes.Client.Wpf.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icon_lapis {
+            get {
+                object obj = ResourceManager.GetObject("icon_lapis", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icon_lush {
             get {
                 object obj = ResourceManager.GetObject("icon_lush", resourceCulture);
@@ -396,6 +406,16 @@ namespace GoodVibes.Client.Wpf.Properties {
         internal static System.Drawing.Bitmap icon_ridge {
             get {
                 object obj = ResourceManager.GetObject("icon_ridge", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_solace {
+            get {
+                object obj = ResourceManager.GetObject("icon_solace", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

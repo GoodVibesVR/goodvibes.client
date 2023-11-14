@@ -41,7 +41,6 @@ namespace GoodVibes.Client.Wpf.Modules.LovenseToySettingsModule
             ViewModelLocationProvider.Register<EdgeSettingsView, LovenseSingleFunctionToySettingsViewModel>();
             ViewModelLocationProvider.Register<VulseSettingsView, LovenseSingleFunctionToySettingsViewModel>();
 
-
             containerRegistry.RegisterForNavigation<LushSettingsView>();
             containerRegistry.RegisterForNavigation<AmbiSettingsView>();
             containerRegistry.RegisterForNavigation<CalorSettingsView>();
@@ -66,12 +65,19 @@ namespace GoodVibes.Client.Wpf.Modules.LovenseToySettingsModule
             ViewModelLocationProvider.Register<FlexerSettingsView, LovenseMultiFunctionToySettingsViewModel>();
             ViewModelLocationProvider.Register<GravitySettingsView, LovenseMultiFunctionToySettingsViewModel>();
             ViewModelLocationProvider.Register<RidgeSettingsView, LovenseMultiFunctionToySettingsViewModel>();
+            ViewModelLocationProvider.Register<SolaceSettingsView, LovenseMultiFunctionToySettingsViewModel>();
 
             containerRegistry.RegisterForNavigation<NoraSettingsView>();
             containerRegistry.RegisterForNavigation<MaxSettingsView>();
             containerRegistry.RegisterForNavigation<FlexerSettingsView>();
             containerRegistry.RegisterForNavigation<GravitySettingsView>();
             containerRegistry.RegisterForNavigation<RidgeSettingsView>();
+            containerRegistry.RegisterForNavigation<SolaceSettingsView>();
+
+            // Thricefunction views
+            ViewModelLocationProvider.Register<LapisSettingsView, LovenseThriceFunctionToySettingsViewModel>();
+            
+            containerRegistry.RegisterForNavigation<LapisSettingsView>();
         }
     }
 }

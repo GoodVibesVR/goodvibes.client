@@ -111,7 +111,8 @@ internal class LovenseMultiFunctionToySettingsViewModel : RegionViewModelBase
         {
             ToyId = ToyId,
             Strength1Percentage = (int)value,
-            Strength2Percentage = (int)Strength2
+            Strength2Percentage = (int)Strength2,
+            Strength3Percentage = 0
         });
 
         Console.WriteLine($"Strength1 changed to: {value}");
@@ -125,7 +126,8 @@ internal class LovenseMultiFunctionToySettingsViewModel : RegionViewModelBase
         {
             ToyId = ToyId,
             Strength1Percentage = (int)Strength1,
-            Strength2Percentage = (int)value
+            Strength2Percentage = (int)value,
+            Strength3Percentage = 0
         });
 
         Console.WriteLine($"Strength2 changed to: {value}");

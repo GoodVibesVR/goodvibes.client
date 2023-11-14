@@ -81,6 +81,16 @@ public class AvatarMapperService : IAvatarMapperService
                     Type = lovenseToy.GetType().Name
                 });
             }
+            if (lovenseToy.Function3 != LovenseCommandEnum.None)
+            {
+                toyFunctions.Add(new ToyFunctionViewModel()
+                {
+                    Name = lovenseToy.DisplayName,
+                    Function = lovenseToy.Function3.ToString(),
+                    ToyId = lovenseToy.Id!,
+                    Type = lovenseToy.GetType().Name
+                });
+            }
         }
 
         return toyFunctions;

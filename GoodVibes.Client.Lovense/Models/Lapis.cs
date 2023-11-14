@@ -4,9 +4,9 @@ using GoodVibes.Client.Lovense.Models.Abstractions;
 
 namespace GoodVibes.Client.Lovense.Models;
 
-public sealed class Tenera : LovenseToy
+public sealed class Lapis : LovenseToy
 {
-    public override ToyTypeEnum ToyType => ToyTypeEnum.Tenera;
+    public override ToyTypeEnum ToyType => ToyTypeEnum.Lapis;
     public override bool Enabled { get; set; }
     public override LovenseCommandEnum Function1 { get; set; }
     public override LovenseCommandEnum Function2 { get; set; }
@@ -14,14 +14,16 @@ public sealed class Tenera : LovenseToy
 
     public override LovenseCommandEnum[] ToyFunctions => new[]
     {
-        LovenseCommandEnum.Suction
+        LovenseCommandEnum.Vibrate1,
+        LovenseCommandEnum.Vibrate2,
+        LovenseCommandEnum.Vibrate3
     };
 
-    public Tenera() : base()
+    public Lapis() : base()
     {
         Enabled = true;
-        Function1 = LovenseCommandEnum.Suction;
-        Function2 = LovenseCommandEnum.None;
-        Function3 = LovenseCommandEnum.None;
+        Function1 = LovenseCommandEnum.Vibrate1;
+        Function2 = LovenseCommandEnum.Vibrate2;
+        Function3 = LovenseCommandEnum.Vibrate3;
     }
 }

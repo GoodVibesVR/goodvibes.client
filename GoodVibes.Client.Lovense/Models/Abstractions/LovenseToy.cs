@@ -16,11 +16,13 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
             string.IsNullOrEmpty(Nickname) ? CombinedName : $"{Nickname} ({CombinedName})";
         public int Function1MaxStrengthPercentage { get; set; }
         public int Function2MaxStrengthPercentage { get; set; }
+        public int Function3MaxStrengthPercentage { get; set; }
 
         public abstract ToyTypeEnum ToyType { get; }
         public abstract bool Enabled { get; set; }
         public abstract LovenseCommandEnum Function1 { get; set; }
         public abstract LovenseCommandEnum Function2 { get; set; }
+        public abstract LovenseCommandEnum Function3 { get; set; }
 
         [JsonIgnore]
         public virtual bool? Status { get; set; }
@@ -40,6 +42,9 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
         [JsonIgnore]
         private int Function2LastValue { get; set; }
 
+        [JsonIgnore]
+        private int Function3LastValue { get; set; }
+
         protected LovenseToy()
         {
             ToyCommands = new Dictionary<LovenseCommandEnum, List<int>>();
@@ -52,6 +57,7 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
                 case LovenseCommandEnum.Vibrate:
                 case LovenseCommandEnum.Vibrate1:
                 case LovenseCommandEnum.Vibrate2:
+                case LovenseCommandEnum.Vibrate3:
                     return ConvertVibratePercentage(percentage);
                 case LovenseCommandEnum.Rotate:
                 case LovenseCommandEnum.RotateAntiClockwise:
@@ -64,6 +70,8 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
                     return ConvertSuctionPercentage(percentage);
                 case LovenseCommandEnum.Pump:
                     return ConvertPumpPercentage(percentage);
+                case LovenseCommandEnum.Depth:
+                    return ConvertDepthPercentage(percentage);
                 case LovenseCommandEnum.None:
                 default:
                     throw new ArgumentOutOfRangeException(nameof(command), command, null);
@@ -80,6 +88,11 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
             return (int)Math.Round((double)(percentage / 5) * 100);
         }
 
+        private int ConvertDepthPercentage(float percentage)
+        {
+            return (int)Math.Round((double)(percentage / 33) * 100);
+        }
+
         private int ConvertSuctionPercentage(float percentage)
         {
             return (int)Math.Round((double)(percentage / 5) * 100);
@@ -87,7 +100,7 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
 
         private int ConvertThrustingPercentage(float percentage)
         {
-            return (int)Math.Round((double)(percentage / 10) * 100);
+            return (int)Math.Round((double)(percentage / 5) * 100);
         }
 
         private int ConvertFingeringPercentage(float percentage)
@@ -114,6 +127,12 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
                 return (int)Math.Round(value * percentage);
             }
 
+            if (function == Function3)
+            {
+                var percentage = (float)Function3MaxStrengthPercentage / 100;
+                return (int)Math.Round(value * percentage);
+            }
+
             return 0;
         }
 
@@ -130,6 +149,12 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
             if (function == Function2)
             {
                 Function2LastValue = value;
+                AddCommandToList(function, value);
+            }
+
+            if (function == Function3)
+            {
+                Function3LastValue = value;
                 AddCommandToList(function, value);
             }
         }
@@ -153,34 +178,48 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
         public string? GetCommandString()
         {
             if (ToyCommands.Count == 0) return null;
-            
-            var commandStr = string.Empty;
+
+            var function1Value = Function1LastValue;
+            var function2Value = Function2LastValue;
+            var function3Value = Function3LastValue;
+
             foreach (var toyCommand in ToyCommands)
             {
-                //var highestValue = 0;
-                var lastValue = 0;
-                if (toyCommand.Key == Function1 || toyCommand.Key == Function2)
-                {
-                    var values = toyCommand.Value;
+                var values = toyCommand.Value;
+                if (values == null) continue;
 
-                    // It seems like this, if you're quick is actually null.
-                    if (values == null) continue;
-
-                    // TODO: Add more calculation methods for different behaviors
-                    //highestValue = values.Prepend(0).Max();
-                    lastValue = values.Last();
-                }
-                else
+                if (toyCommand.Key == Function1)
                 {
-                    continue;
+                    function1Value = values.Last();
                 }
 
-                if (commandStr != string.Empty)
+                if (toyCommand.Key == Function2)
                 {
-                    commandStr += ",";
+                    function2Value = values.Last();
                 }
 
-                commandStr += $"{toyCommand.Key.ToString()}:{DivideByStrengthPercentage(toyCommand.Key, lastValue)}";
+                if (toyCommand.Key == Function3)
+                {
+                    function3Value = values.Last();
+                }
+            }
+
+            var commandStr = string.Empty;
+            if (Function2 == LovenseCommandEnum.None && Function3 == LovenseCommandEnum.None)
+            {
+                commandStr = $"{Function1.ToString()}:{DivideByStrengthPercentage(Function1, function1Value)}";
+            }
+
+            if (Function3 == LovenseCommandEnum.None)
+            {
+                commandStr =
+                    $"{Function1.ToString()}:{DivideByStrengthPercentage(Function1, function1Value)},{Function2.ToString()}:{DivideByStrengthPercentage(Function2, function2Value)}";
+            }
+
+            if (Function3 != LovenseCommandEnum.None)
+            {
+                commandStr =
+                    $"{Function1.ToString()}:{DivideByStrengthPercentage(Function1, function1Value)},{Function2.ToString()}:{DivideByStrengthPercentage(Function2, function2Value)},{Function3.ToString()}:{DivideByStrengthPercentage(Function3, function3Value)}";
             }
 
             Console.WriteLine($"CommandString returned: {commandStr}");
@@ -210,7 +249,7 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
             ToyCommands.Clear();
         }
 
-        public void SetStrengthPercentage(int strength1Percentage, int strength2Percentage)
+        public void SetStrengthPercentage(int strength1Percentage, int strength2Percentage, int strength3Percentage)
         {
             Function1MaxStrengthPercentage = strength1Percentage;
             if (Function1 != LovenseCommandEnum.None)
@@ -222,6 +261,12 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
             if (Function2 != LovenseCommandEnum.None)
             {
                 AddCommandToList(Function2, Function2LastValue);
+            }
+
+            Function3MaxStrengthPercentage = strength3Percentage;
+            if (Function3 != LovenseCommandEnum.None)
+            {
+                AddCommandToList(Function3, Function3LastValue);
             }
         }
     }

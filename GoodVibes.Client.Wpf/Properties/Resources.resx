@@ -199,6 +199,9 @@
   <data name="icon_hyphy" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon_hyphy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="icon_lapis" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_lapis.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="icon_lush" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon_lush.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -219,6 +222,9 @@
   </data>
   <data name="icon_ridge" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon_ridge.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_solace" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_solace.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icon_tenera" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon_tenera.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

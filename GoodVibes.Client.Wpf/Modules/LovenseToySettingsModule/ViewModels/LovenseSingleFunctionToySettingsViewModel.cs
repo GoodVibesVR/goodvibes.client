@@ -90,7 +90,8 @@ namespace GoodVibes.Client.Wpf.Modules.LovenseToySettingsModule.ViewModels
             {
                 ToyId = ToyId,
                 Strength1Percentage = (int)value,
-                Strength2Percentage = 0
+                Strength2Percentage = 0,
+                Strength3Percentage = 0
             });
         }
     }
