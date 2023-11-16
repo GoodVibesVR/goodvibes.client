@@ -9,7 +9,7 @@ All toys added to the GoodVibes application have exposed functions that can be m
 ### Lovense
 GoodVibes implements the [Lovense Standard API](https://developer.lovense.com/#standard-api) to automatically synchronize and control your toys directly from the Lovense Remote app on either your phone or your PC. 
 
-As of *2023-10-21* GoodVibes supports all available Lovense toys
+As of *2023-11-16* GoodVibes supports all available Lovense toys
 
 _With the current limitations on Lovense side using your phone, it requires your phone to be connected to a wifi accessible from the computer running GoodVibes._
 
