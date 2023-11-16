@@ -33,10 +33,10 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
 
         [JsonIgnore]
         public ConcurrentDictionary<LovenseCommandEnum, List<int>> ToyCommands { get; set; }
-        
+
         [JsonIgnore]
         private string CombinedName => string.IsNullOrEmpty(Version) ? Name! : $"{Name} {Version}";
-        
+
         [JsonIgnore]
         private int Function1LastValue { get; set; }
 
@@ -45,6 +45,8 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
 
         [JsonIgnore]
         private int Function3LastValue { get; set; }
+
+        private bool CommandReceived { get; set; }
 
         protected LovenseToy()
         {
@@ -174,54 +176,28 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
             {
                 values!.Add(value);
             }
+
+            CommandReceived = true;
         }
 
         public string? GetCommandString()
         {
-            if (ToyCommands.Count == 0) return null;
+            if (!CommandReceived) return null;
 
-            var function1Value = Function1LastValue;
-            var function2Value = Function2LastValue;
-            var function3Value = Function3LastValue;
-
-            foreach (var toyCommand in ToyCommands)
+            var functions = new[] { Function1, Function2, Function3 };
+            var commands = new List<string>();
+            foreach (var function in functions)
             {
-                var values = toyCommand.Value;
-                if (values == null) continue;
+                var commandFound = ToyCommands.TryGetValue(function, out var values);
+                if (!commandFound || values == null) continue;
 
-                if (toyCommand.Key == Function1)
+                if (function != LovenseCommandEnum.None)
                 {
-                    function1Value = values.Last();
-                }
-
-                if (toyCommand.Key == Function2)
-                {
-                    function2Value = values.Last();
-                }
-
-                if (toyCommand.Key == Function3)
-                {
-                    function3Value = values.Last();
+                    commands.Add($"{function.ToString()}:{DivideByStrengthPercentage(function, values.Last())}");
                 }
             }
 
-            var commandStr = string.Empty;
-            if (Function2 == LovenseCommandEnum.None && Function3 == LovenseCommandEnum.None)
-            {
-                commandStr = $"{Function1.ToString()}:{DivideByStrengthPercentage(Function1, function1Value)}";
-            }
-
-            if (Function3 == LovenseCommandEnum.None)
-            {
-                commandStr =
-                    $"{Function1.ToString()}:{DivideByStrengthPercentage(Function1, function1Value)},{Function2.ToString()}:{DivideByStrengthPercentage(Function2, function2Value)}";
-            }
-
-            if (Function3 != LovenseCommandEnum.None)
-            {
-                commandStr =
-                    $"{Function1.ToString()}:{DivideByStrengthPercentage(Function1, function1Value)},{Function2.ToString()}:{DivideByStrengthPercentage(Function2, function2Value)},{Function3.ToString()}:{DivideByStrengthPercentage(Function3, function3Value)}";
-            }
+            var commandStr = string.Join(",", commands);
 
             Console.WriteLine($"CommandString returned: {commandStr}");
             return commandStr;
@@ -239,15 +215,21 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
                 test.Add(toyCommand.Key.ToString(), highestValue);
             }
 
-            //var functionStr = string.Empty;
             var commandList = test.Select(i => new CommandDto { Command = i.Key.ToString(), Value = i.Value }).ToList();
-
             return commandList;
         }
 
         public void ClearCommandList()
         {
-            ToyCommands.Clear();
+            foreach (var toyCommand in ToyCommands)
+            {
+                var values = toyCommand.Value;
+                if (values.Count <= 1) continue;
+
+                values.RemoveRange(0, values.Count - 2);
+            }
+
+            CommandReceived = false;
         }
 
         public void SetStrengthPercentage(int strength1Percentage, int strength2Percentage, int strength3Percentage)
