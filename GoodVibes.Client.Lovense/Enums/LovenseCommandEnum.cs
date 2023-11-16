@@ -65,7 +65,7 @@ public enum LovenseCommandEnum
 
     /// <summary>
     /// Starts the thrusting motion (Gravity)
-    /// v:Strength (Between 0 and 10)
+    /// v:Strength (Between 0 and 20)
     /// </summary>
     Thrusting = 17,
 
@@ -76,7 +76,8 @@ public enum LovenseCommandEnum
     Fingering = 18,
 
     /// <summary>
-    /// Sets the depth 
+    /// Sets the depth (Solace)
+    /// v:Strength (Between 0 and 3)
     /// </summary>
     Depth = 20
 }
