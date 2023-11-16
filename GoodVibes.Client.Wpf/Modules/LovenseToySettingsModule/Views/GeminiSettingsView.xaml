@@ -19,7 +19,7 @@
             </Setter>
         </Style>
 
-        <Style x:Key="SliderRepeatButton1" TargetType="RepeatButton">
+        <Style x:Key="SliderRepeatButton_pink" TargetType="RepeatButton">
             <Setter Property="SnapsToDevicePixels" Value="true" />
             <Setter Property="OverridesDefaultStyle" Value="true" />
             <Setter Property="Template">
@@ -31,7 +31,19 @@
             </Setter>
         </Style>
 
-        <Style x:Key="SliderThumb" TargetType="Thumb">
+        <Style x:Key="SliderRepeatButton_blue" TargetType="RepeatButton">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border SnapsToDevicePixels="True" Background="#3475CC" BorderThickness="0" BorderBrush="White" Height="3"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SliderThumb_Pink" TargetType="Thumb">
             <Setter Property="SnapsToDevicePixels" Value="true" />
             <Setter Property="OverridesDefaultStyle" Value="true" />
             <Setter Property="Template">
@@ -49,7 +61,25 @@
             </Setter>
         </Style>
 
-        <ControlTemplate x:Key="Slider"  TargetType="Slider">
+        <Style x:Key="SliderThumb_Blue" TargetType="Thumb">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <!--Add name to ellipse to use in  controltemplate triggers-->
+                        <Ellipse x:Name="Ellipse" Height="10" Width="10" Fill="White"></Ellipse>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="Ellipse" Property="Fill" Value="#CF3084"></Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <ControlTemplate x:Key="Slider_Pink"  TargetType="Slider">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -58,10 +88,10 @@
                 </Grid.RowDefinitions>
                 <Track Grid.Row="1" x:Name="PART_Track"   >
                     <Track.DecreaseRepeatButton>
-                        <RepeatButton Style="{StaticResource SliderRepeatButton1}"  Command="Slider.DecreaseLarge" />
+                        <RepeatButton Style="{StaticResource SliderRepeatButton_pink}"  Command="Slider.DecreaseLarge" />
                     </Track.DecreaseRepeatButton>
                     <Track.Thumb>
-                        <Thumb Style="{StaticResource SliderThumb}"  />
+                        <Thumb Style="{StaticResource SliderThumb_Pink}"  />
                     </Track.Thumb>
                     <Track.IncreaseRepeatButton>
                         <RepeatButton Style="{StaticResource SliderRepeatButton}" Command="Slider.IncreaseLarge" />
@@ -70,7 +100,7 @@
             </Grid>
         </ControlTemplate>
 
-        <Style x:Key="Horizontal_Slider" TargetType="Slider">
+        <Style x:Key="Horizontal_Slider_Pink" TargetType="Slider">
             <Setter Property="Focusable" Value="False"/>
             <Setter Property="SnapsToDevicePixels" Value="true" />
             <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -78,7 +108,41 @@
                 <Trigger Property="Orientation" Value="Horizontal">
                     <Setter Property="MinHeight" Value="21" />
                     <Setter Property="MinWidth" Value="104" />
-                    <Setter Property="Template" Value="{StaticResource Slider}" />
+                    <Setter Property="Template" Value="{StaticResource Slider_Pink}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <ControlTemplate x:Key="Slider_Blue"  TargetType="Slider">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Track Grid.Row="1" x:Name="PART_Track"   >
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource SliderRepeatButton_blue}"  Command="Slider.DecreaseLarge" />
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb Style="{StaticResource SliderThumb_Blue}"  />
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource SliderRepeatButton}" Command="Slider.IncreaseLarge" />
+                    </Track.IncreaseRepeatButton>
+                </Track>
+            </Grid>
+        </ControlTemplate>
+
+        <Style x:Key="Horizontal_Slider_Blue" TargetType="Slider">
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Style.Triggers>
+                <Trigger Property="Orientation" Value="Horizontal">
+                    <Setter Property="MinHeight" Value="21" />
+                    <Setter Property="MinWidth" Value="104" />
+                    <Setter Property="Template" Value="{StaticResource Slider_Blue}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -122,46 +186,55 @@
                     Orientation="Horizontal"
                     Margin="0,0,0,0">
                     <StackPanel HorizontalAlignment="Center" 
-                    VerticalAlignment="Top"
-                    Orientation="Horizontal"
-                    Margin="0,0,0,0">
-                        <StackPanel HorizontalAlignment="Center" 
                             VerticalAlignment="Top"
                             Orientation="Vertical"
                             Margin="0,0,0,0">
-                            <TextBlock Text="POWER"
+                        <TextBlock Text="POWER"
                            Foreground="White"
                            HorizontalAlignment="Center"
                            FontWeight="SemiBold"
                            FontSize="32"/>
-                            <StackPanel HorizontalAlignment="Center" 
+                        <StackPanel HorizontalAlignment="Center" 
                                 VerticalAlignment="Top"
                                 Orientation="Horizontal"
                                 Margin="0,0,0,0">
-                                <StackPanel HorizontalAlignment="Center" 
+                            <StackPanel HorizontalAlignment="Center" 
                                         VerticalAlignment="Top"
                                         Orientation="Vertical"
                                         Margin="0,0,0,0">
-                                    <TextBlock Text="Max Strength"
+                                <TextBlock Text="Max Strength"
                                            Foreground="White"
                                            HorizontalAlignment="Center"
                                            FontWeight="SemiBold"
                                            FontSize="12"/>
-                                    <Slider Style="{StaticResource Horizontal_Slider}" 
+                                <Slider Style="{StaticResource Horizontal_Slider_Pink}" 
                                         Maximum="100" 
                                         VerticalAlignment="Center" 
                                         Width="200" 
                                         Margin="5,0,5,0" 
-                                        Value="{Binding Path=Strength}"
+                                        Value="{Binding Path=Strength1}"
                                         TickPlacement="BottomRight" 
                                         IsSnapToTickEnabled="True"
                                         TickFrequency="1"/>
-                                </StackPanel>
-                                <StackPanel HorizontalAlignment="Center" 
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Center" 
                                         VerticalAlignment="Top"
                                         Orientation="Vertical"
                                         Margin="0,0,0,0">
-                                </StackPanel>
+                                <TextBlock Text="Max Strength"
+                                           Foreground="White"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="SemiBold"
+                                           FontSize="12"/>
+                                <Slider Style="{StaticResource Horizontal_Slider_Blue}" 
+                                        Maximum="100" 
+                                        VerticalAlignment="Center" 
+                                        Width="200" 
+                                        Margin="5,0,5,0" 
+                                        Value="{Binding Path=Strength2}"
+                                        TickPlacement="BottomRight" 
+                                        IsSnapToTickEnabled="True"
+                                        TickFrequency="1"/>
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
