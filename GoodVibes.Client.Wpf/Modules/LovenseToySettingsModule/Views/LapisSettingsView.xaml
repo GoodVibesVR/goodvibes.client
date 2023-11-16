@@ -241,7 +241,7 @@
                     <Rectangle Width="300"
                        Height="300">
                         <Rectangle.Fill>
-                            <ImageBrush ImageSource="/GoodVibes;component/Resources/image_max.png"/>
+                            <ImageBrush ImageSource="/GoodVibes;component/Resources/image_lapis.png"/>
                         </Rectangle.Fill>
                     </Rectangle>
                 </Grid>
