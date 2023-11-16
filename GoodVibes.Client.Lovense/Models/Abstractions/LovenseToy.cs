@@ -1,4 +1,5 @@
-﻿using GoodVibes.Client.Common.Enums;
+﻿using System.Collections.Concurrent;
+using GoodVibes.Client.Common.Enums;
 using GoodVibes.Client.Lovense.Dtos;
 using GoodVibes.Client.Lovense.Enums;
 using Newtonsoft.Json;
@@ -31,7 +32,7 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
         public abstract LovenseCommandEnum[] ToyFunctions { get; }
 
         [JsonIgnore]
-        public Dictionary<LovenseCommandEnum, List<int>> ToyCommands { get; set; }
+        public ConcurrentDictionary<LovenseCommandEnum, List<int>> ToyCommands { get; set; }
         
         [JsonIgnore]
         private string CombinedName => string.IsNullOrEmpty(Version) ? Name! : $"{Name} {Version}";
@@ -47,7 +48,7 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
 
         protected LovenseToy()
         {
-            ToyCommands = new Dictionary<LovenseCommandEnum, List<int>>();
+            ToyCommands = new ConcurrentDictionary<LovenseCommandEnum, List<int>>();
         }
 
         public int ConvertPercentageByCommand(LovenseCommandEnum command, float percentage)
@@ -164,7 +165,7 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
             var functionExists = ToyCommands.TryGetValue(function, out var values);
             if (!functionExists)
             {
-                ToyCommands.Add(function, new List<int>()
+                ToyCommands.TryAdd(function, new List<int>()
                 {
                     value
                 });
