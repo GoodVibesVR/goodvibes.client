@@ -38,7 +38,8 @@ namespace GoodVibes.Client.Lovense.EventHandler
 
         private void LovenseStrengthChangedReceived(LovenseStrengthChangedEvent obj)
         {
-            Task.Run(() => _lovenseClient.SetStrength(obj.ToyId!, obj.Strength1Percentage, obj.Strength2Percentage));
+            Task.Run(() => _lovenseClient.SetStrength(obj.ToyId!, obj.Strength1Percentage, obj.Strength2Percentage,
+                obj.Strength3Percentage));
         }
 
         private void RemoveLovenseToyReceived(RemoveLovenseToyEvent obj)

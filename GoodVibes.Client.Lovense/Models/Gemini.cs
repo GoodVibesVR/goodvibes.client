@@ -10,6 +10,8 @@ public sealed class Gemini : LovenseToy
     public override bool Enabled { get; set; }
     public override LovenseCommandEnum Function1 { get; set; }
     public override LovenseCommandEnum Function2 { get; set; }
+    public override LovenseCommandEnum Function3 { get; set; }
+
     public override LovenseCommandEnum[] ToyFunctions => new[]
     {
         LovenseCommandEnum.Vibrate,
@@ -22,5 +24,6 @@ public sealed class Gemini : LovenseToy
         Enabled = true;
         Function1 = LovenseCommandEnum.Vibrate1;
         Function2 = LovenseCommandEnum.Vibrate2;
+        Function3 = LovenseCommandEnum.None;
     }
 }

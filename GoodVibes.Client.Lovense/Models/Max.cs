@@ -10,6 +10,8 @@ public sealed class Max : LovenseToy
     public override bool Enabled { get; set; }
     public override LovenseCommandEnum Function1 { get; set; }
     public override LovenseCommandEnum Function2 { get; set; }
+    public override LovenseCommandEnum Function3 { get; set; }
+
     public override LovenseCommandEnum[] ToyFunctions => new[]
     {
         LovenseCommandEnum.Vibrate,
@@ -21,5 +23,6 @@ public sealed class Max : LovenseToy
         Enabled = true;
         Function1 = LovenseCommandEnum.Vibrate;
         Function2 = LovenseCommandEnum.Pump;
+        Function3 = LovenseCommandEnum.None;
     }
 }

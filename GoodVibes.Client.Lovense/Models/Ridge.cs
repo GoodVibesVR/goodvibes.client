@@ -10,6 +10,8 @@ public sealed class Ridge : LovenseToy
     public override bool Enabled { get; set; }
     public override LovenseCommandEnum Function1 { get; set; }
     public override LovenseCommandEnum Function2 { get; set; }
+    public override LovenseCommandEnum Function3 { get; set; }
+
     public override LovenseCommandEnum[] ToyFunctions => new[]
     {
         LovenseCommandEnum.Vibrate,
@@ -22,5 +24,6 @@ public sealed class Ridge : LovenseToy
         Enabled = true;
         Function1 = LovenseCommandEnum.Vibrate;
         Function2 = LovenseCommandEnum.Rotate;
+        Function3 = LovenseCommandEnum.None;
     }
 }

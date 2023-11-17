@@ -25,6 +25,8 @@ public enum ToyTypeEnum
     Gemini = 29,
     Ridge = 30,
     Vulse = 31,
+    Lapis = 32,
+    Solace = 33,
     PiShock = 50,
     PiVault = 51
 }

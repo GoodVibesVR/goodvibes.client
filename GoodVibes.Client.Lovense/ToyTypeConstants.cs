@@ -24,4 +24,6 @@ public static class ToyTypeConstants
     public const string Gemini = "gemini";
     public const string Ridge = "ridge";
     public const string Vulse = "vulse";
+    public const string Lapis = "lapis";
+    public const string Solace = "solace";
 }

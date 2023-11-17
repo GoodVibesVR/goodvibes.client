@@ -37,6 +37,7 @@
 	  <None Remove="Resources\icon_gush.png" />
 	  <None Remove="Resources\icon_hush.png" />
 	  <None Remove="Resources\icon_hyphy.png" />
+	  <None Remove="Resources\icon_lapis.png" />
 	  <None Remove="Resources\icon_lush.png" />
 	  <None Remove="Resources\icon_max.png" />
 	  <None Remove="Resources\icon_nora.png" />
@@ -44,6 +45,7 @@
 	  <None Remove="Resources\icon_pishock_pivault.png" />
 	  <None Remove="Resources\icon_pishock_shocker.png" />
 	  <None Remove="Resources\icon_ridge.png" />
+	  <None Remove="Resources\icon_solace.png" />
 	  <None Remove="Resources\icon_tenera.png" />
 	  <None Remove="Resources\icon_vulse.png" />
 	  <None Remove="Resources\image_ambi.png" />
@@ -60,12 +62,14 @@
 	  <None Remove="Resources\image_gush.png" />
 	  <None Remove="Resources\image_hush.png" />
 	  <None Remove="Resources\image_hyphy.png" />
+	  <None Remove="Resources\image_lapis.png" />
 	  <None Remove="Resources\image_lush.png" />
 	  <None Remove="Resources\image_max.png" />
 	  <None Remove="Resources\image_nora.png" />
 	  <None Remove="Resources\image_osci.png" />
 	  <None Remove="Resources\image_ridge.png" />
 	  <None Remove="Resources\image_sexmachine.png" />
+	  <None Remove="Resources\image_solace.png" />
 	  <None Remove="Resources\image_terera.png" />
 	  <None Remove="Resources\image_vulse.png" />
 	  <None Remove="Resources\pishock_logo.png" />
@@ -76,6 +80,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Content Include="GW_Logo.ico" />
+	  <Resource Include="Resources\icon_lapis.png" />
 	  <Resource Include="Resources\icon_ridge.png" />
 	</ItemGroup>
 	<ItemGroup>
@@ -130,6 +135,7 @@
 	  <Resource Include="Resources\icon_osci.png" />
 	  <Resource Include="Resources\icon_pishock_pivault.png" />
 	  <Resource Include="Resources\icon_pishock_shocker.png" />
+	  <Resource Include="Resources\icon_solace.png" />
 	  <Resource Include="Resources\icon_tenera.png" />
 	  <Resource Include="Resources\icon_vulse.png" />
 	  <Resource Include="Resources\image_ambi.png" />
@@ -146,12 +152,14 @@
 	  <Resource Include="Resources\image_gush.png" />
 	  <Resource Include="Resources\image_hush.png" />
 	  <Resource Include="Resources\image_hyphy.png" />
+	  <Resource Include="Resources\image_lapis.png" />
 	  <Resource Include="Resources\image_lush.png" />
 	  <Resource Include="Resources\image_max.png" />
 	  <Resource Include="Resources\image_nora.png" />
 	  <Resource Include="Resources\image_osci.png" />
 	  <Resource Include="Resources\image_ridge.png" />
 	  <Resource Include="Resources\image_sexmachine.png" />
+	  <Resource Include="Resources\image_solace.png" />
 	  <Resource Include="Resources\image_terera.png" />
 	  <Resource Include="Resources\image_vulse.png" />
 	  <Resource Include="Resources\pishock_logo.png" />

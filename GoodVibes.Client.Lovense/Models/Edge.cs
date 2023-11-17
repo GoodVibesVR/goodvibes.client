@@ -4,12 +4,14 @@ using GoodVibes.Client.Lovense.Models.Abstractions;
 
 namespace GoodVibes.Client.Lovense.Models;
 
-public class Edge : LovenseToy
+public sealed class Edge : LovenseToy
 {
     public override ToyTypeEnum ToyType => ToyTypeEnum.Edge;
     public override bool Enabled { get; set; }
     public override LovenseCommandEnum Function1 { get; set; }
     public override LovenseCommandEnum Function2 { get; set; }
+    public override LovenseCommandEnum Function3 { get; set; }
+
     public override LovenseCommandEnum[] ToyFunctions => new[]
     {
         LovenseCommandEnum.Vibrate,
@@ -22,5 +24,6 @@ public class Edge : LovenseToy
         Enabled = true;
         Function1 = LovenseCommandEnum.Vibrate1;
         Function2 = LovenseCommandEnum.Vibrate2;
+        Function3 = LovenseCommandEnum.None;
     }
 }

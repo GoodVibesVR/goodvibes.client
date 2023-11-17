@@ -30,6 +30,13 @@ public enum LovenseCommandEnum
     Vibrate2 = 12,
 
     /// <summary>
+    /// Vibrate3 the toy (Lapis)
+    /// v:Speed (Between 0 and 20)
+    /// t:Toy's ID (optional)
+    /// </summary>
+    Vibrate3 = 19,
+
+    /// <summary>
     /// Rotate the toy (Nora)
     /// v:Speed (Between 0 and 20)
     /// t:Toy's ID (optional)
@@ -58,7 +65,7 @@ public enum LovenseCommandEnum
 
     /// <summary>
     /// Starts the thrusting motion (Gravity)
-    /// v:Strength (Between 0 and 10)
+    /// v:Strength (Between 0 and 20)
     /// </summary>
     Thrusting = 17,
 
@@ -66,5 +73,11 @@ public enum LovenseCommandEnum
     /// Starts the fingering motion (Flexer)
     /// v:Strength (Between 0 and 10)
     /// </summary>
-    Fingering = 18
+    Fingering = 18,
+
+    /// <summary>
+    /// Sets the depth (Solace)
+    /// v:Strength (Between 0 and 3)
+    /// </summary>
+    Depth = 20
 }

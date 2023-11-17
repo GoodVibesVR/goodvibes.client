@@ -102,16 +102,16 @@ namespace GoodVibes.Client.Lovense
             return Task.CompletedTask;
         }
 
-        public Task SetStrength(string toyId, int strength1, int strength2)
+        public Task SetStrength(string toyId, int strength1, int strength2, int strength3)
         {
             var toyExists = Toys!.TryGetValue(toyId, out var toy);
             if (toyExists && toy != null)
             {
-                toy.SetStrengthPercentage(strength1, strength2);
+                toy.SetStrengthPercentage(strength1, strength2, strength3);
             }
 
             SaveToysToCache(Toys, true);
-            Console.WriteLine($"Strength now changed:\nStrength1: {strength1}\nStrength2: {strength2}");
+            Console.WriteLine($"Strength now changed:\nStrength1: {strength1}\nStrength2: {strength2}\nStrength3: {strength3}");
 
             return Task.CompletedTask;
         }
@@ -232,6 +232,8 @@ namespace GoodVibes.Client.Lovense
                             ToyTypeConstants.Gemini => new Gemini(),
                             ToyTypeConstants.Ridge => new Ridge(),
                             ToyTypeConstants.Vulse => new Vulse(),
+                            ToyTypeConstants.Lapis => new Lapis(),
+                            ToyTypeConstants.Solace => new Solace(),
                             // ReSharper disable once NotResolvedInText
                             _ => throw new ArgumentOutOfRangeException("Unsupported toy")
                         };
@@ -242,6 +244,7 @@ namespace GoodVibes.Client.Lovense
                         toy.Status = toyDto.Status == 1;
                         toy.Function1MaxStrengthPercentage = 100;
                         toy.Function2MaxStrengthPercentage = 100;
+                        toy.Function3MaxStrengthPercentage = 100;
                         toy.Battery = detailedToy?.Battery ?? null;
                         toy.Version = detailedToy?.Version ?? null;
                     }
