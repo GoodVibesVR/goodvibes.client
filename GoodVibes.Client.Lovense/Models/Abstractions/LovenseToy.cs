@@ -188,7 +188,7 @@ namespace GoodVibes.Client.Lovense.Models.Abstractions
             var commands = new List<string>();
             foreach (var function in functions)
             {
-                if (function != LovenseCommandEnum.None) continue;
+                if (function == LovenseCommandEnum.None) continue;
 
                 var commandFound = ToyCommands.TryGetValue(function, out var values);
                 if (!commandFound || values == null) continue;

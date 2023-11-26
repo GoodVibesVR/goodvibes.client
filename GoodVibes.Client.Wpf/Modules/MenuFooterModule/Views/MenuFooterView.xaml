@@ -81,7 +81,7 @@
                  HorizontalAlignment="Left" 
                  HorizontalContentAlignment="Center"
                  Margin="0,0,0,0" 
-                 Content="GoodVibes 1.0-alpha1.8" 
+                 Content="GoodVibes 1.0-alpha1.8.2"
                  VerticalAlignment="Bottom" 
                  Width="200" 
                  Background="Transparent" 
