@@ -17,6 +17,7 @@ public static class ToyTypeConstants
     public const string Nora = "nora";
     public const string Osci = "osci";
     public const string SexMachine = "xmachine";
+    public const string MiniSexMachine = "mini xmachine";
     public const string Exomoon = "exomoon";
     public const string Tenera = "tenera";
     public const string Flexer = "flexer";

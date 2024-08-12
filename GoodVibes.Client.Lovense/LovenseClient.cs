@@ -225,6 +225,7 @@ namespace GoodVibes.Client.Lovense
                             ToyTypeConstants.Nora => new Nora(),
                             ToyTypeConstants.Osci => new Osci(),
                             ToyTypeConstants.SexMachine => new SexMachine(),
+                            ToyTypeConstants.MiniSexMachine => new SexMachine(),
                             ToyTypeConstants.Exomoon => new Exomoon(),
                             ToyTypeConstants.Tenera => new Tenera(),
                             ToyTypeConstants.Flexer => new Flexer(),
